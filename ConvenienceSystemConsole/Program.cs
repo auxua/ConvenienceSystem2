@@ -14,7 +14,7 @@ namespace ConvenienceSystemConsole
         static void Main(string[] args)
         {
             ConvenienceServer cs = new ConvenienceServer();
-            var ans = cs.GetAllUsers();
+            var ans = cs.GetAllUsersAsync();
 
             Console.ReadLine();
 

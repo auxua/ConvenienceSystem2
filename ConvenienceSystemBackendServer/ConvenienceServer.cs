@@ -8,6 +8,11 @@ using ConvenienceSystemDataModel;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
+using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Mail;
+using System.Net;
+
 namespace ConvenienceSystemBackendServer
 {
     public class ConvenienceServer
@@ -35,6 +40,13 @@ namespace ConvenienceSystemBackendServer
 
         }
 
+        /// <summary>
+        /// Allows other parts of the server to get the promoted Port of the system
+        /// </summary>
+        public static int getPort()
+        {
+            return Settings.Port;
+        }
 
         /// <summary>
         /// Closes the connection if it was open
@@ -48,6 +60,7 @@ namespace ConvenienceSystemBackendServer
             }
         }
 
+        #region Data queries
 
         /// <summary>
         /// Executes the query in the Database returning and MySQLDataReader for the results.
@@ -65,12 +78,12 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// returns a List representing the (200) active users,  and their data
         /// </summary>
-        public List<User> GetActiveUsers()
+        public async Task<List<User>> GetActiveUsersAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_user WHERE gk_user.state='active' ORDER BY username ASC LIMIT 0,200");
             List<User> Users = new List<User>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 User user = new User();
                 user.username = reader.GetString("username");
@@ -95,12 +108,12 @@ namespace ConvenienceSystemBackendServer
         /// Gets all the Users and their information (limited by 200)
         /// </summary>
         /// <returns></returns>
-        public List<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_user ORDER BY username ASC LIMIT 0,200");
             List<User> Users = new List<User>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 User user = new User();
                 user.username = reader.GetString("username");
@@ -126,13 +139,13 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// returns a List of all information about the products (limit:200)
         /// </summary>
-        public List<Product> GetFullProducts()
+        public async Task<List<Product>> GetFullProductsAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_pricing ORDER BY product ASC LIMIT 0,200");
 
             List<Product> list = new List<Product>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 Product product = new Product();
 
@@ -159,13 +172,13 @@ namespace ConvenienceSystemBackendServer
         /// Gets the Sum of products bought in the system since the last Keydate
         ///     Uses the User-DataType, but this is only partially populated!
         /// </summary>
-        public List<User> GetDebtSinceKeyDate()
+        public async Task<List<User>> GetDebtSinceKeyDateAsync()
         {
             MySqlDataReader reader = this.Query("SELECT *,SUM(price) FROM gk_accounting WHERE gk_accounting.date>=(SELECT MAX(keydate) FROM gk_keydates) GROUP BY user LIMIT 0,200");
 
             List<User> list = new List<User>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 User user = new User();
 
@@ -180,10 +193,34 @@ namespace ConvenienceSystemBackendServer
         }
 
         /// <summary>
+        /// Gets the actual Devices registered in the system
+        /// </summary>
+        public async Task<List<Device>> GetDevicesAsny()
+        {
+            MySqlDataReader reader = this.Query("SELECT * FROM gk_devices");
+
+            List<Device> list = new List<Device>();
+
+            while (await reader.ReadAsync())
+            {
+                Device device = new Device();
+
+                device.code = reader.GetString("code");
+                device.comment = reader.GetString("comment");
+                device.rights = reader.GetString("rights");
+
+                list.Add(device);
+            }
+            reader.Close();
+            this.Close();
+            return list;
+        }
+
+        /// <summary>
         /// Gets the (count) last activity elements of the system.
         /// For non-positive values of count, get everything
         /// </summary>
-        public List<AccountingElement> GetLastActivity(int count = 10)
+        public async Task<List<AccountingElement>> GetLastActivityAsync(int count = 10)
         {
             MySqlDataReader reader;
 
@@ -200,7 +237,7 @@ namespace ConvenienceSystemBackendServer
 
             List<AccountingElement> list = new List<AccountingElement>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 AccountingElement item = new AccountingElement();
 
@@ -232,13 +269,13 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// Gets the Sum of products bought in the system since the provided Keydate (form: yyyy-mm-dd)
         /// </summary>
-        public List<User> GetDebtSinceKeyDate(String keydate)
+        public async Task<List<User>> GetDebtSinceKeyDateAsync(String keydate)
         {
             MySqlDataReader reader = this.Query("SELECT *,SUM(price) FROM gk_accounting WHERE gk_accounting.date>=\"" + keydate + "\" GROUP BY user LIMIT 0,200");
 
             List<User> list = new List<User>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 User user = new User();
 
@@ -258,13 +295,13 @@ namespace ConvenienceSystemBackendServer
         /// Beware! uses the "comment" column of the DB - on-product-comments are possible!
         /// </summary>
         /// <param name="user">The user</param>
-        public List<ProductCount> GetProductsCountForUser(String user)
+        public async Task<List<ProductCount>> GetProductsCountForUserAsync(String user)
         {
             List<ProductCount> list = new List<ProductCount>();
 
             MySqlDataReader reader = this.Query("SELECT *,COUNT(date) FROM `gk_accounting` WHERE user='"+user+"' GROUP BY `comment` DESC LIMIT 0,200");
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 ProductCount pc = new ProductCount();
 
@@ -283,7 +320,7 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         /// <param name="keydate">the keydate</param>
         /// <param name="comment">the comment that shuld be added for this keydate</param>
-        public void InsertKeyDate(String keydate = "", String comment = "Added via Application without comment")
+        public async Task InsertKeyDateAsync(String keydate = "", String comment = "Added via Application without comment")
         {
             //No keydate provided? use current datetime!
             if (keydate == "")
@@ -295,7 +332,7 @@ namespace ConvenienceSystemBackendServer
             String cmd = "INSERT INTO gk_keydates (`keydate`, `comment`) VALUES ('" + keydate + "', '" + comment + "');";
 
             MySqlDataReader reader = this.Query(cmd);
-            if (reader.Read())
+            if (await reader.ReadAsync())
             {
                 String answer = reader.GetString(0);
                 //Console.WriteLine(answer);
@@ -308,14 +345,14 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// Returns a List of Tuples representing the Keydates
         /// </summary>
-        public List<KeyDate> GetKeyDates()
+        public async Task<List<KeyDate>> GetKeyDatesAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_keydates ORDER BY keydate DESC LIMIT 0,200");
 
             List<KeyDate> list = new List<KeyDate>();
             
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 KeyDate key = new KeyDate();
 
@@ -333,14 +370,14 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// Returns a List of the users and their mailadresses
         /// </summary>
-        public List<Mail> GetMails()
+        public async Task<List<Mail>> GetMailsAsync()
         {
 
             MySqlDataReader reader = this.Query("SELECT * FROM gk_mail");
 
             List<Mail> list = new List<Mail>();
 
-            while (reader.Read())
+            while (await reader.ReadAsync())
             {
                 Mail mail = new Mail();
 
@@ -368,7 +405,7 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         /// <param name="username">the buying user</param>
         /// <param name="products">A List of the products</param>
-        public Boolean Buy(String username, List<String> products)
+        public async Task<Boolean> BuyAsync(String username, List<String> products)
         {
             //Console.WriteLine ("CS, u:" + username + ", p:" + products);
             DateTime dt = DateTime.Now;
@@ -381,8 +418,8 @@ namespace ConvenienceSystemBackendServer
 
             //get Products and users
             //TODO: do this stuff inside SQL
-            List<Product> prod = this.GetFullProducts();
-            List<User> user = this.GetAllUsers();
+            List<Product> prod = await this.GetFullProductsAsync();
+            List<User> user = await this.GetAllUsersAsync();
 
             foreach (String s in products)
             {
@@ -405,7 +442,7 @@ namespace ConvenienceSystemBackendServer
                 String cmd = "INSERT INTO `gk_accounting` (`ID`, `date`, `user`, `price`, `comment`) VALUES (NULL, '" + datum + "', '" + username + "', '" + pString + "', '" + s + "');";
                 //Console.WriteLine ("CMD: " + cmd);
                 MySqlDataReader reader = this.Query(cmd);
-                if (reader.Read())
+                if (await reader.ReadAsync())
                 {
                     String answer = reader.GetString(0);
                     //Console.WriteLine(answer);
@@ -434,7 +471,7 @@ namespace ConvenienceSystemBackendServer
             String cmd2 = "UPDATE `gk_user` SET `debt` = '" + newDebt + "' WHERE `gk_user`.`username` = '" + username + "';";
             //Console.WriteLine (cmd2);
             MySqlDataReader reader2 = this.Query(cmd2);
-            if (reader2.Read())
+            if (await reader2.ReadAsync())
             {
                 String answer = reader2.GetString(0);
                 //Console.WriteLine(answer);
@@ -442,6 +479,139 @@ namespace ConvenienceSystemBackendServer
             this.Close();
             return true;
         }
+
+        #endregion
+
+        #region Mail handling
+
+        /// <summary>
+        /// Just a wrapper for executing the sending mail method as thread
+        /// </summary>
+        private void BuyMailThread(string user, List<String> list)
+        {
+            Logger.Log("ConvenienceServer.BuyMailThread", "Send (thread) mail to " + user);
+            Thread thread = new Thread(async delegate() { await this.BuyMailAsync(user, list); });
+            thread.Start();
+        }
+
+        /// <summary>
+        /// Wrapper for sending mails about lack of stuff (e.g. Mate or coffee ;) )
+        /// </summary>
+        private void EmptyMailThread()
+        {
+            Logger.Log("ConvenienceServer.EmptyMailThread", "Send (thread) mail for Empty Notification");
+            string s = "Es wurde eine Meldung über einen Getränke-Notstand eingereicht";
+            Thread thread = new Thread(delegate()
+            {
+                this.SendMail(Settings.Contactmail, s, "Getränke-Notstand");
+            });
+            thread.Start();
+        }
+
+        /// <summary>
+        /// Send a Mail to the user for products they bought
+        /// Should be used in a seperate thread!
+        /// </summary>
+        /// <param name="p">username</param>
+        /// <param name="list">list of products</param>
+        private async Task BuyMailAsync(string p, List<string> list)
+        {
+            //TODO: extract Strings for mail and make it generic/english at least...
+            //get mail for user
+            String mail = String.Empty;
+            List<Mail> mails = await GetMailsAsync();
+
+            try
+            {
+                Boolean a = mails.Any((x) =>
+                    {
+                        if (x.username == p)
+                        {
+                            mail = x.adress;
+                            return true;
+                        }
+                        return false;
+                    });
+                if (!a) return;
+            }
+            catch (Exception e)
+            {
+                //no mail adress known for this person -> return
+                Logger.Log("ConvenienceServer.BuyMail", "BuyMail-Fail: " + e.Message);
+                return;
+            }
+
+
+            String msg = "Hallo " + p + ", " + System.Environment.NewLine + System.Environment.NewLine;
+            msg += "Du hast gerade Prdukte gekauft: " + System.Environment.NewLine;
+            List<Product> products = await GetFullProductsAsync();
+            
+            foreach (String s in list)
+            {
+                Double prod;
+                products.ForEach((x) =>
+                    {
+                        if (x.product == s)
+                        {
+                            prod = x.price;
+                            msg += s + " fuer " + x.price.ToString("C") + System.Environment.NewLine;
+                        }
+
+                    });
+            }
+            msg += "Bitte beachte, dass die Daten nur sporadisch aktualisiert werden. Bei Fragen wende dich einfach an: " + Settings.Contactmail + System.Environment.NewLine;
+            msg += "Vielen Dank und guten Durst/Appetit, " + System.Environment.NewLine + "Deine Getraenkekasse";
+
+
+            bool success = this.SendMail(mail, msg);
+
+            if (success)
+            {
+                Logger.Log("ConvenienceServer.BuyMail", "Mail was sent");
+            }
+            else
+            {
+                Logger.Log("ConvenienceServer.BuyMail", "Mail was NOT sent");
+            }
+        }
+
+        /// <summary>
+        /// Send a mail using the Credentials in the Settings.cs
+        /// </summary>
+        /// <param name="to">the target mailadress</param>
+        /// <param name="message">the message body of the mail</param>
+        private Boolean SendMail(String to, String message, String subject = "Kauf im Getränkekassen-System")
+        {
+            //Console.WriteLine("Now, Sending Mail!");
+            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            MailMessage mail = new MailMessage(Settings.MailFrom, to);
+            SmtpClient client = new SmtpClient();
+            client.Port = Settings.MailPort;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Host = Settings.MailSMTPHost;
+            //client.Credentials = new System.Net.NetworkCredential(Settings.MailUser, Settings.MailPass);
+            client.Credentials = new System.Net.NetworkCredential(Settings.MailUser, Settings.MailPass);
+            client.EnableSsl = true;
+            mail.Subject = subject;
+            mail.Body = message;
+            mail.BodyEncoding = System.Text.Encoding.UTF8;
+            mail.SubjectEncoding = System.Text.Encoding.UTF8;
+            try
+            {
+                //Console.WriteLine(client.Credentials.ToString());
+                client.Send(mail);
+            }
+            catch (Exception e)
+            {
+                Logger.Log("ConvenienceServer.SendMail", "Mail-Fail: " + e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
 
         internal String GenerateRandomString()
         {

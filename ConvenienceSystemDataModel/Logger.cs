@@ -19,9 +19,9 @@ namespace ConvenienceSystemDataModel
         /// <summary>
         /// switch for the Logger being active
         /// </summary>
-        private bool isActive = false;
+        private static bool isActive = false;
 
-        public bool IsActive
+        public static bool IsActive
         {
             get 
             {
@@ -39,9 +39,9 @@ namespace ConvenienceSystemDataModel
         }
 
 
-        private ILoggerOutput output;
+        private static ILoggerOutput output;
 
-        public ILoggerOutput Output
+        public static ILoggerOutput Output
         {
             get
             {
@@ -73,13 +73,13 @@ namespace ConvenienceSystemDataModel
         private void log(String text)
         {
             // Inactive? just do nothing
-            if (!this.IsActive)
+            if (!IsActive)
                 return;
             
             DateTime dt = DateTime.Now;
             String datum = String.Format("{0:yyyy-MM-dd HH:mm:ss}", dt);
 
-            Output.write(text);
+            Output.write(datum + "\t"+text);
 
 
         }
