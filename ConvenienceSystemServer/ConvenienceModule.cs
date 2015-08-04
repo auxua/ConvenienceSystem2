@@ -38,6 +38,12 @@ namespace ConvenienceSystemServer
             Logger.IsActive = true;
             //Logger.IsActive = false;
 
+            // Enable utf-8 for answers
+            After += ctx =>
+            {
+                ctx.Response.ContentType = "application/json; charset=utf-8";
+            };
+
             
             // Base Index - Hello World or other status indication should be set
             Get["/"] = parameters =>
@@ -95,6 +101,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: "+ex.Message);
                 }
 
                 return response;
@@ -120,6 +127,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 
                 return response;
@@ -140,6 +148,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 
                 return response;
@@ -160,6 +169,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 
                 return response;
@@ -185,6 +195,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 
                 return response;
@@ -206,6 +217,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
                 
                 return response;
@@ -226,6 +238,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 
                 return response;
@@ -246,6 +259,7 @@ namespace ConvenienceSystemServer
                 {
                     response.errorDescription = ex.Message;
                     response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 
                 return response;
@@ -254,11 +268,38 @@ namespace ConvenienceSystemServer
 
             #endregion
 
-            // Enable utf-8 for answers
-            After += ctx =>
+            Post["/insertKeyDate.token={token}", runAsync:true] = async (parameters, cancelToken) =>
             {
-                ctx.Response.ContentType = "application/json; charset=utf-8";
+                Logger.Log("Server (POST)", "/insertKeyDate called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    InsertKeyDateRequest request = JsonConvert.DeserializeObject<InsertKeyDateRequest>(b);
+                    // do stuff
+                    await backend.InsertKeyDateAsync(comment: request.comment);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
             };
+            
+            
         }
     }
 }

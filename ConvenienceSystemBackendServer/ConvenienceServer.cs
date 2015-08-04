@@ -331,12 +331,17 @@ namespace ConvenienceSystemBackendServer
             }
             String cmd = "INSERT INTO gk_keydates (`keydate`, `comment`) VALUES ('" + keydate + "', '" + comment + "');";
 
+            Logger.Log("ConvenienceServer.InsertKeyDate", "trying to add keydate for" + keydate + " with " + comment);
+
             MySqlDataReader reader = this.Query(cmd);
+            string answer = "";
             if (await reader.ReadAsync())
             {
-                String answer = reader.GetString(0);
+                answer = reader.GetString(0);
                 //Console.WriteLine(answer);
             }
+
+            Logger.Log("ConvenienceServer.InsertKeyDate", "DB returned " + answer);
 
             this.Close();
         }

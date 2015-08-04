@@ -10,8 +10,10 @@ namespace ConvenienceSystemDataModel
      * 
      * Providing common DataTypes for communication
      * 
-     */ 
-    
+     */
+
+    #region Responses
+
     /// <summary>
     /// Basic information that should be supported by every response of the system
     /// </summary>
@@ -67,4 +69,30 @@ namespace ConvenienceSystemDataModel
     {
         public List<ProductCount> dataSet;
     }
+
+    #endregion
+
+    #region Requests
+
+    public class BaseRequest
+    {
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+    }
+
+    public class InsertKeyDateRequest : BaseRequest
+    {
+        public string comment;
+        // maybe Date for manual dating possible...
+    }
+
+    public class BuyProductsRequest : BaseRequest
+    {
+        public string username;
+        public List<string> products;
+    }
+
+    #endregion
 }
