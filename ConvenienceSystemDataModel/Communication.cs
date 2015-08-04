@@ -58,8 +58,13 @@ namespace ConvenienceSystemDataModel
         public List<Mail> dataSet;
     }
 
-    public class DevicesRespons : BaseResponse
+    public class DevicesResponse : BaseResponse
     {
         public List<Device> dataSet;
+    }
+
+    public class ProductsCountResponse : BaseResponse
+    {
+        public List<ProductCount> dataSet;
     }
 }

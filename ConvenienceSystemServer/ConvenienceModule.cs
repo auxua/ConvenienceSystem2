@@ -1,7 +1,13 @@
 ﻿using Nancy;
+using Nancy.Json;
+using Nancy.ModelBinding;
+
+using Newtonsoft.Json;
+
 using ConvenienceSystemBackendServer;
 using ConvenienceSystemDataModel;
 using System;
+using System.Text;
 
 namespace ConvenienceSystemServer
 {
@@ -40,10 +46,35 @@ namespace ConvenienceSystemServer
                 return "Hello World";
             };
 
+            // Just testing around
+            Post["/"] = parameters =>
+            {
+                Logger.Log("Server (POST)", "/ called");
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    BaseResponse f = JsonConvert.DeserializeObject<BaseResponse>(b);
+                    return f;
+                }
+                catch
+                {
+                    return "please provide valid JSON";
+                }
+                
+            };
+
             /*Get["/viewAllUsers/{token}", runAsync:true] = async (parameters,CancelToken) =>
             {
                 return parameters.token;
             };*/
+
+            #region Basic Get/View Calls
 
             Get["/viewAllUsers.token={token}", runAsync:true] = async (parameters,cancelToken) =>
             {
@@ -72,6 +103,156 @@ namespace ConvenienceSystemServer
                 /*string test = parameters.token;
                 return test;*/
             };
+
+            Get["/viewActiveUsers.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewActiveUsers called");
+
+                UsersResponse response = new UsersResponse();
+
+                try
+                {
+                    var users = await backend.GetActiveUsersAsync();
+                    response.dataSet = users;
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+
+                return response;
+            };
+
+            Get["/viewAllProducts.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewAllProducts called");
+
+                ProductsResponse response = new ProductsResponse();
+
+                try
+                {
+                    response.dataSet = await backend.GetFullProductsAsync();
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+
+                return response;
+            };
+
+            Get["/viewAllDebtSinceKeyDate.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewAllDebtSinceKeyDate called");
+
+                var response = new UsersResponse();
+
+                try
+                {
+                    response.dataSet = await backend.GetDebtSinceKeyDateAsync();
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+
+                return response;
+            };
+
+            Get["/viewLastActivity.count={count}.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewLastActivity called");
+
+                var response = new AccountingElementsResponse();
+
+                try
+                {
+                    string c = parameters.count;
+                    int count;
+                    if (int.TryParse(c,out count))
+                        response.dataSet = await backend.GetLastActivityAsync(count);
+                    else
+                        response.dataSet = await backend.GetLastActivityAsync();
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+
+                return response;
+            };
+
+            Get["/viewProductsCountForUser.user={user}.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewProductsCountForUser called");
+
+                var response = new ProductsCountResponse();
+
+                try
+                {
+                    string c = parameters.user;
+                    response.dataSet = await backend.GetProductsCountForUserAsync(c);
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+                
+                return response;
+            };
+
+            Get["/viewKeyDates.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewKeyDates called");
+
+                var response = new KeyDatesResponse();
+
+                try
+                {
+                    response.dataSet = await backend.GetKeyDatesAsync();
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+
+                return response;
+            };
+
+            Get["/viewMails.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewMails called");
+
+                var response = new MailsResponse();
+
+                try
+                {
+                    response.dataSet = await backend.GetMailsAsync();
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                }
+
+                return response;
+            };
+
+
+            #endregion
 
             // Enable utf-8 for answers
             After += ctx =>
