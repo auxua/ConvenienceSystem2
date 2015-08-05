@@ -12,7 +12,7 @@ namespace ConvenienceSystemApp
 		public App ()
 		{
 			// The root page of your application
-            MainPage = new pages.UserPage();
+            MainPage = new pages.StartPage();
 		}
 
 		protected override void OnStart ()

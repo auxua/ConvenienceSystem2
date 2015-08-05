@@ -185,3 +185,4 @@ FakesAssemblies/
 
 # Settings of the project
 Settings.cs
+Config.cs

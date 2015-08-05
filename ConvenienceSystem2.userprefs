@@ -1,0 +1,12 @@
+﻿<Properties StartupItem="ConvenienceSystemApp\ConvenienceSystemApp.WinPhone\ConvenienceSystemApp.WinPhone.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp\ConvenienceSystemApp\pages\StartPage.xaml">
+    <Files>
+      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\StartPage.xaml" Line="5" Column="100" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

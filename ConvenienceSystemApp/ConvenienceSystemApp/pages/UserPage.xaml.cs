@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using ConvenienceSystemDataModel;
+using System.Threading;
 
 namespace ConvenienceSystemApp.pages
 {
@@ -17,8 +18,8 @@ namespace ConvenienceSystemApp.pages
 			InitializeComponent ();
 
             List<string> list = new List<string>();
-            list.Add("aaaa");
-            list.Add("bbb");
+            /*list.Add("aaaa");
+            list.Add("bbb");*/
 
             // Create some Fake-Data
             List<User> users = new List<User>();
@@ -32,7 +33,26 @@ namespace ConvenienceSystemApp.pages
             users.Add(user3);
             users.Add(user4);
 
-            userListView.ItemsSource = list;
+            UsersResponse ans = new UsersResponse();
+
+            /*Thread th = new Thread(new ParameterizedThreadStart((x) =>
+            {
+                ans = api.Communication.GetActiveUsersAsync().Result;
+                var i = 5;
+            }));
+            th.Start();
+            th.Join();*/
+            //ans = api.Communication.GetActiveUsersAsync().Result;
+
+
+            //string test = DependencyService.Get<api.Communication.IDownloader>().Get("http://www.google.com");
+
+            /*foreach (User u in ans.dataSet)
+            {
+                list.Add(u.username);
+            }*/
+
+            userListView.ItemsSource = users;
 		}
 	}
 }
