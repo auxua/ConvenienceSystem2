@@ -67,7 +67,7 @@ namespace ConvenienceSystemApp.api
 
         public async static Task<AccountingElementsResponse> GetLastActivityAsync(int count)
         {
-            if (count == null) count = 10;
+            //if (count == null) count = 10;
             string callURL = Config.APIBaseUrl + "/viewLastActivity.count=" + count.ToString() + ".token=" + Config.Token;
             var answer = await RestCallAsync<AccountingElementsResponse>("", callURL, false);
             return answer;
@@ -104,19 +104,23 @@ namespace ConvenienceSystemApp.api
             Task<string> PostAsync(string url, string data);
         }
 
+        public class APIException : Exception 
+        {
+            public APIException(string msg) : base(msg) { }
+        }
 
         /// <summary>
         /// A generic REST-Call to an endpoint using GET or POST method
         /// 
         /// Uses a WebRequest for POST, a httpClient for GET calls
         /// 
-        /// TODO: Better to throw exception/forward exception on error?
+        /// Throws a APIException if it fails
         /// </summary>
         /// <typeparam name="T1">The Datatype to await for response</typeparam>
         /// <param name="input">the data as string (ignored, if using GET)</param>
         /// <param name="endpoint">The REST-Endpoint to call</param>
         /// <param name="post">A flag indicating whether to use POST or GET</param>
-        /// <returns>The datatype that has been awaited for the call or default(T1) on error</returns>
+        /// <returns>The datatype that has been awaited for the call</returns>
         public async static Task<T1> RestCallAsync<T1>(string input, string endpoint, bool post)
         {
             try
@@ -136,10 +140,11 @@ namespace ConvenienceSystemApp.api
                     return JsonConvert.DeserializeObject<T1>(answer);
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 // trivial error handling...
-                return default(T1);
+                throw new APIException(ex.Message);
+                //return default(T1);
             }
         }
 
@@ -162,10 +167,11 @@ namespace ConvenienceSystemApp.api
                     return JsonConvert.DeserializeObject<T1>(answer);
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 // trivial error handling...
-                return default(T1);
+                throw new APIException(ex.Message);
+                //return default(T1);
             }
         }
 

@@ -17,42 +17,56 @@ namespace ConvenienceSystemApp.pages
 		{
 			InitializeComponent ();
 
-            List<string> list = new List<string>();
-            /*list.Add("aaaa");
-            list.Add("bbb");*/
-
-            // Create some Fake-Data
-            List<User> users = new List<User>();
-
-            User user1 = new User { username = "Testuser 1" };
-            User user2 = new User { username = "Testuser 2" };
-            User user3 = new User { username = "Testuser 3" };
-            User user4 = new User { username = "Testuser 4" };
-            users.Add(user1);
-            users.Add(user2);
-            users.Add(user3);
-            users.Add(user4);
-
-            UsersResponse ans = new UsersResponse();
-
-            /*Thread th = new Thread(new ParameterizedThreadStart((x) =>
-            {
-                ans = api.Communication.GetActiveUsersAsync().Result;
-                var i = 5;
-            }));
-            th.Start();
-            th.Join();*/
-            //ans = api.Communication.GetActiveUsersAsync().Result;
+            // Get the List of usernames (In Future, use Data Binding instead!)
+            List<String> names = new List<string>(DataManager.GetActiveUsers().Select<User, string>(user => user.username));
 
 
-            //string test = DependencyService.Get<api.Communication.IDownloader>().Get("http://www.google.com");
+            userListView.ItemsSource = names;
+			//userListView.ItemSelected += OnUserSelected;
+			//Use Tapped-Event instead of selected event to enable users to reselect themselves after going back
+			userListView.ItemTapped += OnUserSelected;
 
-            /*foreach (User u in ans.dataSet)
-            {
-                list.Add(u.username);
-            }*/
+            //TODO: Externalize these Strings (in best case: Localization)
 
-            userListView.ItemsSource = users;
+            //ContactLabel.Text = "Questions? Drop a mail: " + Config.ContactMail;
+            ContactLabel.Text = "Fragen? Einfach Mail schreiben: " + Config.ContactMail;
+            //EmptyButton.Text = "Report Lack of Supplies";
+            EmptyButton.Text = "Getränke-Notstand melden";
+            //TutorialLabel.Text = " (1) Select your name \n (2) Select your product(s) \n (3) Confirm \n That's All!";
+            TutorialLabel.Text = " (1) Namen auswählen \n (2) Produkt(e) auswählen \n (3) bestätigen \n Fertig!";
 		}
+
+
+
+		async void OnUserSelected(object sender, ItemTappedEventArgs e)
+        {
+            IsBusy = true;
+            // Check Data Model
+            if (DataManager.State != DataManager.DMState.ACTIVE)
+            {
+                // Try to restore DataModel
+                bool success = await DataManager.GetAllDataAsync();
+                if (!success)
+                {
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        DisplayAlert("Error", "Could not get the Data of the system (please try again later): " + DataManager.Error, "OK");
+                    });
+                    // No success...
+                    IsBusy = false;
+                    return;
+                }
+            }
+
+            // So, We can get the Data we want
+            //TODO
+            string user = e.Item.ToString();
+
+            // Go to the next Page
+            //Xamarin.Forms.Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new pages.ProductsPage()));
+            IsBusy = false;
+            await Navigation.PushAsync(new pages.ProductsPage(),true);
+            
+        }
 	}
 }

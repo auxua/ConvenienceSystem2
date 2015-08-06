@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConvenienceSystemApp.pages.UserPage">
+             x:Class="ConvenienceSystemApp.pages.UserPage"
+             Title="Nutzerauswahl">
   <AbsoluteLayout>
     <ListView
       AbsoluteLayout.LayoutBounds="0, 0, 0.5, 1"
@@ -16,23 +17,35 @@
 
     </ListView>
     
+    <Label   AbsoluteLayout.LayoutBounds="0.95, 0.05, 0.35, 0.1"
+             AbsoluteLayout.LayoutFlags="All"
+             Text="Getränkekasse"
+             FontAttributes="Bold"
+             HorizontalOptions="CenterAndExpand"
+               />
+
+	<Label   AbsoluteLayout.LayoutBounds="0.95, 0.3, 0.45, 0.3"
+             AbsoluteLayout.LayoutFlags="All"
+             x:Name="TutorialLabel"
+             HorizontalOptions="CenterAndExpand"
+               />
+
+    <Button  AbsoluteLayout.LayoutBounds="0.95, 0.7, 0.45, 0.2"
+             AbsoluteLayout.LayoutFlags="All"
+             BackgroundColor="#CC1100"
+             x:Name="EmptyButton"
+              />
+
+    <Label   AbsoluteLayout.LayoutBounds="0.95, 0.95, 0.45, 0.15"
+             AbsoluteLayout.LayoutFlags="All"
+             FontAttributes="Bold"
+             x:Name="ContactLabel"
+             HorizontalOptions="CenterAndExpand"
+               />
+
     
 
-    <BoxView Color="#CCCCCC"
-             AbsoluteLayout.LayoutBounds="0.95, 0.95, 0.45, 0.15"
-             AbsoluteLayout.LayoutFlags="All" />
-
-    <BoxView Color="#AAAAAA"
-             AbsoluteLayout.LayoutBounds="0.95, 0.7, 0.45, 0.2"
-             AbsoluteLayout.LayoutFlags="All" />
-
-    <BoxView Color="#666666"
-             AbsoluteLayout.LayoutBounds="0.95, 0.3, 0.45, 0.3"
-             AbsoluteLayout.LayoutFlags="All" />
-
-    <BoxView Color="#222222"
-             AbsoluteLayout.LayoutBounds="0.95, 0.05, 0.45, 0.1"
-             AbsoluteLayout.LayoutFlags="All" />
+    
 
   </AbsoluteLayout>
 </ContentPage>

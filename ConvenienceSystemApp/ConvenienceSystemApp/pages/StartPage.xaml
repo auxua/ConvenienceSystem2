@@ -2,5 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConvenienceSystemApp.pages.StartPage">
-	<Button Text="Test it" VerticalOptions="Center" HorizontalOptions="Center" x:Name="StartButton" />
+    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Orientation="Vertical">
+		<Button Text="Test it" VerticalOptions="Center" HorizontalOptions="Center" x:Name="StartButton" />
+		<StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Orientation="Vertical" IsVisible="{Binding IsBusy}">
+			<ActivityIndicator IsRunning="{Binding IsBusy}" />
+			<Label FontAttributes="None" FontSize="Medium" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Text="Loading Data ..." />
+		</StackLayout>
+	</StackLayout>
 </ContentPage>

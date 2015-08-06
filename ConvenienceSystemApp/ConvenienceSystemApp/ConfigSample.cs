@@ -8,5 +8,6 @@ namespace ConvenienceSystemApp
     {
         public static string APIBaseUrl = "htpp://exmple.com:11220";
         public static string Token = "myToken";
+        public static string ContactMail = "";
     }
 }
