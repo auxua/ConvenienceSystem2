@@ -46,7 +46,8 @@ namespace ConvenienceSystemApp.api
             //string callURL = Config.APIBaseUrl + "/";
             //string callURL = "http://www.google.com";
             //var answer = await RestCallAsync<UsersResponse>("", callURL, false);
-            var answer = RestCallSync<UsersResponse>("", callURL, false);
+            //var answer = RestCallSync<UsersResponse>("", callURL, false);
+            var answer = await RestCallAsync<UsersResponse>("", callURL, false);
             return answer;
         }
 
@@ -77,6 +78,14 @@ namespace ConvenienceSystemApp.api
         {
             string callURL = Config.APIBaseUrl + "/viewKeyDates.token=" + Config.Token;
             var answer = await RestCallAsync<KeyDatesResponse>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<ProductsCountResponse> GetProductsCountAsync(string username)
+        {
+            if (String.IsNullOrEmpty(username)) return default(ProductsCountResponse);
+            string callURL = Config.APIBaseUrl + "/viewProductsCountForUser.user="+username+".token=" + Config.Token;
+            var answer = await RestCallAsync<ProductsCountResponse>("", callURL, false);
             return answer;
         }
 

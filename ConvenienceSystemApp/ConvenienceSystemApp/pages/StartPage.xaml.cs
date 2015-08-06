@@ -17,12 +17,13 @@ namespace ConvenienceSystemApp.pages
             StartButton.Clicked += ButtonClicked;
 		}
 
-        public void ButtonClicked(object sender, EventArgs e)
+        public async void ButtonClicked(object sender, EventArgs e)
         {
             //string test = DependencyService.Get<api.Communication.IDownloader>().Get("http://www.google.com");
             //string test = await DependencyService.Get<api.Communication.IDownloader>().GetAsync("http://www.google.com");
             
             // Starting the whole system!
+            await DataManager.getAllDataAsync();
 
 
             // Remove the Startpage from navigation and go to the UserPage, which starts the actual interaction with the users

@@ -6,7 +6,7 @@ namespace ConvenienceSystemApp
 {
     class Config
     {
-        public static const string APIBaseUrl = "htpp://exmple.com:11220";
+        public static string APIBaseUrl = "htpp://exmple.com:11220";
         public static string Token = "myToken";
     }
 }
