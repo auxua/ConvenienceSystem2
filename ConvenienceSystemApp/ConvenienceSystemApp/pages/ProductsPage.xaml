@@ -8,11 +8,11 @@
       AbsoluteLayout.LayoutBounds="0, 0, 0.5, 1"
       AbsoluteLayout.LayoutFlags="All"
       HorizontalOptions="CenterAndExpand"
-      ItemsSource="{Binding productCollection}"
+      ItemsSource="{Binding Products}"
       x:Name="productListView">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding product}" />
+          <TextCell Text="{Binding ProductName}" Detail="{Binding PriceString}" />
         </DataTemplate>
       </ListView.ItemTemplate>
 

@@ -8,6 +8,7 @@ using Xamarin.Forms;
 
 using ConvenienceSystemDataModel;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace ConvenienceSystemApp.pages
 {
@@ -65,7 +66,25 @@ namespace ConvenienceSystemApp.pages
             // Go to the next Page
             //Xamarin.Forms.Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new pages.ProductsPage()));
             IsBusy = false;
-            await Navigation.PushAsync(new pages.ProductsPage(user),true);
+
+            // Create the Product-ViewModel for the product-Elements
+            ObservableCollection<ProductsPageViewModel.ProductsViewModel> products = new ObservableCollection<ProductsPageViewModel.ProductsViewModel>
+                (DataManager.GetAllProducts().Select<Product, ProductsPageViewModel.ProductsViewModel>(prod => 
+                    {
+                        var pvm = new ProductsPageViewModel.ProductsViewModel();
+                        pvm.comment = prod.comment;
+                        pvm.ID = prod.ID;
+                        pvm.price = prod.price;
+                        pvm.product = prod.product;
+                        return pvm;
+                    }));
+
+
+            ProductsPageViewModel vm = new ProductsPageViewModel();
+            vm.Products = products;
+            vm.Username = user;
+
+            await Navigation.PushAsync(new pages.ProductsPage(vm),true);
             
         }
 	}

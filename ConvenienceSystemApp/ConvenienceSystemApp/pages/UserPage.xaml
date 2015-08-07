@@ -37,7 +37,7 @@
              TextColor="White"
              x:Name="EmptyButton"
               />
-              <!-- Text="Abort" -->
+
 
     <Label   AbsoluteLayout.LayoutBounds="0.95, 0.95, 0.45, 0.15"
              AbsoluteLayout.LayoutFlags="All"
@@ -45,7 +45,7 @@
              x:Name="ContactLabel"
              HorizontalOptions="CenterAndExpand"
                />
-               <!-- Text="Buy" -->
+
 
     
 

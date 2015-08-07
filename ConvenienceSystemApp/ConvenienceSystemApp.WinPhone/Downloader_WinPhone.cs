@@ -89,7 +89,7 @@ namespace ConvenienceSystemApp.WinPhone
             {
                 Uploadresult = e.Result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // fail!
             }

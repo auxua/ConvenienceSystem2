@@ -13,31 +13,21 @@ namespace ConvenienceSystemApp.pages
 	public partial class ProductsPage : ContentPage
 	{
 
-        private string username;
-
 		private List<String> products = new List<string> ();
 
         ObservableCollection<Product> productCollection = new ObservableCollection<Product>();
 
-		public ProductsPage (string username)
+		public ProductsPage (ProductsPageViewModel vm)
 		{
 			InitializeComponent ();
 
-            this.username = username;
-
-			List<String> names = new List<string>(DataManager.GetAllProducts().Select<Product, string>(prod => prod.product+" ("+String.Format("{0:C}",prod.price)+")"));
-
-            productCollection = new ObservableCollection<Product>(DataManager.GetAllProducts());
-
-			//productListView.ItemsSource = names;
-            //productListView.ItemsSource = new ObservableCollection<Product>(DataManager.GetAllProducts());
+            BindingContext = vm;
 
             productListView.ItemTapped += productListView_ItemTapped;
 
 			AbortButton.Clicked += (object sender, EventArgs e) => Navigation.PopAsync();
 			BuyButton.Clicked += OnBuyClicked;
 
-            BindingContext = this;
 		}
 
         async void productListView_ItemTapped(object sender, ItemTappedEventArgs e)
