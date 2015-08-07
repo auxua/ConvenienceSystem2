@@ -45,9 +45,10 @@ namespace ConvenienceSystemApp.pages
             // Remove the Startpage from navigation and go to the UserPage, which starts the actual interaction with the users
             Device.BeginInvokeOnMainThread(() =>
                 {
-                    var root = Navigation.NavigationStack[0];
+                    /*var root = Navigation.NavigationStack[0];
                     Navigation.InsertPageBefore(new NavigationPage(new pages.UserPage()), root);
-                    Navigation.PopToRootAsync();
+                    Navigation.PopToRootAsync();*/
+                    ((App)App.Current).SetRoot(new pages.UserPage());
                 });
         }
 	}

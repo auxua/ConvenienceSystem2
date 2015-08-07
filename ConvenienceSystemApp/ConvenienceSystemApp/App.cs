@@ -15,6 +15,11 @@ namespace ConvenienceSystemApp
             MainPage = new pages.StartPage();
 		}
 
+        public void SetRoot(Page p)
+        {
+            MainPage = new NavigationPage(p);
+        }
+
 		protected override void OnStart ()
 		{
 			// Handle when your app starts

@@ -23,6 +23,8 @@ namespace ConvenienceSystemApp
             {
                 get { return String.Format("{0:C}", this.price); }
             }
+
+            public int amount = 0;
         }
 
         #endregion
@@ -74,12 +76,53 @@ namespace ConvenienceSystemApp
             }
         }
 
+        /// <summary>
+        /// Manages the List of the actual selection of products to buy
+        /// </summary>
+        private List<ProductsViewModel> selectedProducts = new List<ProductsViewModel>();
+
+        /// <summary>
+        /// Gets the String representation of the 
+        /// </summary>
+        public string SelectedProductsString
+        {
+            get
+            {
+                string s = "";
+                foreach (ProductsViewModel prod in selectedProducts)
+                {
+                    s += prod.product+ " ("+prod.amount+"), ";
+                }
+                return s;
+            }
+        }
+
+        public void AddProductSelection(ProductsViewModel prod)
+        {
+            // Search for the product already being in the list
+            ProductsViewModel existing = selectedProducts.Find((x) => x.product == prod.product);
+
+            prod.amount++;
+
+            // Not existing yet, add it!
+            if (existing == default(ProductsViewModel))
+            {
+                selectedProducts.Add(prod);
+            }
+
+            // Inform Binding objects about changes
+            RaisePropertyChanged("SelectedProductsString");
+        }
+
+
         #endregion
 
         public ProductsPageViewModel()
         {
 
         }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

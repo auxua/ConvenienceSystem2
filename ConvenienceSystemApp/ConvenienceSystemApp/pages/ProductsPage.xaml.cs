@@ -41,6 +41,9 @@ namespace ConvenienceSystemApp.pages
             {
                 productString += s + ", ";
             }*/
+
+            // Just Add to the ViewModel
+            ((ProductsPageViewModel)this.BindingContext).AddProductSelection(((ProductsPageViewModel.ProductsViewModel)e.Item));
         }
 
 		async void OnBuyClicked(object sender, EventArgs e)

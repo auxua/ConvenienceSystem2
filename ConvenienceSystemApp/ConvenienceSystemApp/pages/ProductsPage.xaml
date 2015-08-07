@@ -30,6 +30,7 @@
              AbsoluteLayout.LayoutFlags="All"
              x:Name="ProductListLabel"
              HorizontalOptions="CenterAndExpand"
+             Text="{Binding SelectedProductsString}"
                />
 
     <Button  AbsoluteLayout.LayoutBounds="0.95, 0.7, 0.45, 0.2"
