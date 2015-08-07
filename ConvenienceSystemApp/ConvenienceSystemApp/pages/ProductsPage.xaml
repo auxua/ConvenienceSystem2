@@ -1,6 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConvenienceSystemApp.pages.ProductsPage">
-	<Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+             x:Class="ConvenienceSystemApp.pages.ProductsPage"
+             Title="Produktauswahl">
+	<AbsoluteLayout>
+    <ListView
+      AbsoluteLayout.LayoutBounds="0, 0, 0.5, 1"
+      AbsoluteLayout.LayoutFlags="All"
+      HorizontalOptions="CenterAndExpand"
+      ItemsSource="{Binding productCollection}"
+      x:Name="productListView">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding product}" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+
+    </ListView>
+    
+    <Label   AbsoluteLayout.LayoutBounds="0.95, 0.05, 0.35, 0.1"
+             AbsoluteLayout.LayoutFlags="All"
+             Text="Getränkekasse"
+             FontAttributes="Bold"
+             HorizontalOptions="CenterAndExpand"
+               />
+               <!-- Text="Convenience System" -->
+
+	<Label   AbsoluteLayout.LayoutBounds="0.95, 0.3, 0.45, 0.3"
+             AbsoluteLayout.LayoutFlags="All"
+             x:Name="ProductListLabel"
+             HorizontalOptions="CenterAndExpand"
+               />
+
+    <Button  AbsoluteLayout.LayoutBounds="0.95, 0.7, 0.45, 0.2"
+             AbsoluteLayout.LayoutFlags="All"
+             BackgroundColor="#EEC900"
+             x:Name="AbortButton"
+             Text="Abbruch"
+             TextColor="White"
+              />
+              <!-- Text="Abort" -->
+
+    <Button  AbsoluteLayout.LayoutBounds="0.95, 0.95, 0.45, 0.15"
+             AbsoluteLayout.LayoutFlags="All"
+             BackgroundColor="#9ACD32"
+             x:Name="BuyButton"
+             HorizontalOptions="CenterAndExpand"
+             Text="Kaufen"
+             TextColor="White"
+               />
+               <!-- Text="Buy" -->
+
+    
+
+    
+
+  </AbsoluteLayout>
 </ContentPage>

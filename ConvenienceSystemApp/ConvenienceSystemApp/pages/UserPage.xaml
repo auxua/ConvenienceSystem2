@@ -23,6 +23,7 @@
              FontAttributes="Bold"
              HorizontalOptions="CenterAndExpand"
                />
+               <!-- Text="Convenience System" -->
 
 	<Label   AbsoluteLayout.LayoutBounds="0.95, 0.3, 0.45, 0.3"
              AbsoluteLayout.LayoutFlags="All"
@@ -33,8 +34,10 @@
     <Button  AbsoluteLayout.LayoutBounds="0.95, 0.7, 0.45, 0.2"
              AbsoluteLayout.LayoutFlags="All"
              BackgroundColor="#CC1100"
+             TextColor="White"
              x:Name="EmptyButton"
               />
+              <!-- Text="Abort" -->
 
     <Label   AbsoluteLayout.LayoutBounds="0.95, 0.95, 0.45, 0.15"
              AbsoluteLayout.LayoutFlags="All"
@@ -42,6 +45,7 @@
              x:Name="ContactLabel"
              HorizontalOptions="CenterAndExpand"
                />
+               <!-- Text="Buy" -->
 
     
 

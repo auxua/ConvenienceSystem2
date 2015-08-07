@@ -65,7 +65,7 @@ namespace ConvenienceSystemApp.pages
             // Go to the next Page
             //Xamarin.Forms.Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new pages.ProductsPage()));
             IsBusy = false;
-            await Navigation.PushAsync(new pages.ProductsPage(),true);
+            await Navigation.PushAsync(new pages.ProductsPage(user),true);
             
         }
 	}
