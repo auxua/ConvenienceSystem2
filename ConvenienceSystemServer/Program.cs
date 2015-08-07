@@ -15,7 +15,7 @@ namespace ConvenienceSystemServer
                 host.Start();
 
                 Console.WriteLine("Your application is running on " + uri);
-                Console.WriteLine("Press 'Q'+[Enter] to close the host.");
+                Console.WriteLine("Enter 'q' and press [Enter] to close the host.");
 
                 while (true)
                 {

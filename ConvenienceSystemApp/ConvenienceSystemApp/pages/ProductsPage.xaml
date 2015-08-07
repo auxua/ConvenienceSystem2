@@ -18,13 +18,13 @@
 
     </ListView>
     
-    <Label   AbsoluteLayout.LayoutBounds="0.95, 0.05, 0.35, 0.1"
+    <StackLayout   AbsoluteLayout.LayoutBounds="0.95, 0.05, 0.35, 0.1"
              AbsoluteLayout.LayoutFlags="All"
-             Text="Getränkekasse"
-             FontAttributes="Bold"
-             HorizontalOptions="CenterAndExpand"
-               />
-               <!-- Text="Convenience System" -->
+             Orientation="Horizontal"
+             HorizontalOptions="CenterAndExpand">
+             <Label Text="Hallo, " FontAttributes="Bold" />
+             <Label Text="{Binding Username}" FontAttributes="Bold" />
+    </StackLayout>
 
 	<Label   AbsoluteLayout.LayoutBounds="0.95, 0.3, 0.45, 0.3"
              AbsoluteLayout.LayoutFlags="All"

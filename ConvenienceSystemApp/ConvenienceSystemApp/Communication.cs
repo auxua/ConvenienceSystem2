@@ -89,6 +89,13 @@ namespace ConvenienceSystemApp.api
             return answer;
         }
 
+        public async static Task<Boolean> BuyProductsCountAsync(BuyProductsRequest request)
+        {
+            string callURL = Config.APIBaseUrl + "/buyProducts.token=" + Config.Token;
+            var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            return answer.status;
+        }
+
         #endregion
 
         #region generic calls

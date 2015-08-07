@@ -32,23 +32,37 @@ namespace ConvenienceSystemApp.pages
 
         async void productListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            // Add the element to the internal list
-            /*products.Add(e.Item.ToString());
-
-            // Update the Label representing the Products
-            string productString = "";
-            foreach (string s in products)
-            {
-                productString += s + ", ";
-            }*/
-
             // Just Add to the ViewModel
+            ((ProductsPageViewModel)this.BindingContext).IsBusy = true;
             ((ProductsPageViewModel)this.BindingContext).AddProductSelection(((ProductsPageViewModel.ProductsViewModel)e.Item));
+            ((ProductsPageViewModel)this.BindingContext).IsBusy = false;
         }
 
 		async void OnBuyClicked(object sender, EventArgs e)
 		{
-			// wait
+			// Execute on ViewModel
+            ((ProductsPageViewModel)this.BindingContext).IsBusy = true;
+            bool success = await ((ProductsPageViewModel)this.BindingContext).BuyProductsAsync();
+
+            // On error, inform to user
+            if (!success)
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        DisplayAlert("Error", "Kauf konnte nciht getätigt werden. Bitte später erneut versuchen. Falls das problem länger besteht, bitte melden!", "OK");
+                    });
+                ((ProductsPageViewModel)this.BindingContext).IsBusy = false;
+                return;
+            }
+
+            // No error, Inform User and go back
+            ((ProductsPageViewModel)this.BindingContext).IsBusy = false;
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    DisplayAlert("Success", "Kauf erfolgreich!", "OK");
+                    Navigation.PopAsync(true);
+                });
+            
             
 		}
 	}

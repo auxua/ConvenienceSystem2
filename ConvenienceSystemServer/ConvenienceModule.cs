@@ -52,6 +52,34 @@ namespace ConvenienceSystemServer
                 return "Hello World";
             };
 
+            // Status indicator
+            Get["/status", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/status called");
+                // Basic Idea: Just call somethin. If this fails, the backend server may be down/corrupted (e.g. MySQL Driver problem likely to happn..)
+                try 
+                {
+                    await backend.GetDevicesAsync();
+                    return "True";
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("Server", "Exception caught: " + ex.Message);
+                    return "False: "+ex.Message;
+                }
+            };
+
+            Get["/restart.token={token}"] = parameters =>
+            {
+                Logger.Log("Server", "/restart called");
+                // Idea: restart the backend in case of problems
+
+                backend = null;
+                backend = new ConvenienceServer();
+
+                return "Backend restarted";
+            };
+
             // Just testing around
             Post["/"] = parameters =>
             {
@@ -298,8 +326,39 @@ namespace ConvenienceSystemServer
                 return response;
 
             };
-            
-            
+
+
+            Post["/buyProducts.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/buyProducts called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    BuyProductsRequest request = JsonConvert.DeserializeObject<BuyProductsRequest>(b);
+                    // do stuff
+                    await backend.BuyAsync(request.username, request.products);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
         }
     }
 }

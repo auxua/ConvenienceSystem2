@@ -195,7 +195,7 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// Gets the actual Devices registered in the system
         /// </summary>
-        public async Task<List<Device>> GetDevicesAsny()
+        public async Task<List<Device>> GetDevicesAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_devices");
 
@@ -482,6 +482,26 @@ namespace ConvenienceSystemBackendServer
                 //Console.WriteLine(answer);
             }
             this.Close();
+            
+            // Check, whether the users wants to get mails
+            var mails = await this.GetMailsAsync();
+            string adress = "";
+            bool wantMail = mails.Any((x) =>
+                {
+                    if (x.username == username && x.active)
+                    {
+                        adress = x.adress;
+                        return true;
+                    }
+                    return false;
+                });
+
+            if (wantMail)
+            {
+                // User wants a mail
+                this.BuyMailThread(username, products);
+            }
+            
             return true;
         }
 

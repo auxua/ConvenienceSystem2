@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Linq;
 
 using ConvenienceSystemDataModel;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace ConvenienceSystemApp
 {
@@ -131,6 +133,53 @@ namespace ConvenienceSystemApp
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+
+        public string ErrorMessage = "";
+
+        public async Task<bool> BuyProductsAsync()
+        {
+            if (this.selectedProducts.Count < 1)
+            {
+                // No products selected - just create error
+                //this.ErrorMessage = "Bitte erst Produkte auswählen";
+                this.ErrorMessage = "Please Select Products first";
+                return false;
+            }
+
+            // So, there are products. Try to Buy...
+            try
+            {
+                // Create the request
+                BuyProductsRequest request = new BuyProductsRequest();
+                request.username = this.username;
+                request.products = new List<string>();
+
+                selectedProducts.ForEach((x) =>
+                    {
+                        // Add the product as often as the amount tells us
+                        for (int i = 0; i<x.amount;i++)
+                        {
+                            request.products.Add(x.product);
+                        }
+                    });
+
+                //request.products = new List<string>(selectedProducts.Select<ProductsViewModel,string>((x) => x.product));
+                // try executing
+                bool answer = await api.Communication.BuyProductsCountAsync(request);
+                // Check for error without Exceptions
+                if (!answer)
+                {
+                    ErrorMessage = "Unknown Error. Buying did not succeed!";
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Error: " + ex.Message;
+                return false;
             }
         }
 
