@@ -121,6 +121,16 @@ namespace ConvenienceSystemApp
         }
 
         /// <summary>
+        /// The Cooldown (in minutes) between two Empty-Mails
+        /// </summary>
+        public readonly static int EmptyMailCooldown = 60;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static DateTime LastEmptyMail = DateTime.Now.AddMinutes(-EmptyMailCooldown);
+
+        /// <summary>
         /// Gets the Product Counts for the specified user.
         /// In Case of error "null" is returned. In this case, more information about the error can be found in the Error-Field
         /// </summary>

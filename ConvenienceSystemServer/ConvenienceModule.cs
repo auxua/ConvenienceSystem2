@@ -296,6 +296,28 @@ namespace ConvenienceSystemServer
 
             #endregion
 
+            Get["/emptyMail.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/emptyMail called");
+
+                var response = new BaseResponse();
+
+                try
+                {
+                    backend.SendEmptyMail();
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+            };
+
+
             Post["/insertKeyDate.token={token}", runAsync:true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server (POST)", "/insertKeyDate called");

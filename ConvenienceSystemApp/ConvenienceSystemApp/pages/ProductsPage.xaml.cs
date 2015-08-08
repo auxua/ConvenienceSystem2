@@ -42,6 +42,14 @@ namespace ConvenienceSystemApp.pages
 		{
 			// Execute on ViewModel
             ((ProductsPageViewModel)this.BindingContext).IsBusy = true;
+
+            // Only buy if there are items in the cart..
+            if (String.IsNullOrEmpty(((ProductsPageViewModel)this.BindingContext).SelectedProductsString))
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    DisplayAlert("Error", "Bitte zuerst Produkte auswählen!", "OK");
+                });
+
             bool success = await ((ProductsPageViewModel)this.BindingContext).BuyProductsAsync();
 
             // On error, inform to user

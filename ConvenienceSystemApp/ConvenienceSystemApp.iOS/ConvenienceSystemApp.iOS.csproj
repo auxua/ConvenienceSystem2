@@ -118,6 +118,9 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
@@ -141,6 +144,12 @@
       <HintPath>..\..\packages\Xamarin.Forms.1.4.4.6392\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ConvenienceSystemDataModel\ConvenienceSystemDataModel.csproj">
+      <Project>{68d6f03c-0cfc-4476-ab47-eade56aace9b}</Project>
+      <Name>ConvenienceSystemDataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\ConvenienceSystemApp\ConvenienceSystemApp.projitems" Label="Shared" Condition="Exists('..\ConvenienceSystemApp\ConvenienceSystemApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

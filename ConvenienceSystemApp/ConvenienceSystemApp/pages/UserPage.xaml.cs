@@ -35,6 +35,30 @@ namespace ConvenienceSystemApp.pages
             EmptyButton.Text = "Getränke-Notstand melden";
             //TutorialLabel.Text = " (1) Select your name \n (2) Select your product(s) \n (3) Confirm \n That's All!";
             TutorialLabel.Text = " (1) Namen auswählen \n (2) Produkt(e) auswählen \n (3) bestätigen \n Fertig!";
+
+			EmptyButton.Clicked += EmptyButton_Clicked;
+		}
+
+		async void EmptyButton_Clicked (object sender, EventArgs e)
+		{
+			string answer = "";
+
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                {
+                    answer = await DisplayActionSheet("Möchtest du wirklich diese Meldung abschicken?", null, null, "Ja", "Nein");
+                });
+
+            if (answer != "Ja")
+                return;
+
+            if (DataManager.LastEmptyMail.AddMinutes(DataManager.EmptyMailCooldown).CompareTo(DateTime.Now) <= 0)
+            {
+                // Too early!
+                return;
+            }
+            // Send Api Call...
+            
+            //TODO
 		}
 
 

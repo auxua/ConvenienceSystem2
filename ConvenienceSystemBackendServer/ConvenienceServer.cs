@@ -519,6 +519,11 @@ namespace ConvenienceSystemBackendServer
             thread.Start();
         }
 
+        public void SendEmptyMail()
+        {
+            this.EmptyMailThread();
+        }
+
         /// <summary>
         /// Wrapper for sending mails about lack of stuff (e.g. Mate or coffee ;) )
         /// </summary>

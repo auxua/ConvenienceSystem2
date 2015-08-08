@@ -96,6 +96,13 @@ namespace ConvenienceSystemApp.api
             return answer.status;
         }
 
+        public async static Task<Boolean> EmptyMailAsync()
+        {
+            string callURL = Config.APIBaseUrl + "/emptyMail.token=" + Config.Token;
+            var answer = await RestCallAsync<BaseResponse>("", callURL, false);
+            return answer.status;
+        }
+
         #endregion
 
         #region generic calls
