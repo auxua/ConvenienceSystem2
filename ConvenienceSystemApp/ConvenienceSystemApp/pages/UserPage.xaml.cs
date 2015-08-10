@@ -41,7 +41,11 @@ namespace ConvenienceSystemApp.pages
 
 		async void EmptyButton_Clicked (object sender, EventArgs e)
 		{
-			string answer = "";
+			
+            
+            await Navigation.PushAsync(new pages.EmptyNotificationPage());
+            
+            /*string answer = "";
 
             Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -59,6 +63,7 @@ namespace ConvenienceSystemApp.pages
             // Send Api Call...
             
             //TODO
+             */
 		}
 
 

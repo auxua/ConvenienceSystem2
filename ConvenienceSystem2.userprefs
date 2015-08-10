@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="ConvenienceSystemApp\ConvenienceSystemApp.WinPhone\ConvenienceSystemApp.WinPhone.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp\ConvenienceSystemApp\pages\EmptyNotificationPage.xaml">
     <Files>
       <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\StartPage.xaml" Line="1" Column="1" />
       <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\StartPage.xaml.cs" Line="1" Column="1" />
       <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml" Line="1" Column="1" />
       <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\ProductsPage.xaml" Line="1" Column="1" />
-      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml.cs" Line="44" Column="4" />
+      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml.cs" Line="1" Column="1" />
+      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\EmptyNotificationPage.xaml" Line="9" Column="65" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
