@@ -519,18 +519,18 @@ namespace ConvenienceSystemBackendServer
             thread.Start();
         }
 
-        public void SendEmptyMail()
+        public void SendEmptyMail(string message)
         {
-            this.EmptyMailThread();
+            this.EmptyMailThread(message);
         }
 
         /// <summary>
         /// Wrapper for sending mails about lack of stuff (e.g. Mate or coffee ;) )
         /// </summary>
-        private void EmptyMailThread()
+        private void EmptyMailThread(string message)
         {
             Logger.Log("ConvenienceServer.EmptyMailThread", "Send (thread) mail for Empty Notification");
-            string s = "Es wurde eine Meldung über einen Getränke-Notstand eingereicht";
+            string s = "Es wurde eine Meldung über einen Getränke-Notstand eingereicht mit der Nachricht: "+Environment.NewLine+message;
             Thread thread = new Thread(delegate()
             {
                 this.SendMail(Settings.Contactmail, s, "Getränke-Notstand");

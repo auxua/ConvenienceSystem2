@@ -94,5 +94,10 @@ namespace ConvenienceSystemDataModel
         public List<string> products;
     }
 
+    public class EmptyMailRequest : BaseRequest
+    {
+        public string message;
+    }
+
     #endregion
 }

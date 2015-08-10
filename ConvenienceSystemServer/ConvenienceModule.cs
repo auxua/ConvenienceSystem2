@@ -296,21 +296,30 @@ namespace ConvenienceSystemServer
 
             #endregion
 
-            Get["/emptyMail.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            Post["/emptyMail.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
-                Logger.Log("Server", "/emptyMail called");
+                Logger.Log("Server (Post)", "/emptyMail called");
 
                 var response = new BaseResponse();
-
+                
                 try
                 {
-                    backend.SendEmptyMail();
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    EmptyMailRequest request = JsonConvert.DeserializeObject<EmptyMailRequest>(b);
+
+                    backend.SendEmptyMail(request.message);
+
                     response.status = true;
                 }
                 catch (Exception ex)
                 {
-                    response.errorDescription = ex.Message;
                     response.status = false;
+                    response.errorDescription = ex.Message;
                     Logger.Log("Server", "Error occured: " + ex.Message);
                 }
 

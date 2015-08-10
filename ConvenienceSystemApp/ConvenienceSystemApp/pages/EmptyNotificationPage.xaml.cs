@@ -19,6 +19,7 @@ namespace ConvenienceSystemApp.pages
 
         void SendButton_Clicked(object sender, EventArgs e)
         {
+            IsBusy = true;
             string answer = "";
             // Check if there is some text
             if (String.IsNullOrEmpty(CommentBox.Text) || String.IsNullOrWhiteSpace(CommentBox.Text))
@@ -27,6 +28,7 @@ namespace ConvenienceSystemApp.pages
                 {
                     await DisplayAlert("Fehler","Bitte Nachricht eingeben","OK");
                 });
+                IsBusy = false;
                 return;
             }
 
@@ -34,7 +36,11 @@ namespace ConvenienceSystemApp.pages
             Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
             {
                 answer = await DisplayActionSheet("Möchtest du wirklich diese Meldung abschicken?", null, null, "Ja", "Nein");
-                if (answer != "Ja") return;
+                if (answer != "Ja")
+                {
+                    IsBusy = false;
+                    return;
+                }
                 // Check Cooldown for mail sending
                 /*if (DataManager.LastEmptyMail.AddMinutes(DataManager.EmptyMailCooldown).CompareTo(DateTime.Now) <= 0)
                 {
@@ -42,7 +48,15 @@ namespace ConvenienceSystemApp.pages
                     return;
                 }*/
                 // API-Call
-                await DisplayAlert("Fehler", "API-Call noch nicht fertig - kommt bald", "OK");
+                //await DisplayAlert("Fehler", "API-Call noch nicht fertig - kommt bald", "OK");
+                try
+                {
+                    await api.Communication.EmptyMailAsync(CommentBox.Text);
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Fehler", "Aufgrund eines Fehlers konnte die Nachricht nciht gesendet werden. Bitte später versuchen oder einfach eine Mail schreiben.", "OK");
+                }
                 // Go Back!
                 await Navigation.PopAsync();
             });

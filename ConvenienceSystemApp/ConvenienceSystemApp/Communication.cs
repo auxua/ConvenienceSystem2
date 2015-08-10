@@ -96,10 +96,12 @@ namespace ConvenienceSystemApp.api
             return answer.status;
         }
 
-        public async static Task<Boolean> EmptyMailAsync()
+        public async static Task<Boolean> EmptyMailAsync(string message)
         {
             string callURL = Config.APIBaseUrl + "/emptyMail.token=" + Config.Token;
-            var answer = await RestCallAsync<BaseResponse>("", callURL, false);
+            var request = new EmptyMailRequest();
+            request.message = message;
+            var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
             return answer.status;
         }
 
