@@ -2,11 +2,11 @@
 A simple Solution for Convenience Systems
 
 ## License
-Some of the projects in this solution use the Newtonsoft Json library, which is licensed under MIT-License (https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/LICENSE.md)
-The Server uses the NancyFX which is licensed under MIT-License (https://github.com/NancyFx/Nancy/blob/master/license.txt)
-The Server uses the mysql-.NET adapter by Oracle (not embedded in this repository)
+* Some of the projects in this solution use the Newtonsoft Json library, which is licensed under MIT-License (https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/LICENSE.md)
+* The Server uses the NancyFX which is licensed under MIT-License (https://github.com/NancyFx/Nancy/blob/master/license.txt)
+* The Server uses the mysql-.NET adapter by Oracle (not embedded in this repository)
 
-The Source Code of the Convenience System solution is licensed under the MIT-License.
+* The Source Code of the Convenience System solution is licensed under the MIT-License.
 
 ## Frameworks/Dependencies
 This App projects uses the Xamarin-Framework (Xamarin.iOS, Xamarin.Android) and the Windows Phone SDK.
@@ -38,6 +38,8 @@ At the moment the following Devices/Applications are needed for a basic Convenie
 * Some projects contain configuration files (Config/Settings). There are basic samples provided but you need to add information there.
 
 * There is no warranty/support for the solution. But if you have question or found a bug you may use the contact/issues-functions of github and maybe there will be fixes available.
+
+* The .sql-file in this repository provides the basic structure that is used for this system in the database.
 
 * Everybody is welcome to use this solution or even contribute to!
 
