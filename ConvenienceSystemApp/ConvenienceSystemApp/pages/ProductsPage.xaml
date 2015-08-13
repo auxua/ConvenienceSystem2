@@ -9,6 +9,9 @@
       AbsoluteLayout.LayoutFlags="All"
       HorizontalOptions="CenterAndExpand"
       ItemsSource="{Binding Products}"
+      IsGroupingEnabled="true"
+      GroupDisplayBinding="{Binding Name}"
+      GroupShortNameBinding ="{Binding ShortName}"
       x:Name="productListView">
       <ListView.ItemTemplate>
         <DataTemplate>

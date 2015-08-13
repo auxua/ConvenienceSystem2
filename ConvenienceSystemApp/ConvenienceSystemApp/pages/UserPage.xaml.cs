@@ -12,6 +12,21 @@ using System.Collections.ObjectModel;
 
 namespace ConvenienceSystemApp.pages
 {
+	/// <summary>
+	/// Definition for Grouping in the upcoming Productspage
+	/// </summary>
+	public class Group : ObservableCollection<ProductsPageViewModel.ProductsViewModel>
+	{
+		public string Name { get; set; }
+		public string ShortName { get; set; }
+
+		public Group(string name, string shortname)
+		{
+			this.Name = name;
+			this.ShortName = shortname;
+		}
+	}
+
 	public partial class UserPage : ContentPage
 	{
 		public UserPage ()
@@ -68,6 +83,7 @@ namespace ConvenienceSystemApp.pages
 
 
 
+
 		async void OnUserSelected(object sender, ItemTappedEventArgs e)
         {
             IsBusy = true;
@@ -97,20 +113,63 @@ namespace ConvenienceSystemApp.pages
             IsBusy = false;
 
             // Create the Product-ViewModel for the product-Elements
-            ObservableCollection<ProductsPageViewModel.ProductsViewModel> products = new ObservableCollection<ProductsPageViewModel.ProductsViewModel>
-                (DataManager.GetAllProducts().Select<Product, ProductsPageViewModel.ProductsViewModel>(prod => 
-                    {
-                        var pvm = new ProductsPageViewModel.ProductsViewModel();
-                        pvm.comment = prod.comment;
-                        pvm.ID = prod.ID;
-                        pvm.price = prod.price;
-                        pvm.product = prod.product;
-                        return pvm;
-                    }));
+            
 
+			ObservableCollection<ProductsPageViewModel.ProductsViewModel> products = new ObservableCollection<ProductsPageViewModel.ProductsViewModel>
+				(DataManager.GetAllProducts().Select<Product, ProductsPageViewModel.ProductsViewModel>(prod => 
+				{
+					var pvm = new ProductsPageViewModel.ProductsViewModel();
+					pvm.comment = prod.comment;
+					pvm.ID = prod.ID;
+					pvm.price = prod.price;
+					pvm.product = prod.product;
+					return pvm;
+				}));
+			
+			//Group groupAll = new Group ("All Products", "all");
+			Group groupAll = new Group ("Alle Produkte", "alle");
+
+			foreach (var item in products)
+			{
+				groupAll.Add (item);
+			}
+
+            // Now get Count for current user
+            ProductsCountResponse response = default(ProductsCountResponse);
+            try
+            {
+                response = await api.Communication.GetProductsCountAsync(user);
+            }
+            catch (Exception ex)
+            {
+                IsBusy = false;
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    DisplayAlert("Fehler", "Ein Fehler ist aufgetreten (Internetverbindung?). Bitte später erneut versuchen", "OK");
+                    return;
+                });
+            }
+			//Group favedProducts = new Group("Popular for you","faved");
+			Group favedProducts = new Group("Oft gekauft","oft");
+			foreach (var item in response.dataSet)
+			{
+				if (item.amount > 1)
+				{
+					ProductsPageViewModel.ProductsViewModel pvm = new ProductsPageViewModel.ProductsViewModel ();
+					pvm.price = item.price;
+					pvm.product = item.product;
+					favedProducts.Add (pvm);
+				}
+			}
+
+			// FIll the top-Group
+			ObservableCollection<Group> allItems = new ObservableCollection<Group> ();
+			allItems.Add (favedProducts);
+			allItems.Add (groupAll);
 
             ProductsPageViewModel vm = new ProductsPageViewModel();
-            vm.Products = products;
+            //vm.Products = products;
+			vm.Products = allItems;
             vm.Username = user;
 
             await Navigation.PushAsync(new pages.ProductsPage(vm),true);

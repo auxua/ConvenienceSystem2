@@ -56,6 +56,7 @@ namespace ConvenienceSystemDataModel
     {
         public string product;
         public int amount;
+        public double price;
     }
     
 }

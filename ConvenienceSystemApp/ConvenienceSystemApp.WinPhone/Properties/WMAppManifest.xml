@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{67ecda95-edca-4579-b117-60da89a63efc}" Title="ConvenienceSystemApp.WinPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="ConvenienceSystemApp.WinPhone author" Description="Sample description" Publisher="ConvenienceSystemApp.WinPhone" PublisherID="{c64f25bb-980f-4475-92da-5ccddb6fe2df}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+  <App xmlns="" ProductID="{67ecda95-edca-4579-b117-60da89a63efc}" Title="Convenience App" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Arno Schmetz" Description="Simple Convenience System Client App" Publisher="Arno Schmetz" PublisherID="{c64f25bb-980f-4475-92da-5ccddb6fe2df}">
+    <IconPath IsRelative="true" IsResource="false">iTunesArtwork@2x.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
@@ -13,10 +13,10 @@
     <Tokens>
       <PrimaryToken TokenID="PhoneApp1Token" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Icon@2x.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>ConvenienceSystemApp.WinPhone</Title>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Icon-76@2x.png</BackgroundImageURI>
+          <Title>Convenience App</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

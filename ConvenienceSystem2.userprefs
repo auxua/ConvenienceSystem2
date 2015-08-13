@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="ConvenienceSystemApp/ConvenienceSystemApp.iOS/ConvenienceSystemApp.iOS.csproj">
+﻿<Properties StartupItem="ConvenienceSystemApp/ConvenienceSystemApp.Droid/ConvenienceSystemApp.Droid.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPadAir.8.4" />
   <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

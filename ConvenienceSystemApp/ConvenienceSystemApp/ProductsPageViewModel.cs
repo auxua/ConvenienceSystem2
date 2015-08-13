@@ -63,7 +63,7 @@ namespace ConvenienceSystemApp
             }
         }
 
-        private ObservableCollection<ProductsViewModel> products;
+        /*private ObservableCollection<ProductsViewModel> products;
 
         public ObservableCollection<ProductsViewModel> Products
         {
@@ -76,7 +76,22 @@ namespace ConvenienceSystemApp
                 this.products = value;
                 RaisePropertyChanged("Products");
             }
-        }
+        }*/
+
+		private ObservableCollection<pages.Group> products;
+
+		public ObservableCollection<pages.Group> Products
+		{
+			get
+			{
+				return this.products;
+			}
+			set
+			{
+				this.products = value;
+				RaisePropertyChanged("Products");
+			}
+		}
 
         /// <summary>
         /// Manages the List of the actual selection of products to buy

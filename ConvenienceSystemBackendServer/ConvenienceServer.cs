@@ -307,6 +307,7 @@ namespace ConvenienceSystemBackendServer
 
                 pc.amount = reader.GetInt32("COUNT(date)");
                 pc.product = reader.GetString("comment");
+                pc.price = reader.GetDouble("price");
 
                 list.Add(pc);
             }

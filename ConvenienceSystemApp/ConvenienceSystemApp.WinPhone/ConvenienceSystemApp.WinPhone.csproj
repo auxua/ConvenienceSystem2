@@ -122,6 +122,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icon%402x.png" />
+    <Content Include="Icon-76%402x.png" />
+    <Content Include="iTunesArtwork%402x.png" />
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
