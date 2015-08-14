@@ -153,8 +153,16 @@ namespace ConvenienceSystemApp
 
         public string ErrorMessage = "";
 
+        private bool handled = false;
+
         public async Task<bool> BuyProductsAsync()
         {
+            if (handled)
+                return true;
+
+            // Workaround for Windows Phones - Buttons sometimes get fired twice...
+            handled = true;
+
             if (this.selectedProducts.Count < 1)
             {
                 // No products selected - just create error
@@ -194,11 +202,11 @@ namespace ConvenienceSystemApp
             catch (Exception ex)
             {
                 // Workaround: The Buy-Call is working fine with the server, but the Web Client receives a 500 internal Server Error on iOS
-                if (Xamarin.Forms.Device.OS == Xamarin.Forms.TargetPlatform.iOS)
+                /*if (Xamarin.Forms.Device.OS == Xamarin.Forms.TargetPlatform.iOS)
                 {
                     if (ex.Message.Contains("The remote server returned an error: (500) Internal Server Error."))
                         return true;
-                }
+                }*/
                 ErrorMessage = "Error: " + ex.Message;
                 
                 return false;

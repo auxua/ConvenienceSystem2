@@ -59,7 +59,7 @@ namespace ConvenienceSystemServer
                 // Basic Idea: Just call somethin. If this fails, the backend server may be down/corrupted (e.g. MySQL Driver problem likely to happn..)
                 try 
                 {
-                    await backend.GetDevicesAsync();
+                    await backend.GetActiveUsersAsync("Foo");
                     return "True";
                 }
                 catch (Exception ex)
@@ -121,7 +121,7 @@ namespace ConvenienceSystemServer
 
                 try
                 {
-                    var users = await backend.GetAllUsersAsync();
+                    var users = await backend.GetAllUsersAsync((string)parameters.token);
                     response.dataSet = users;
                     response.status = true;
                 }
@@ -147,7 +147,7 @@ namespace ConvenienceSystemServer
 
                 try
                 {
-                    var users = await backend.GetActiveUsersAsync();
+                    var users = await backend.GetActiveUsersAsync((string)parameters.token);
                     response.dataSet = users;
                     response.status = true;
                 }
@@ -169,7 +169,7 @@ namespace ConvenienceSystemServer
 
                 try
                 {
-                    response.dataSet = await backend.GetFullProductsAsync();
+                    response.dataSet = await backend.GetFullProductsAsync((string)parameters.token);
                     response.status = true;
                 }
                 catch (Exception ex)
@@ -190,7 +190,7 @@ namespace ConvenienceSystemServer
 
                 try
                 {
-                    response.dataSet = await backend.GetDebtSinceKeyDateAsync();
+                    response.dataSet = await backend.GetDebtSinceKeyDateAsync((string)parameters.token);
                     response.status = true;
                 }
                 catch (Exception ex)
@@ -214,9 +214,9 @@ namespace ConvenienceSystemServer
                     string c = parameters.count;
                     int count;
                     if (int.TryParse(c,out count))
-                        response.dataSet = await backend.GetLastActivityAsync(count);
+                        response.dataSet = await backend.GetLastActivityAsync((string)parameters.token,count);
                     else
-                        response.dataSet = await backend.GetLastActivityAsync();
+                        response.dataSet = await backend.GetLastActivityAsync((string)parameters.token);
                     response.status = true;
                 }
                 catch (Exception ex)
@@ -238,7 +238,7 @@ namespace ConvenienceSystemServer
                 try
                 {
                     string c = parameters.user;
-                    response.dataSet = await backend.GetProductsCountForUserAsync(c);
+                    response.dataSet = await backend.GetProductsCountForUserAsync(c, (string)parameters.token);
                     response.status = true;
                 }
                 catch (Exception ex)
@@ -259,7 +259,7 @@ namespace ConvenienceSystemServer
 
                 try
                 {
-                    response.dataSet = await backend.GetKeyDatesAsync();
+                    response.dataSet = await backend.GetKeyDatesAsync((string)parameters.token);
                     response.status = true;
                 }
                 catch (Exception ex)
@@ -280,7 +280,7 @@ namespace ConvenienceSystemServer
 
                 try
                 {
-                    response.dataSet = await backend.GetMailsAsync();
+                    response.dataSet = await backend.GetMailsAsync((string)parameters.token);
                     response.status = true;
                 }
                 catch (Exception ex)
@@ -296,7 +296,7 @@ namespace ConvenienceSystemServer
 
             #endregion
 
-            Post["/emptyMail.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            Post["/emptyMail.token={token}"] = parameters =>
             {
                 Logger.Log("Server (Post)", "/emptyMail called");
 
@@ -343,7 +343,7 @@ namespace ConvenienceSystemServer
 
                     InsertKeyDateRequest request = JsonConvert.DeserializeObject<InsertKeyDateRequest>(b);
                     // do stuff
-                    await backend.InsertKeyDateAsync(comment: request.comment);
+                    await backend.InsertKeyDateAsync((string)parameters.token,comment: request.comment);
 
                     response.status = true;
                 }
@@ -375,7 +375,7 @@ namespace ConvenienceSystemServer
 
                     BuyProductsRequest request = JsonConvert.DeserializeObject<BuyProductsRequest>(b);
                     // do stuff
-                    await backend.BuyAsync(request.username, request.products);
+                    await backend.BuyAsync((string)parameters.token, request.username, request.products);
 
                     response.status = true;
                 }

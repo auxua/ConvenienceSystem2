@@ -39,8 +39,8 @@ namespace ConvenienceSystemApp.pages
         }
 
 		async void OnBuyClicked(object sender, EventArgs e)
-		{
-			// Execute on ViewModel
+		{            
+            // Execute on ViewModel
             ((ProductsPageViewModel)this.BindingContext).IsBusy = true;
 
             // Only buy if there are items in the cart..

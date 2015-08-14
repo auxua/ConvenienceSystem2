@@ -1,6 +1,10 @@
-﻿<Properties StartupItem="ConvenienceSystemApp/ConvenienceSystemApp.Droid/ConvenienceSystemApp.Droid.csproj">
+﻿<Properties StartupItem="ConvenienceSystemApp/ConvenienceSystemApp.iOS/ConvenienceSystemApp.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPadAir.8.4" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp/ConvenienceSystemApp/ProductsPageViewModel.cs">
+    <Files>
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/ProductsPageViewModel.cs" Line="209" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

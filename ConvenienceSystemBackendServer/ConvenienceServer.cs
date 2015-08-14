@@ -78,8 +78,10 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// returns a List representing the (200) active users,  and their data
         /// </summary>
-        public async Task<List<User>> GetActiveUsersAsync()
+        public async Task<List<User>> GetActiveUsersAsync(string deviceID)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.READ);
+
             MySqlDataReader reader = this.Query("SELECT * FROM gk_user WHERE gk_user.state='active' ORDER BY username ASC LIMIT 0,200");
             List<User> Users = new List<User>();
 
@@ -104,11 +106,19 @@ namespace ConvenienceSystemBackendServer
             return Users;
         }
 
+
+        public async Task<List<User>> GetAllUsersAsync(string deviceID)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.READ);
+            return await GetAllUsersAsync();
+        }
+
+
         /// <summary>
         /// Gets all the Users and their information (limited by 200)
         /// </summary>
         /// <returns></returns>
-        public async Task<List<User>> GetAllUsersAsync()
+        private async Task<List<User>> GetAllUsersAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_user ORDER BY username ASC LIMIT 0,200");
             List<User> Users = new List<User>();
@@ -134,13 +144,20 @@ namespace ConvenienceSystemBackendServer
             return Users;
         }
 
-       
+
+
+        public async Task<List<Product>> GetFullProductsAsync(string deviceID)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.READ);
+            return await GetFullProductsAsync();
+        }
 
         /// <summary>
         /// returns a List of all information about the products (limit:200)
         /// </summary>
-        public async Task<List<Product>> GetFullProductsAsync()
+        private async Task<List<Product>> GetFullProductsAsync()
         {
+            
             MySqlDataReader reader = this.Query("SELECT * FROM gk_pricing ORDER BY product ASC LIMIT 0,200");
 
             List<Product> list = new List<Product>();
@@ -168,12 +185,16 @@ namespace ConvenienceSystemBackendServer
         }
 
 
+        
+
         /// <summary>
         /// Gets the Sum of products bought in the system since the last Keydate
         ///     Uses the User-DataType, but this is only partially populated!
         /// </summary>
-        public async Task<List<User>> GetDebtSinceKeyDateAsync()
+        public async Task<List<User>> GetDebtSinceKeyDateAsync(string deviceID)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
             MySqlDataReader reader = this.Query("SELECT *,SUM(price) FROM gk_accounting WHERE gk_accounting.date>=(SELECT MAX(keydate) FROM gk_keydates) GROUP BY user LIMIT 0,200");
 
             List<User> list = new List<User>();
@@ -193,9 +214,18 @@ namespace ConvenienceSystemBackendServer
         }
 
         /// <summary>
+        /// Gets all registered Devices of the system
+        /// </summary>
+        public async Task<List<Device>> GetDevicesAsync(string deviceID)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            return await this.GetDevicesAsync();
+        }
+
+        /// <summary>
         /// Gets the actual Devices registered in the system
         /// </summary>
-        public async Task<List<Device>> GetDevicesAsync()
+        private async Task<List<Device>> GetDevicesAsync()
         {
             MySqlDataReader reader = this.Query("SELECT * FROM gk_devices");
 
@@ -220,8 +250,10 @@ namespace ConvenienceSystemBackendServer
         /// Gets the (count) last activity elements of the system.
         /// For non-positive values of count, get everything
         /// </summary>
-        public async Task<List<AccountingElement>> GetLastActivityAsync(int count = 10)
+        public async Task<List<AccountingElement>> GetLastActivityAsync(string deviceID, int count = 10)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
             MySqlDataReader reader;
 
             //Allow getting all activities by havin non-positive count-parameter
@@ -269,8 +301,10 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// Gets the Sum of products bought in the system since the provided Keydate (form: yyyy-mm-dd)
         /// </summary>
-        public async Task<List<User>> GetDebtSinceKeyDateAsync(String keydate)
+        public async Task<List<User>> GetDebtSinceKeyDateAsync(String keydate, string deviceID)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
             MySqlDataReader reader = this.Query("SELECT *,SUM(price) FROM gk_accounting WHERE gk_accounting.date>=\"" + keydate + "\" GROUP BY user LIMIT 0,200");
 
             List<User> list = new List<User>();
@@ -295,8 +329,10 @@ namespace ConvenienceSystemBackendServer
         /// Beware! uses the "comment" column of the DB - on-product-comments are possible!
         /// </summary>
         /// <param name="user">The user</param>
-        public async Task<List<ProductCount>> GetProductsCountForUserAsync(String user)
+        public async Task<List<ProductCount>> GetProductsCountForUserAsync(String user, string deviceID)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.READ);
+
             List<ProductCount> list = new List<ProductCount>();
 
             MySqlDataReader reader = this.Query("SELECT *,COUNT(date) FROM `gk_accounting` WHERE user='"+user+"' GROUP BY `comment` DESC LIMIT 0,200");
@@ -321,8 +357,10 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         /// <param name="keydate">the keydate</param>
         /// <param name="comment">the comment that shuld be added for this keydate</param>
-        public async Task InsertKeyDateAsync(String keydate = "", String comment = "Added via Application without comment")
+        public async Task InsertKeyDateAsync(string deviceID, String keydate = "", String comment = "Added via Application without comment")
         {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
             //No keydate provided? use current datetime!
             if (keydate == "")
             {
@@ -351,8 +389,10 @@ namespace ConvenienceSystemBackendServer
         /// <summary>
         /// Returns a List of Tuples representing the Keydates
         /// </summary>
-        public async Task<List<KeyDate>> GetKeyDatesAsync()
+        public async Task<List<KeyDate>> GetKeyDatesAsync(string deviceID)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
             MySqlDataReader reader = this.Query("SELECT * FROM gk_keydates ORDER BY keydate DESC LIMIT 0,200");
 
             List<KeyDate> list = new List<KeyDate>();
@@ -373,10 +413,16 @@ namespace ConvenienceSystemBackendServer
             return list;
         }
 
+        public async Task<List<Mail>> GetMailsAsync(string deviceID)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            return await GetMailsAsync();
+        }
+
         /// <summary>
         /// Returns a List of the users and their mailadresses
         /// </summary>
-        public async Task<List<Mail>> GetMailsAsync()
+        private async Task<List<Mail>> GetMailsAsync()
         {
 
             MySqlDataReader reader = this.Query("SELECT * FROM gk_mail");
@@ -411,8 +457,10 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         /// <param name="username">the buying user</param>
         /// <param name="products">A List of the products</param>
-        public async Task<Boolean> BuyAsync(String username, List<String> products)
+        public async Task<Boolean> BuyAsync(string deviceID, String username, List<String> products)
         {
+            await CheckDeviceRights(deviceID, DeviceRights.READ);
+
             //Console.WriteLine ("CS, u:" + username + ", p:" + products);
             DateTime dt = DateTime.Now;
             //String datum = String.Format ("yyyy'-'MM'-'dd HH':'mm':'ss'", dt);
@@ -655,7 +703,48 @@ namespace ConvenienceSystemBackendServer
             return result;
         }
 
+        public enum DeviceRights
+        {
+            READ = 0, // Default: Can read Data, buy products
+            FULL = 1, // Full Access - can see keydates, Accounting, change Data, etc.
+            NONE = 2, // Blocked - Cannot do anything
+        }
 
+        /// <summary>
+        /// Checks the DeviceID having the expected rights
+        /// 
+        /// usage: provide the Device ID and the Rights you want the Device to have for calling the query. An Exception gets thrown, if the reight are not met
+        /// </summary>
+        /// <param name="deviceID">The string representation of the DeviceID</param>
+        /// <param name="rights">The rights that are needed for the calling query</param>
+        private async Task CheckDeviceRights(string deviceID, DeviceRights rightsNeeded)
+        {
+            DeviceRights rights = default(DeviceRights);
+
+            // Get List of Devices from backend
+            List<Device> devices = await this.GetDevicesAsync();
+
+            // Get the Device for the ID
+            try
+            {
+                Device device = devices.First<Device>((x) => x.code == deviceID);
+                // A valid one was found, 
+                rights = (DeviceRights)Enum.Parse(typeof(DeviceRights), device.rights);
+            }
+            catch (InvalidOperationException)
+            {
+                // Device ID cannot be found - stay with default
+            }
+
+            // now check that!
+            if (rightsNeeded == rights || rights == DeviceRights.FULL)
+                return;
+
+            // If we get here, this is not allowed!
+            throw new Exception("This Device does not have anoug rights for this operation");
+
+
+        }
 
         ~ConvenienceServer()
         {
