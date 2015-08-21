@@ -1,11 +1,17 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_accounting`
+--
 
 CREATE TABLE IF NOT EXISTS `gk_accounting` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -15,7 +21,13 @@ CREATE TABLE IF NOT EXISTS `gk_accounting` (
   `comment` text,
   `device` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1049 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_devices`
+--
 
 CREATE TABLE IF NOT EXISTS `gk_devices` (
   `code` varchar(255) NOT NULL COMMENT '(unique) Device Code',
@@ -24,11 +36,23 @@ CREATE TABLE IF NOT EXISTS `gk_devices` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_keydates`
+--
+
 CREATE TABLE IF NOT EXISTS `gk_keydates` (
   `keydate` datetime NOT NULL,
   `comment` text NOT NULL,
   PRIMARY KEY (`keydate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_mail`
+--
 
 CREATE TABLE IF NOT EXISTS `gk_mail` (
   `username` varchar(255) NOT NULL COMMENT 'the user name',
@@ -37,6 +61,12 @@ CREATE TABLE IF NOT EXISTS `gk_mail` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_pricing`
+--
+
 CREATE TABLE IF NOT EXISTS `gk_pricing` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `product` varchar(255) NOT NULL COMMENT 'product name',
@@ -44,17 +74,36 @@ CREATE TABLE IF NOT EXISTS `gk_pricing` (
   `comment` text,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `product` (`product`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_user`
+--
 
 CREATE TABLE IF NOT EXISTS `gk_user` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL COMMENT 'name of the user',
-  `debt` decimal(60,2) NOT NULL COMMENT 'debt the user has',
+  `debt` decimal(60,2) NOT NULL DEFAULT '0.00' COMMENT 'debt the user has',
   `state` varchar(255) NOT NULL DEFAULT 'active' COMMENT 'state of the user - maybe sth. like inactive, blacked, etc.)',
   `comment` text,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=94 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gk_webusers`
+--
+
+CREATE TABLE IF NOT EXISTS `gk_webusers` (
+  `username` varchar(255) NOT NULL COMMENT 'the user name of the web users',
+  `password` text NOT NULL COMMENT 'the (hashed) password of the user',
+  `comment` varchar(255) DEFAULT NULL COMMENT 'a comment on the user',
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='the list of the web users of the system';
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
