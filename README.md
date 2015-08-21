@@ -20,7 +20,7 @@ The solution has multiple projects:
 * ConvenienceSystemConsole - Simple Console Applciation for testing the convenience backend
 * ConvenienceSystemApp - The Shared project providing Xamarin.Forms Code/Pages for the mobile Apps
 * ConvenienceSystemApp.Droid/.WinPhone/.iOS - The mobile Apps for the system clients (see screenshots)
-* AdminFormsClient - A WinForms (runs on .NET and mono) application providing a UI for administrative Tasks
+* WebAdminClient - A ASP.NET (WebForms) Web application providing a UI for administrative Tasks
 
 ## Installation/Usage Requirements
 At the moment the following Devices/Applications are needed for a basic Convenience System installation
@@ -28,12 +28,11 @@ At the moment the following Devices/Applications are needed for a basic Convenie
 * A Server hosting the backend/Server (needs .NET/mono)
 * A MySQL Database for hosting the Data (Other Databases possible by changing the Backend)
 * A mobile Device (tablet recommended) running the App (iOS, Windows Phone 8/10, Android possible)
+* A Web Server (Optional) for the WebClient
 
 ## Some Remarks
 
 * The system provides the possibility to use keydates. E.g. Synchronizing with other systems/Accounting lists/etc. can be marked by them and enhance the workflow.
-
-* The solution is working mostly at the moment. The AdminClient is still in development, while the other projects are running fine and will get improvements/updates.
 
 * Some projects contain configuration files (Config/Settings). There are basic samples provided but you need to add information there.
 
