@@ -99,5 +99,25 @@ namespace ConvenienceSystemDataModel
         public string message;
     }
 
+    public class WebLoginRequest : BaseRequest
+    {
+        public string username;
+        public string password;
+    }
+
+    public class CreateuserRequest : BaseRequest
+    {
+        public string user;
+        public string comment;
+        public string state;
+    }
+
+    public class CreateProductRequest : BaseRequest
+    {
+        public string product;
+        public double price;
+        public string comment;
+    }
+
     #endregion
 }

@@ -272,6 +272,8 @@ namespace ConvenienceSystemServer
                 return response;
             };
 
+            
+
             Get["/viewMails.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server", "/viewMails called");
@@ -295,6 +297,34 @@ namespace ConvenienceSystemServer
 
 
             #endregion
+
+            Post["/verifyWebUser.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (Post)", "/verifyWebUser called");
+
+                var response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    WebLoginRequest request = JsonConvert.DeserializeObject<WebLoginRequest>(b);
+
+                    response.status = await backend.VerifyWebUser(request.username,request.password,(string)parameters.token);
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+            };
 
             Post["/emptyMail.token={token}"] = parameters =>
             {
@@ -345,6 +375,70 @@ namespace ConvenienceSystemServer
                     // do stuff
                     await backend.InsertKeyDateAsync((string)parameters.token,comment: request.comment);
 
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
+
+            Post["/addUser.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/addUser called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    CreateuserRequest request = JsonConvert.DeserializeObject<CreateuserRequest>(b);
+                    // do stuff
+                    await backend.AddUserAsync((string)parameters.token, request.user, request.comment, request.state);
+                    
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
+            Post["/addProduct.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/addProduct called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    CreateProductRequest request = JsonConvert.DeserializeObject<CreateProductRequest>(b);
+                    // do stuff
+                    await backend.AddProductAsync((string)parameters.token, request.product, request.comment, request.price);
+                    
                     response.status = true;
                 }
                 catch (Exception ex)

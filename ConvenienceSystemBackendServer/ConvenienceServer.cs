@@ -143,8 +143,64 @@ namespace ConvenienceSystemBackendServer
             this.Close();
             return Users;
         }
+        
+
+        /// <summary>
+        /// Creates new User. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task AddUserAsync(string deviceID, string username, string comment, string state)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            string query;
+            if (String.IsNullOrEmpty(comment))
+                query = "INSERT INTO  gk_user (username,state) VALUES ('"+username+"','"+state+"')";
+            else
+                query = "INSERT INTO  gk_user (username,state,comment) VALUES ('" + username + "','" + state + "','"+comment+"')";
+
+            Logger.Log("ConvenienceServer.AddUser", "trying to add user: " + username);
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.AddUser", "DB returned " + answer);
+            
+            reader.Close();
+            this.Close();
+        }
 
 
+        /// <summary>
+        /// Creates new Product. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task AddProductAsync(string deviceID, string product, string comment, double price)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            string query;
+            if (String.IsNullOrEmpty(comment))
+                query = "INSERT INTO  gk_pricing (product,price) VALUES ('" + product + "','" + price.ToString() + "')";
+            else
+                query = "INSERT INTO  gk_pricing (product,price,comment) VALUES ('" + product + "','" + price.ToString() + "','" + comment + "')";
+
+            Logger.Log("ConvenienceServer.AddProduct", "trying to add product: " + product);
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.AddProduct", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+        }
 
         public async Task<List<Product>> GetFullProductsAsync(string deviceID)
         {
@@ -350,6 +406,35 @@ namespace ConvenienceSystemBackendServer
             reader.Close();
             this.Close();
             return list;
+        }
+
+        /// <summary>
+        /// Verifies the user for Web CLients
+        /// </summary>
+        /// <param name="user">the name of the user</param>
+        /// <param name="password">the (hashed) password the user provided</param>
+        public async Task<bool> VerifyWebUser(String user, string password, string deviceID)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            
+            MySqlDataReader reader = this.Query("SELECT * FROM `gk_webusers` WHERE username='" + user + "'");
+
+            if (!reader.HasRows)
+            {
+                // No such user!
+                reader.Close();
+                return false;
+            }
+
+            await reader.ReadAsync();
+            string dbPass = reader.GetString("password");
+            // QUick and dirty workaround for now - the escaping of "+" can result in whitespaces
+            password = password.Replace(" ", "+");
+            bool answer = (dbPass == password);
+            
+            reader.Close();
+            this.Close();
+            return answer;
         }
 
         /// <summary>
@@ -741,7 +826,7 @@ namespace ConvenienceSystemBackendServer
                 return;
 
             // If we get here, this is not allowed!
-            throw new Exception("This Device does not have anoug rights for this operation");
+            throw new Exception("This Device does not have enough rights for this operation");
 
 
         }
