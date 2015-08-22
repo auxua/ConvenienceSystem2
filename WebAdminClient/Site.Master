@@ -63,6 +63,7 @@
                         <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Products <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a runat="server" href="~/ViewAllProducts">View All</a></li>
+                                <li><a runat="server" href="~/EditAllProducts">Edit All</a></li>
                                 <li><a runat="server" href="~/AddProduct">Add Product</a></li>
                             </ul>
                         </li>

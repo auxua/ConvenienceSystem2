@@ -129,6 +129,12 @@ namespace ConvenienceSystemDataModel
         public List<User> dataSet;
     }
 
+    public class UpdateProductsRequest : BaseRequest
+    {
+        public List<Product> dataSet;
+    }
+         
+
     public class DeleteRequest : BaseRequest
     {
         public List<int> dataSet; // The IDs of the elements to delete

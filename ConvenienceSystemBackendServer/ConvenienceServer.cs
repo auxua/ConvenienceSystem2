@@ -213,7 +213,7 @@ namespace ConvenienceSystemBackendServer
         }
 
         /// <summary>
-        /// Updates User. In case of an error or problem, an exception is thrown
+        /// Deletes User. In case of an error or problem, an exception is thrown
         /// </summary>
         public async Task<List<int>> DeleteUsersAsync(string deviceID, List<int> users)
         {
@@ -247,6 +247,78 @@ namespace ConvenienceSystemBackendServer
             return list;
         }
 
+
+        
+        /// <summary>
+        /// Updates Product. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task<List<int>> UpdateProductsAsync(string deviceID, List<Product> Products)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+            List<int> list = new List<int>();
+
+            // Create a query sequence
+            foreach (Product product in Products)
+            {
+                query += "UPDATE gk_pricing SET product='" + product.product + "', "
+                    + "comment='" + product.comment + "', price='" + product.price.ToString() + "' WHERE ID=" + product.ID.ToString() + "; ";
+                list.Add(product.ID);
+            }
+
+
+            Logger.Log("ConvenienceServer.UpdateProduct", "trying to update products ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.UpdateProduct", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+            return list;
+        }
+
+        /// <summary>
+        /// Deletes Products. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task<List<int>> DeleteProductsAsync(string deviceID, List<int> Products)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+            List<int> list = new List<int>();
+
+            // Create a query sequence
+            foreach (int product in Products)
+            {
+                query += "DELETE FROM gk_pricing WHERE ID=" + product.ToString() + "; ";
+                list.Add(product);
+            }
+
+
+            Logger.Log("ConvenienceServer.DeleteProducts", "trying to delete Products ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.DeleteProducts", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+            return list;
+        }
 
         /// <summary>
         /// Creates new Product. In case of an error or problem, an exception is thrown
