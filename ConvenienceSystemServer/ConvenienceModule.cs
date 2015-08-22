@@ -421,6 +421,38 @@ namespace ConvenienceSystemServer
 
             };
 
+
+            Post["/updateUser.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/updateUser called");
+
+                UpdateResponse response = new UpdateResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    UpdateUsersRequest request = JsonConvert.DeserializeObject<UpdateUsersRequest>(b);
+                    // do stuff
+                    response.dataset = await backend.UpdateUsersAsync((string)parameters.token, request.dataSet);
+                    
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
             Post["/addProduct.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server (POST)", "/addProduct called");

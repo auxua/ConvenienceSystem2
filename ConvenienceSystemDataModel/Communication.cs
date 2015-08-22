@@ -70,6 +70,11 @@ namespace ConvenienceSystemDataModel
         public List<ProductCount> dataSet;
     }
 
+    public class UpdateResponse : BaseResponse
+    {
+        public List<int> dataset; // IDs of items that have been updated with success (mainly used in case of error where only some items were updated)
+    }
+
     #endregion
 
     #region Requests
@@ -117,6 +122,11 @@ namespace ConvenienceSystemDataModel
         public string product;
         public double price;
         public string comment;
+    }
+
+    public class UpdateUsersRequest : BaseRequest
+    {
+        public List<User> dataSet;
     }
 
     #endregion

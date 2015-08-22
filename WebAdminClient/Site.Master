@@ -56,6 +56,7 @@
                         <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Users <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a runat="server" href="~/ViewAllUsers.aspx">View All</a></li>
+                                <li><a runat="server" href="~/EditAllUsers.aspx">Edit All</a></li>
                                 <li><a runat="server" href="~/AddUser">Add User</a></li>
                             </ul>
                         </li>

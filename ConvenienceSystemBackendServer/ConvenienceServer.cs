@@ -151,13 +151,15 @@ namespace ConvenienceSystemBackendServer
         public async Task AddUserAsync(string deviceID, string username, string comment, string state)
         {
             await CheckDeviceRights(deviceID, DeviceRights.FULL);
-            string query;
+
+            string query = "";
+            
             if (String.IsNullOrEmpty(comment))
                 query = "INSERT INTO  gk_user (username,state) VALUES ('"+username+"','"+state+"')";
             else
                 query = "INSERT INTO  gk_user (username,state,comment) VALUES ('" + username + "','" + state + "','"+comment+"')";
 
-            Logger.Log("ConvenienceServer.AddUser", "trying to add user: " + username);
+            Logger.Log("ConvenienceServer.AddUserUser", "trying to add user: "+username);
 
             MySqlDataReader reader = this.Query(query);
             string answer = "";
@@ -171,6 +173,43 @@ namespace ConvenienceSystemBackendServer
             
             reader.Close();
             this.Close();
+        }
+
+        /// <summary>
+        /// Updates User. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task<List<int>> UpdateUsersAsync(string deviceID, List<User> users)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+            List<int> list = new List<int>();
+
+            // Create a query sequence
+            foreach (User user in users)
+            {
+                query += "UPDATE gk_user SET username='" + user.username + "', "
+                    + "state='" + user.state + "', debt='" + user.debt.ToString() + "', comment='" + user.comment + "' "
+                    + "WHERE ID=" + user.ID.ToString() + "; ";
+                list.Add(user.ID);
+            }
+            
+
+            Logger.Log("ConvenienceServer.UpdateUser", "trying to update users ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.UpdateUser", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+            return list;
         }
 
 

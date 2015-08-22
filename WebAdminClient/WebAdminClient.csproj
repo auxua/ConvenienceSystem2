@@ -136,7 +136,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\auxua.de %28root%29.pubxml" />
-    <None Include="Properties\PublishProfiles\auxua.de_convenience.pubxml" />
+    <None Include="Properties\PublishProfiles\convenience.auxua.de.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -148,6 +148,7 @@
     <Content Include="ViewAccounting.aspx" />
     <Content Include="ViewAllProducts.aspx" />
     <Content Include="AddUser.aspx" />
+    <Content Include="EditAllUsers.aspx" />
     <Content Include="ViewKeyDates.aspx" />
     <Content Include="ViewAllUsers.aspx" />
     <Content Include="About.aspx" />
@@ -233,6 +234,13 @@
     </Compile>
     <Compile Include="AddUser.aspx.designer.cs">
       <DependentUpon>AddUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditAllUsers.aspx.cs">
+      <DependentUpon>EditAllUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditAllUsers.aspx.designer.cs">
+      <DependentUpon>EditAllUsers.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewKeyDates.aspx.cs">
       <DependentUpon>ViewKeyDates.aspx</DependentUpon>
