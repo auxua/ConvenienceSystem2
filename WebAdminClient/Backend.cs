@@ -194,6 +194,14 @@ namespace WebAdminClient
             return answer;
         }
 
+        public async static Task<UpdateResponse> DeleteUsers(DeleteRequest request)
+        {
+            string callURL = Settings.APIBaseUrl + "/deleteUser.token=" + Settings.Token;
+            //var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            var answer = await RestCallAsync<UpdateResponse>(request.ToString(), callURL, true);
+            return answer;
+        }
+
         public async static Task<Boolean> EmptyMailAsync(string message)
         {
             string callURL = Settings.APIBaseUrl + "/emptyMail.token=" + Settings.Token;

@@ -15,6 +15,7 @@ namespace WebAdminClient
         {
             if (this.IsPostBack)
             {
+                // First, handle updates!
                 var dirty = CheckDirtyElements();
                 UpdateUsersRequest request = new UpdateUsersRequest();
                 request.dataSet = dirty;
@@ -35,6 +36,21 @@ namespace WebAdminClient
                     StateMessage = "Error while updating data: " + ex.Message;
                 }
 
+
+                // Second, handle deletions
+                var deletions = CheckDeleteElements();
+                if (!(deletions.Count <1))
+                {
+                    // There are Deletions
+                    DeleteRequest delRequest = new DeleteRequest();
+                    delRequest.dataSet = deletions;
+                    StateMessage += " - ";
+                    var answer = await Backend.DeleteUsers(delRequest);
+                    if (answer.status)
+                        StateMessage += "Data was deleted";
+                    else
+                        StateMessage += "Error while deleting items: " + answer.errorDescription;
+                }
             }
 
             var Users = await Backend.GetAllUsersAsync();
@@ -106,6 +122,35 @@ namespace WebAdminClient
                 }
 
                 // Todo: Deletions
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Basing on the submitted Form, check which elements are to be deleted
+        /// </summary>
+        public List<int> CheckDeleteElements()
+        {
+            // Get number of Elements
+            int amount = int.Parse((string)Request.Form["ctl00$MainContent$entryCount"]);
+
+            List<int> list = new List<int>();
+
+            // Check one by one...
+            for (int i = 0; i < amount; i++)
+            {
+                int id;
+                try
+                {
+                    // Try parsng the element. If it is not existing, just go on
+                    id = int.Parse(Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$checkDelete"]);
+                }
+                catch { continue; }
+
+                // Found the id - add it!
+                list.Add(id);
+                
             }
 
             return list;

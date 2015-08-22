@@ -212,6 +212,41 @@ namespace ConvenienceSystemBackendServer
             return list;
         }
 
+        /// <summary>
+        /// Updates User. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task<List<int>> DeleteUsersAsync(string deviceID, List<int> users)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+            List<int> list = new List<int>();
+
+            // Create a query sequence
+            foreach (int user in users)
+            {
+                query += "DELETE FROM gk_user WHERE ID=" + user.ToString() + "; ";
+                list.Add(user);
+            }
+
+
+            Logger.Log("ConvenienceServer.Deleteusers", "trying to delete users ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.DeleteUsers", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+            return list;
+        }
+
 
         /// <summary>
         /// Creates new Product. In case of an error or problem, an exception is thrown

@@ -453,6 +453,37 @@ namespace ConvenienceSystemServer
 
             };
 
+            Post["/deleteUser.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/deleteUser called");
+
+                UpdateResponse response = new UpdateResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    DeleteRequest request = JsonConvert.DeserializeObject<DeleteRequest>(b);
+                    // do stuff
+                    response.dataset = await backend.DeleteUsersAsync((string)parameters.token, request.dataSet);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
             Post["/addProduct.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server (POST)", "/addProduct called");
