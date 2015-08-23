@@ -13,6 +13,7 @@ namespace ConvenienceSystemApp.pages
 	public partial class ProductsPage : ContentPage
 	{
 
+
 		private List<String> products = new List<string> ();
 
         ObservableCollection<Product> productCollection = new ObservableCollection<Product>();

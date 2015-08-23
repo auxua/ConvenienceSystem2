@@ -1,8 +1,10 @@
-﻿<Properties StartupItem="ConvenienceSystemApp/ConvenienceSystemApp.iOS/ConvenienceSystemApp.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPadAir.8.4" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp/ConvenienceSystemApp/ProductsPageViewModel.cs">
+﻿<Properties StartupItem="ConvenienceSystemApp\ConvenienceSystemApp.iOS\ConvenienceSystemApp.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml.cs">
     <Files>
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/ProductsPageViewModel.cs" Line="209" Column="20" />
+      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\ProductsPageViewModel.cs" Line="1" Column="1" />
+      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml" Line="1" Column="1" />
+      <File FileName="ConvenienceSystemApp\ConvenienceSystemApp\pages\UserPage.xaml.cs" Line="59" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

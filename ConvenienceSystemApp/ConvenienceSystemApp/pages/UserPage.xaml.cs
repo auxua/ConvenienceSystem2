@@ -27,6 +27,29 @@ namespace ConvenienceSystemApp.pages
 		}
 	}
 
+    public class UserViewModel : User
+    {
+        public string debtString
+        {
+            get
+            {
+                // For using the Debt of the user
+                //return String.Format("{0:C}", this.debt);
+                // Not showing the debt;
+                return " ";
+
+            }
+        }
+
+        public string userString
+        {
+            get
+            {
+                return username;
+            }
+        }
+    }
+
 	public partial class UserPage : ContentPage
 	{
 		public UserPage ()
@@ -34,10 +57,26 @@ namespace ConvenienceSystemApp.pages
 			InitializeComponent ();
 
             // Get the List of usernames (In Future, use Data Binding instead!)
-            List<String> names = new List<string>(DataManager.GetActiveUsers().Select<User, string>(user => user.username));
+            //List<String> names = new List<string>(DataManager.GetActiveUsers().Select<User, string>(user => user.username));
 
+            List<UserViewModel> users = new List<UserViewModel>(DataManager.GetActiveUsers().Select<User,UserViewModel>((x) =>
+				{
+					UserViewModel vm = new UserViewModel();
+					vm.debt = x.debt;
+					vm.username = x.username;
+					return vm;
+				}));
 
-            userListView.ItemsSource = names;
+            // ConvertAll has better performance, but not supported on WinPhone
+            /*List<UserViewModel> users = DataManager.GetActiveUsers().ConvertAll ((x) =>
+				{
+					UserViewModel vm = new UserViewModel();
+					vm.debt = x.debt;
+					vm.username = x.username;
+				});*/
+
+            //userListView.ItemsSource = names;
+            userListView.ItemsSource = users;
 			//userListView.ItemSelected += OnUserSelected;
 			//Use Tapped-Event instead of selected event to enable users to reselect themselves after going back
 			userListView.ItemTapped += OnUserSelected;
@@ -86,6 +125,7 @@ namespace ConvenienceSystemApp.pages
 
 		async void OnUserSelected(object sender, ItemTappedEventArgs e)
         {
+            
             IsBusy = true;
             // Check Data Model
             if (DataManager.State != DataManager.DMState.ACTIVE)
@@ -106,7 +146,8 @@ namespace ConvenienceSystemApp.pages
 
             // So, We can get the Data we want
             //TODO
-            string user = e.Item.ToString();
+            var listItem = e.Item as UserViewModel;
+            string user = listItem.userString;
 
             // Go to the next Page
             //Xamarin.Forms.Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new pages.ProductsPage()));
