@@ -19,4 +19,5 @@ namespace WebAdminClient
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
+
 }

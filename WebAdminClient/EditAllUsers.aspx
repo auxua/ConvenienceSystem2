@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Edit Users" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EditAllUsers.aspx.cs" Inherits="WebAdminClient.EditAllUsers" Async="true" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EditAllUsers.aspx.cs" Inherits="WebAdminClient.EditAllUsers" Async="true" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: Title %></h2>
+    <h2><%: WebAdminClient.StringsLocal.EditAllUsers %></h2>
     <span style="color:darkred"><%: StateMessage %></span><br />
-    <span><%: EntryCount %> Entries</span>
+    <span><%: EntryCount %> <%: WebAdminClient.StringsLocal.Entries %></span>
     <table class="table table-striped table-bordered">
-        <tr><th>#</th><th>Name</th><th>Debt</th><th>Status</th><th>Comment</th><th>Delete</th></tr>
+        <tr><th>#</th><th><%: WebAdminClient.StringsLocal.Username %></th><th><%: WebAdminClient.StringsLocal.Debt %></th><th>Status</th><th><%: WebAdminClient.StringsLocal.Comment %></th><th><%: WebAdminClient.StringsLocal.Delete %>?</th></tr>
             <asp:Repeater ID="repUsers" runat="server">
                 <ItemTemplate>
                 <tr>
@@ -33,7 +33,7 @@
                     <td>
                         <label runat="server">
                             <input type="checkbox" runat="server" id="checkDelete" value='<%# Eval("id") %>' />
-                            Delete
+                            <%: WebAdminClient.StringsLocal.Delete %>
                         </label>
                     </td>
                 </tr>
@@ -41,5 +41,5 @@
             </asp:Repeater>
     </table>
     <input type="hidden" runat="server" id="entryCount" />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Commit Changes</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><%: WebAdminClient.StringsLocal.Confirm %></button>
 </asp:Content>

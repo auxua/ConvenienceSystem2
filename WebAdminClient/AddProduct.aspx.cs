@@ -13,6 +13,7 @@ namespace WebAdminClient
     {
         protected async void Page_Load(object sender, EventArgs e)
         {
+            Title = StringsLocal.AddProduct;
             // Get Data
             string product = (string)Request.Form["ctl00$MainContent$inputProduct"];
             string priceString = (string)Request.Form["ctl00$MainContent$inputPrice"];

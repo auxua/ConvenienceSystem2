@@ -1,5 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebAdminClient.SiteMaster" %>
 
+
 <!DOCTYPE html>
 
 <html lang="de">
@@ -7,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - Convenience System</title>
+    <title><%: Page.Title %> -  <%: WebAdminClient.StringsLocal.Convenience  %></title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -48,38 +49,46 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Convenience</a>
+                    <a class="navbar-brand" runat="server" href="~/"><%: WebAdminClient.StringsLocal.Convenience  %></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Main Page</a></li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Users <span class="caret"></span></a>
+                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%: WebAdminClient.StringsLocal.Users  %> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/ViewAllUsers.aspx">View All</a></li>
-                                <li><a runat="server" href="~/EditAllUsers.aspx">Edit All</a></li>
-                                <li><a runat="server" href="~/AddUser">Add User</a></li>
+                                <li><a runat="server" href="~/ViewAllUsers.aspx"><%: WebAdminClient.StringsLocal.ViewAllUsers  %></a></li>
+                                <li><a runat="server" href="~/EditAllUsers.aspx"><%: WebAdminClient.StringsLocal.EditAllUsers  %></a></li>
+                                <li><a runat="server" href="~/AddUser"><%: WebAdminClient.StringsLocal.AddUser  %></a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a runat="server" href="~/ViewAllMails.aspx">View Mails</a></li>
-                                <li><a runat="server" href="~/EditAllMails.aspx">Edit Mails</a></li>
-                                <li><a runat="server" href="~/AddMail.aspx">Add Mail</a></li>
+                                <li><a runat="server" href="~/ViewAllMails.aspx"><%: WebAdminClient.StringsLocal.ViewMails  %></a></li>
+                                <li><a runat="server" href="~/EditAllMails.aspx"><%: WebAdminClient.StringsLocal.EditMails  %></a></li>
+                                <li><a runat="server" href="~/AddMail.aspx"><%: WebAdminClient.StringsLocal.AddMail  %></a></li>
                             </ul>
                         </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Products <span class="caret"></span></a>
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%: WebAdminClient.StringsLocal.Products  %> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/ViewAllProducts">View All</a></li>
-                                <li><a runat="server" href="~/EditAllProducts">Edit All</a></li>
-                                <li><a runat="server" href="~/AddProduct">Add Product</a></li>
+                                <li><a runat="server" href="~/ViewAllProducts"><%: WebAdminClient.StringsLocal.ViewAllProducts %></a></li>
+                                <li><a runat="server" href="~/EditAllProducts"><%: WebAdminClient.StringsLocal.EditAllProducts %></a></li>
+                                <li><a runat="server" href="~/AddProduct"><%: WebAdminClient.StringsLocal.AddProduct %></a></li>
                             </ul>
                         </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Accounting <span class="caret"></span></a>
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%: WebAdminClient.StringsLocal.Accounting  %> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a runat="server" href="~/ViewAccounting">Recent Activities</a></li>
-                                <li><a runat="server" href="~/ViewAccounting?mode=keydate">Since Last Keydate</a></li>
-                                <li><a runat="server" href="~/ViewKeyDates">View Keydates</a></li>
+                                <li><a runat="server" href="~/ViewAccounting"><%: WebAdminClient.StringsLocal.RecentActivities %></a></li>
+                                <li><a runat="server" href="~/ViewAccounting?mode=keydate"><%: WebAdminClient.StringsLocal.SinceLastkeydate %></a></li>
+                                <li><a runat="server" href="~/ViewKeyDates"><%: WebAdminClient.StringsLocal.ViewKeydates %></a></li>
                             </ul>
                         </li>
-                        <li><a runat="server" href="~/About">About</a></li>
+                        <li><a runat="server" href="~/About"><%: WebAdminClient.StringsLocal.About %></a></li>
                         <li><a runat="server" href="~/Logout" style="color: red">Logout</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%: WebAdminClient.StringsLocal.Language  %> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a runat="server" href="~/Default?lang=de"><%: WebAdminClient.StringsLocal.German %></a></li>
+                                <li><a runat="server" href="~/Default?lang=en"><%: WebAdminClient.StringsLocal.English %></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -89,7 +98,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Convenience System</p>
+                <p>&copy; <%: DateTime.Now.Year %> - <%: WebAdminClient.StringsLocal.Convenience  %></p>
             </footer>
         </div>
 

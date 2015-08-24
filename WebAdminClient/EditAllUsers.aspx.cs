@@ -13,6 +13,7 @@ namespace WebAdminClient
     {
         protected async void Page_Load(object sender, EventArgs e)
         {
+            Title = StringsLocal.EditAllUsers;
             try
             {
                 if (this.IsPostBack)

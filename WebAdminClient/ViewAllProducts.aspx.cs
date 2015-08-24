@@ -15,6 +15,7 @@ namespace WebAdminClient
 
         protected async void Page_Load(object sender, EventArgs e)
         {
+            Title = StringsLocal.ViewAllProducts;
             ProductsResponse Products;
 
             try

@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Sign in</title>
+    <title><%: WebAdminClient.StringsLocal.SignIn %></title>
 
     <!-- Bootstrap core CSS -->
     <link href="Content/bootstrap.min.css" rel="stylesheet">
@@ -32,17 +32,17 @@
     <div class="container" style="min-width:100px; max-width:300px; ">
 
       <form class="form-signin" runat="server">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputUser" class="sr-only">Username</label>
+        <h2 class="form-signin-heading"><%: WebAdminClient.StringsLocal.SignIn %></h2>
+        <label for="inputUser" class="sr-only"><%: WebAdminClient.StringsLocal.Username %></label>
         <input type="text" id="inputUser" class="form-control" placeholder="Username" runat="server" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" runat="server" required>
         <div class="checkbox">
           <label>
-            <input type="checkbox" value="remember-me" runat="server" id="remember"> Longer Session
+            <input type="checkbox" value="remember-me" runat="server" id="remember"> <%: WebAdminClient.StringsLocal.LongSession %>
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><%: WebAdminClient.StringsLocal.SignIn %></button>
       </form>
         <span style="color:darkred"><%: LoginMessage %></span>
 

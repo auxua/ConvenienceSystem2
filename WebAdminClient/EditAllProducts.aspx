@@ -1,11 +1,11 @@
 ﻿<%@ Page Title="Edit Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EditAllProducts.aspx.cs" Inherits="WebAdminClient.EditAllProducts" Async="true" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: Title %></h2>
+    <h2><%: WebAdminClient.StringsLocal.EditAllProducts %></h2>
     <span style="color:darkred"><%: StateMessage %></span><br />
-    <span><%: EntryCount %> Entries</span>
+    <span><%: EntryCount %> <%: WebAdminClient.StringsLocal.Entries %></span>
     <table class="table table-striped table-bordered">
-        <tr><th>#</th><th>Product</th><th>Price</th><th>Comment</th><th>Delete</th></tr>
+        <tr><th>#</th><th><%: WebAdminClient.StringsLocal.Productname %></th><th><%: WebAdminClient.StringsLocal.Price %></th><th><%: WebAdminClient.StringsLocal.Comment %></th><th><%: WebAdminClient.StringsLocal.Delete %>?</th></tr>
             <asp:Repeater ID="repProd" runat="server">
                 <ItemTemplate>
                 <tr>
@@ -29,7 +29,7 @@
                     <td>
                         <label runat="server">
                             <input type="checkbox" runat="server" id="checkDelete" value='<%# Eval("id") %>' />
-                            Delete
+                            <%: WebAdminClient.StringsLocal.Delete %>
                         </label>
                     </td>
                 </tr>

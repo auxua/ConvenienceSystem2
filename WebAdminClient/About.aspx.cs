@@ -11,7 +11,7 @@ namespace WebAdminClient
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Title = StringsLocal.About;
         }
     }
 }

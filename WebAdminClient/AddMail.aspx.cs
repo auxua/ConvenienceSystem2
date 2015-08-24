@@ -13,6 +13,8 @@ namespace WebAdminClient
     {
         protected async void Page_Load(object sender, EventArgs e)
         {
+            Title = StringsLocal.AddMail;
+            
             // Get Data
             string username = (string)Request.Form["ctl00$MainContent$inputUser"];
             string adress = (string)Request.Form["ctl00$MainContent$inputAdress"];

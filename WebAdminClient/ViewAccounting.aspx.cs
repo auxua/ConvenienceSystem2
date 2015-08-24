@@ -15,6 +15,7 @@ namespace WebAdminClient
 
         protected async void Page_Load(object sender, EventArgs e)
         {
+            Title = StringsLocal.Accounting;
             string mode = (string)Request["mode"];
 
             ShowAggregated = (!String.IsNullOrEmpty(mode) && mode == "keydate");

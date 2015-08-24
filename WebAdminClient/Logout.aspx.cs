@@ -13,6 +13,7 @@ namespace WebAdminClient
         {
             // Just destroy the session/Login status
             Session.Clear();
+            Response.Redirect("~/Login.aspx", false);
         }
 
     }

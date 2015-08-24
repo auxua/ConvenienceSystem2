@@ -1,10 +1,10 @@
-﻿<%@ Page Title="All Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewAllProducts.aspx.cs" Inherits="WebAdminClient.ViewAllProducts" Async="true" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewAllProducts.aspx.cs" Inherits="WebAdminClient.ViewAllProducts" Async="true" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: Title %></h2>
+    <h2><%: WebAdminClient.StringsLocal.ViewAllProducts %></h2>
     <span style="color:darkred"><%: StateMessage %></span><br />
     <table class="table table-striped table-bordered">
-        <tr><th>#</th><th>Product</th><th>Price</th><th>Commet</th></tr>
+        <tr><th>#</th><th><%: WebAdminClient.StringsLocal.Productname %></th><th><%: WebAdminClient.StringsLocal.Price %></th><th><%: WebAdminClient.StringsLocal.Comment %></th></tr>
             <asp:Repeater ID="repUsers" runat="server">
                 <ItemTemplate>
                 <tr>

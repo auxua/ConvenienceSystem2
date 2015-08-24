@@ -11,7 +11,16 @@ namespace WebAdminClient
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (Request != null && !String.IsNullOrEmpty((string)Request["lang"]))
+            {
+                Session["lang"] = (string)Request["lang"];
+                try
+                {
+                    UICulture = (string)Session["lang"];
+                    Culture = (string)Session["lang"];
+                }
+                catch { }
+            }
         }
     }
 }

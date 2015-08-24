@@ -44,9 +44,9 @@ namespace WebAdminClient
                 Session["Logged In"] = bool.TrueString;
                 // Set the Timeout - for now, use 60min as default, 7 days for extended Session support
                 if (String.IsNullOrEmpty(remember) || remember != "remember-me")
-                    Session.Timeout = 60;
-                else
                     Session.Timeout = 10080;
+                else
+                    Session.Timeout = 60;
                 //LoginMessage = (string)Session["Logged In"];
                 Response.Redirect("Default.aspx",false);
                 //Response.Redirect("Default.aspx");

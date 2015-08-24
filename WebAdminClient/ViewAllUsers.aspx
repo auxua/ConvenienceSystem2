@@ -1,10 +1,10 @@
-﻿<%@ Page Title="All Users" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewAllUsers.aspx.cs" Inherits="WebAdminClient.ViewAllUsers" Async="true" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewAllUsers.aspx.cs" Inherits="WebAdminClient.ViewAllUsers" Async="true" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: Title %></h2>
+    <h2><%: WebAdminClient.StringsLocal.ViewAllUsers %></h2>
     <span style="color:darkred"><%: StateMessage %></span><br />
     <table class="table table-striped table-bordered">
-        <tr><th>#</th><th>Name</th><th>Status</th><th>Comment</th></tr>
+        <tr><th>#</th><th><%: WebAdminClient.StringsLocal.Username %></th><th>Status</th><th><%: WebAdminClient.StringsLocal.Comment %></th></tr>
             <asp:Repeater ID="repUsers" runat="server">
                 <ItemTemplate>
                 <tr>
