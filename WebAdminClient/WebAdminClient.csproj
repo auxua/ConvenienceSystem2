@@ -348,10 +348,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConvenienceSystemBackendServer\ConvenienceSystemBackendServer.csproj">
-      <Project>{f68c49d6-f562-4f82-a6f2-054936e3d399}</Project>
-      <Name>ConvenienceSystemBackendServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ConvenienceSystemDataModel\ConvenienceSystemDataModel.csproj">
       <Project>{68d6f03c-0cfc-4476-ab47-eade56aace9b}</Project>
       <Name>ConvenienceSystemDataModel</Name>
