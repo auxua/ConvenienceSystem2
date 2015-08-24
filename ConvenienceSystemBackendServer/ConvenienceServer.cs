@@ -684,6 +684,96 @@ namespace ConvenienceSystemBackendServer
         }
 
         /// <summary>
+        /// Updates Mails. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task UpdateMailsAsync(string deviceID, List<Mail> mails)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+            
+            // Create a query sequence
+            foreach (Mail mail in mails)
+            {
+                query += "UPDATE gk_mail SET adress='" + mail.adress + "' WHERE username='" + mail.username + "'; ";
+            }
+
+
+            Logger.Log("ConvenienceServer.UpdateMails", "trying to update Mails ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.UpdateMails", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+        }
+
+        /// <summary>
+        /// Deletes Mails. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task DeleteMailsAsync(string deviceID, List<string> users)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+
+            // Create a query sequence
+            foreach (string user in users)
+            {
+                query += "DELETE FROM gk_mail WHERE username='" + user.ToString() + "'; ";
+            }
+
+
+            Logger.Log("ConvenienceServer.DeleteMails", "trying to delete Mails ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.DeleteMails", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+        }
+
+        /// <summary>
+        /// Creates new Mail. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task AddMailAsync(string deviceID, string username, string adress)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            string query;
+            query = "INSERT INTO  gk_mail (username,adress,active) VALUES ('" + username + "','" + adress + "','active')";
+            
+
+            Logger.Log("ConvenienceServer.AddMail", "trying to add mail: " + username);
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.AddMail", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+        }
+
+        /// <summary>
         /// perform the buy action for a user
         /// </summary>
         /// <param name="username">the buying user</param>

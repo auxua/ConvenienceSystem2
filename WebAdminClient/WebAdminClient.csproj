@@ -128,11 +128,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AddProduct.aspx" />
+    <Content Include="AddMail.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="EditAllProducts.aspx" />
+    <Content Include="EditAllMails.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -150,6 +152,7 @@
     <Content Include="ViewAllProducts.aspx" />
     <Content Include="AddUser.aspx" />
     <Content Include="EditAllUsers.aspx" />
+    <Content Include="ViewAllMails.aspx" />
     <Content Include="ViewKeyDates.aspx" />
     <Content Include="ViewAllUsers.aspx" />
     <Content Include="About.aspx" />
@@ -213,6 +216,13 @@
     <Compile Include="AddProduct.aspx.designer.cs">
       <DependentUpon>AddProduct.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AddMail.aspx.cs">
+      <DependentUpon>AddMail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddMail.aspx.designer.cs">
+      <DependentUpon>AddMail.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Backend.cs" />
     <Compile Include="EditAllProducts.aspx.cs">
@@ -221,6 +231,13 @@
     </Compile>
     <Compile Include="EditAllProducts.aspx.designer.cs">
       <DependentUpon>EditAllProducts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditAllMails.aspx.cs">
+      <DependentUpon>EditAllMails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditAllMails.aspx.designer.cs">
+      <DependentUpon>EditAllMails.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewAccounting.aspx.cs">
       <DependentUpon>ViewAccounting.aspx</DependentUpon>
@@ -249,6 +266,13 @@
     </Compile>
     <Compile Include="EditAllUsers.aspx.designer.cs">
       <DependentUpon>EditAllUsers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewAllMails.aspx.cs">
+      <DependentUpon>ViewAllMails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewAllMails.aspx.designer.cs">
+      <DependentUpon>ViewAllMails.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewKeyDates.aspx.cs">
       <DependentUpon>ViewKeyDates.aspx</DependentUpon>
@@ -314,6 +338,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConvenienceSystemBackendServer\ConvenienceSystemBackendServer.csproj">
+      <Project>{f68c49d6-f562-4f82-a6f2-054936e3d399}</Project>
+      <Name>ConvenienceSystemBackendServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConvenienceSystemDataModel\ConvenienceSystemDataModel.csproj">
       <Project>{68d6f03c-0cfc-4476-ab47-eade56aace9b}</Project>
       <Name>ConvenienceSystemDataModel</Name>

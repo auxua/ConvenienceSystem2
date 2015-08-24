@@ -2,6 +2,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
+    <span style="color:darkred"><%: StateMessage %></span><br />
     <div id="AggregatedAccountingTable" runat="server">
         <h2>Debt Since Keydate</h2>
     <table class="table table-striped table-bordered">

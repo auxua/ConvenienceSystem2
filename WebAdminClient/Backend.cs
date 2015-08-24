@@ -123,6 +123,36 @@ namespace WebAdminClient
             return answer;
         }
 
+        public async static Task<MailsResponse> GetAllMailsAsync()
+        {
+            string callURL = Settings.APIBaseUrl + "/viewMails.token=" + Settings.Token;
+            var answer = await RestCallAsync<MailsResponse>("", callURL, false);
+            return answer;
+        }
+
+        public async static Task<UpdateResponse> UpdateMails(UpdateMailRequest request)
+        {
+            string callURL = Settings.APIBaseUrl + "/updateMails.token=" + Settings.Token;
+            //var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            var answer = await RestCallAsync<UpdateResponse>(request.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task<UpdateResponse> DeleteMails(DeleteMailRequest request)
+        {
+            string callURL = Settings.APIBaseUrl + "/deleteMails.token=" + Settings.Token;
+            //var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            var answer = await RestCallAsync<UpdateResponse>(request.ToString(), callURL, true);
+            return answer;
+        }
+
+        public async static Task AddMail(CreateMailRequest request)
+        {
+            string callURL = Settings.APIBaseUrl + "/addMail.token=" + Settings.Token;
+            //var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            var answer = await RestCallAsync<BaseResponse>(request.ToString(), callURL, true);
+        }
+
         public async static Task<BaseResponse> VerifyWebUserAsync(string user, string pass)
         {
             string callURL = Settings.APIBaseUrl + "/verifyWebUser.token=" + Settings.Token;

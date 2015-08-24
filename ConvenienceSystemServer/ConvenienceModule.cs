@@ -485,6 +485,101 @@ namespace ConvenienceSystemServer
             };
 
 
+            Post["/updateMails.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/updateMails called");
+
+                UpdateResponse response = new UpdateResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    UpdateMailRequest request = JsonConvert.DeserializeObject<UpdateMailRequest>(b);
+                    // do stuff
+                    await backend.UpdateMailsAsync((string)parameters.token, request.dataSet);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
+            Post["/deleteMails.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/deleteMails called");
+
+                UpdateResponse response = new UpdateResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    DeleteMailRequest request = JsonConvert.DeserializeObject<DeleteMailRequest>(b);
+                    // do stuff
+                    await backend.DeleteMailsAsync((string)parameters.token, request.dataSet);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
+            Post["/addMail.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/addMail called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    CreateMailRequest request = JsonConvert.DeserializeObject<CreateMailRequest>(b);
+                    // do stuff
+                    await backend.AddMailAsync((string)parameters.token, request.username, request.adress);
+
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
+
             Post["/updateProduct.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server (POST)", "/updateProduct called");

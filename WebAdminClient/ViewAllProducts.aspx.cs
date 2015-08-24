@@ -11,10 +11,22 @@ namespace WebAdminClient
 {
     public partial class ViewAllProducts : Page
     {
+        public string StateMessage { get; set; }
+
         protected async void Page_Load(object sender, EventArgs e)
         {
-            var Users = await Backend.GetAllProductsAsync();
-            List<Product> list = Users.dataSet;
+            ProductsResponse Products;
+
+            try
+            {
+                Products = await Backend.GetAllProductsAsync();
+            }
+            catch
+            {
+                StateMessage = "An Error occured while loading the data. Please try again";
+                return;
+            }
+            List<Product> list = Products.dataSet;
 
             // Convert the Users to a properties-based representation for the databinding
             List<ProductProperties> plist = list.ConvertAll<ProductProperties>((x) =>

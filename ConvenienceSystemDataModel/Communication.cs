@@ -117,6 +117,12 @@ namespace ConvenienceSystemDataModel
         public string state;
     }
 
+    public class CreateMailRequest : BaseRequest
+    {
+        public string username;
+        public string adress;
+    }
+
     public class CreateProductRequest : BaseRequest
     {
         public string product;
@@ -132,6 +138,16 @@ namespace ConvenienceSystemDataModel
     public class UpdateProductsRequest : BaseRequest
     {
         public List<Product> dataSet;
+    }
+
+    public class UpdateMailRequest : BaseRequest
+    {
+        public List<Mail> dataSet;
+    }
+
+    public class DeleteMailRequest : BaseRequest
+    {
+        public List<string> dataSet; //Names of users of which the mails should be deleted
     }
          
 

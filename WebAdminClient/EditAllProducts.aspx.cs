@@ -13,47 +13,66 @@ namespace WebAdminClient
     {
         protected async void Page_Load(object sender, EventArgs e)
         {
-            if (this.IsPostBack)
+            try
             {
-                // First, handle updates!
-                var dirty = CheckDirtyElements();
-                UpdateProductsRequest request = new UpdateProductsRequest();
-                request.dataSet = dirty;
-                try
+                if (this.IsPostBack)
                 {
-                    if (request.dataSet.Count <1)
+                    // First, handle updates!
+                    var dirty = CheckDirtyElements();
+                    UpdateProductsRequest request = new UpdateProductsRequest();
+                    request.dataSet = dirty;
+                    try
                     {
-                        throw new Exception("No Data updated");
+                        if (request.dataSet.Count < 1)
+                        {
+                            throw new Exception("No Data updated");
+                        }
+                        var answer = await Backend.UpdateProducts(request);
+                        if (answer.status)
+                            StateMessage = "Data was updated";
+                        else
+                            throw new Exception(answer.errorDescription);
                     }
-                    var answer = await Backend.UpdateProducts(request);
-                    if (answer.status)
-                        StateMessage = "Data was updated";
-                    else
-                        throw new Exception(answer.errorDescription);
-                }
-                catch (Exception ex)
-                {
-                    StateMessage = "Error while updating data: " + ex.Message;
-                }
+                    catch (Exception ex)
+                    {
+                        StateMessage = "Error while updating data: " + ex.Message;
+                    }
 
 
-                // Second, handle deletions
-                var deletions = CheckDeleteElements();
-                if (!(deletions.Count <1))
-                {
-                    // There are Deletions
-                    DeleteRequest delRequest = new DeleteRequest();
-                    delRequest.dataSet = deletions;
-                    StateMessage += " - ";
-                    var answer = await Backend.DeleteProducts(delRequest);
-                    if (answer.status)
-                        StateMessage += "Data was deleted";
-                    else
-                        StateMessage += "Error while deleting items: " + answer.errorDescription;
+                    // Second, handle deletions
+                    var deletions = CheckDeleteElements();
+                    if (!(deletions.Count < 1))
+                    {
+                        // There are Deletions
+                        DeleteRequest delRequest = new DeleteRequest();
+                        delRequest.dataSet = deletions;
+                        StateMessage += " - ";
+                        var answer = await Backend.DeleteProducts(delRequest);
+                        if (answer.status)
+                            StateMessage += "Data was deleted";
+                        else
+                            StateMessage += "Error while deleting items: " + answer.errorDescription;
+                    }
                 }
             }
+            catch
+            {
+                StateMessage = "Internal Error - maybe the Database did not answer";
+            }
 
-            var Products = await Backend.GetAllProductsAsync();
+
+            ProductsResponse Products;
+
+            try
+            {
+                Products = await Backend.GetAllProductsAsync();
+            }
+            catch
+            {
+                StateMessage = "An Error occured while loading the data. Please try again";
+                return;
+            }
+
             List<Product> list = Products.dataSet;
 
             // Convert the Users to a properties-based representation for the databinding

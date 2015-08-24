@@ -13,47 +13,64 @@ namespace WebAdminClient
     {
         protected async void Page_Load(object sender, EventArgs e)
         {
-            if (this.IsPostBack)
+            try
             {
-                // First, handle updates!
-                var dirty = CheckDirtyElements();
-                UpdateUsersRequest request = new UpdateUsersRequest();
-                request.dataSet = dirty;
-                try
+                if (this.IsPostBack)
                 {
-                    if (request.dataSet.Count <1)
+                    // First, handle updates!
+                    var dirty = CheckDirtyElements();
+                    UpdateUsersRequest request = new UpdateUsersRequest();
+                    request.dataSet = dirty;
+                    try
                     {
-                        throw new Exception("No Data updated");
+                        if (request.dataSet.Count < 1)
+                        {
+                            throw new Exception("No Data updated");
+                        }
+                        var answer = await Backend.UpdateUsers(request);
+                        if (answer.status)
+                            StateMessage = "Data was updated";
+                        else
+                            throw new Exception(answer.errorDescription);
                     }
-                    var answer = await Backend.UpdateUsers(request);
-                    if (answer.status)
-                        StateMessage = "Data was updated";
-                    else
-                        throw new Exception(answer.errorDescription);
-                }
-                catch (Exception ex)
-                {
-                    StateMessage = "Error while updating data: " + ex.Message;
-                }
+                    catch (Exception ex)
+                    {
+                        StateMessage = "Error while updating data: " + ex.Message;
+                    }
 
 
-                // Second, handle deletions
-                var deletions = CheckDeleteElements();
-                if (!(deletions.Count <1))
-                {
-                    // There are Deletions
-                    DeleteRequest delRequest = new DeleteRequest();
-                    delRequest.dataSet = deletions;
-                    StateMessage += " - ";
-                    var answer = await Backend.DeleteUsers(delRequest);
-                    if (answer.status)
-                        StateMessage += "Data was deleted";
-                    else
-                        StateMessage += "Error while deleting items: " + answer.errorDescription;
+                    // Second, handle deletions
+                    var deletions = CheckDeleteElements();
+                    if (!(deletions.Count < 1))
+                    {
+                        // There are Deletions
+                        DeleteRequest delRequest = new DeleteRequest();
+                        delRequest.dataSet = deletions;
+                        StateMessage += " - ";
+                        var answer = await Backend.DeleteUsers(delRequest);
+                        if (answer.status)
+                            StateMessage += "Data was deleted";
+                        else
+                            StateMessage += "Error while deleting items: " + answer.errorDescription;
+                    }
                 }
             }
+            catch
+            {
+                StateMessage = "Internal Error - maybe the Database did not answer";
+            }
 
-            var Users = await Backend.GetAllUsersAsync();
+            UsersResponse Users;
+
+            try
+            {
+                Users = await Backend.GetAllUsersAsync();
+            }
+            catch
+            {
+                StateMessage = "Error while getting the data. Pleasy try again";
+                return;
+            }
             List<User> list = Users.dataSet;
 
             // Convert the Users to a properties-based representation for the databinding

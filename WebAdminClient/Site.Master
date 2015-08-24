@@ -58,6 +58,10 @@
                                 <li><a runat="server" href="~/ViewAllUsers.aspx">View All</a></li>
                                 <li><a runat="server" href="~/EditAllUsers.aspx">Edit All</a></li>
                                 <li><a runat="server" href="~/AddUser">Add User</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a runat="server" href="~/ViewAllMails.aspx">View Mails</a></li>
+                                <li><a runat="server" href="~/EditAllMails.aspx">Edit Mails</a></li>
+                                <li><a runat="server" href="~/AddMail.aspx">Add Mail</a></li>
                             </ul>
                         </li>
                         <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Products <span class="caret"></span></a>

@@ -9,33 +9,31 @@ using ConvenienceSystemDataModel;
 
 namespace WebAdminClient
 {
-    public partial class ViewAllUsers : Page
+    public partial class ViewAllMails : Page
     {
-        public string StateMessage { get; set; }
-
         protected async void Page_Load(object sender, EventArgs e)
         {
-            UsersResponse Users;
+            MailsResponse Mails;
 
             try
             {
-                Users = await Backend.GetAllUsersAsync();
+                Mails = await Backend.GetAllMailsAsync();
             }
             catch
             {
-                StateMessage = "Error while getting the data. Pleasy try again";
+                StateMessage = "Error while loading data. Please try again";
                 return;
             }
-            List<User> list = Users.dataSet;
+
+            List<Mail> list = Mails.dataSet;
 
             // Convert the Users to a properties-based representation for the databinding
-            List<UserProperties> plist = list.ConvertAll<UserProperties>((x) =>
+            List<MailProperties> plist = list.ConvertAll<MailProperties>((x) =>
                 {
-                    UserProperties u = new UserProperties();
-                    u.comment = x.comment;
-                    u.status = x.state;
+                    MailProperties u = new MailProperties();
+                    u.active = x.active.ToString();
+                    u.adress = x.adress;
                     u.username = x.username;
-                    u.id = x.ID;
                     return u;
                 });
 
@@ -43,12 +41,14 @@ namespace WebAdminClient
             repUsers.DataBind();
         }
 
-        public class UserProperties
+        public class MailProperties
         {
-            public int id { get; set; }
+            //public int id { get; set; }
             public string username { get; set; }
-            public string status { get; set; }
-            public string comment { get; set; }
+            public string adress { get; set; }
+            public string active { get; set; }
         }
+
+        public string StateMessage { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace WebAdminClient
 {
     public partial class ViewAccounting : Page
     {
+        public string StateMessage { get; set; }
+
         protected async void Page_Load(object sender, EventArgs e)
         {
             string mode = (string)Request["mode"];
@@ -23,7 +25,17 @@ namespace WebAdminClient
                 AccountingTable.Visible = false;
                 AggregatedAccountingTable.Visible = true;
 
-                var Users = await Backend.GetAllDebtSinceKeyDateAsync();
+                UsersResponse Users;
+
+                try
+                {
+                    Users = await Backend.GetAllDebtSinceKeyDateAsync();
+                }
+                catch
+                {
+                    StateMessage = "Error while laoding data. Please try again";
+                    return;
+                }
                 List<User> list = Users.dataSet;
 
                 // Convert to a properties-based representation for the databinding
@@ -45,7 +57,17 @@ namespace WebAdminClient
                 AccountingTable.Visible = true;
                 AggregatedAccountingTable.Visible = false;
 
-                var Accounting = await Backend.GetLastActivityAsync();
+                AccountingElementsResponse Accounting;
+
+                try
+                {
+                    Accounting = await Backend.GetLastActivityAsync();
+                }
+                catch
+                {
+                    StateMessage = "Error while loading the data. Please try again";
+                    return;
+                }
                 List<AccountingElement> list = Accounting.dataSet;
 
                 // Convert to a properties-based representation for the databinding

@@ -11,9 +11,21 @@ namespace WebAdminClient
 {
     public partial class ViewKeyDates : Page
     {
+        public string StateMessage { get; set; }
+
         protected async void Page_Load(object sender, EventArgs e)
         {
-            var dates = await Backend.GetKeyDatesAsync();
+            KeyDatesResponse dates;
+
+            try
+            {
+                dates = await Backend.GetKeyDatesAsync();
+            }
+            catch
+            {
+                StateMessage = "Error while loading data. Please try again";
+                return;
+            }
 
             List<KeyDate> list = dates.dataSet;
 
