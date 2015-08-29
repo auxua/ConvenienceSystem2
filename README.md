@@ -21,6 +21,7 @@ The solution has multiple projects:
 * ConvenienceSystemApp - The Shared project providing Xamarin.Forms Code/Pages for the mobile Apps
 * ConvenienceSystemApp.Droid/.WinPhone/.iOS - The mobile Apps for the system clients (see screenshots)
 * WebAdminClient - A ASP.NET (WebForms) Web application providing a UI for administrative Tasks
+* Toolbox - A simple Console Application for random String and password hash generation
 
 ## Installation/Usage Requirements
 At the moment the following Devices/Applications are needed for a basic Convenience System installation
