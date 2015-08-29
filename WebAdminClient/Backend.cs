@@ -153,6 +153,13 @@ namespace WebAdminClient
             var answer = await RestCallAsync<BaseResponse>(request.ToString(), callURL, true);
         }
 
+        public async static Task AddKeyDate(InsertKeyDateRequest request)
+        {
+            string callURL = Settings.APIBaseUrl + "/insertKeyDate.token=" + Settings.Token;
+            //var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            var answer = await RestCallAsync<BaseResponse>(request.ToString(), callURL, true);
+        }
+
         public async static Task<BaseResponse> VerifyWebUserAsync(string user, string pass)
         {
             string callURL = Settings.APIBaseUrl + "/verifyWebUser.token=" + Settings.Token;

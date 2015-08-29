@@ -79,6 +79,15 @@ namespace WebAdminClient {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add Keydate ähnelt.
+        /// </summary>
+        public static string AddKeyDate {
+            get {
+                return ResourceManager.GetString("AddKeyDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add Mail ähnelt.
         /// </summary>
         public static string AddMail {

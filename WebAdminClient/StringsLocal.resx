@@ -123,6 +123,9 @@
   <data name="Accounting" xml:space="preserve">
     <value>Accounting</value>
   </data>
+  <data name="AddKeyDate" xml:space="preserve">
+    <value>Add Keydate</value>
+  </data>
   <data name="AddMail" xml:space="preserve">
     <value>Add Mail</value>
   </data>

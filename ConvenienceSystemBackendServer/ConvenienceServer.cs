@@ -773,6 +773,32 @@ namespace ConvenienceSystemBackendServer
             this.Close();
         }
 
+        /*/// <summary>
+        /// Creates new KeyDate. In case of an error or problem, an exception is thrown
+        /// </summary>
+        public async Task AddKeyDateAsync(string deviceID, string comment)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            string query;
+            query = "INSERT INTO gk_keydates (keydate,comment) VALUES ('" + String.Format("{0:yyyy'-'MM'-'dd' 'HH':'mm':'ss}",DateTime.Now) + "','" + comment + "','active')";
+
+
+            Logger.Log("ConvenienceServer.AddKeyDate", "trying to add KeyDate: " + comment);
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.AddKeyDate", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+        }*/
+
         /// <summary>
         /// perform the buy action for a user
         /// </summary>

@@ -77,6 +77,7 @@
                                 <li><a runat="server" href="~/ViewAccounting"><%: WebAdminClient.StringsLocal.RecentActivities %></a></li>
                                 <li><a runat="server" href="~/ViewAccounting?mode=keydate"><%: WebAdminClient.StringsLocal.SinceLastkeydate %></a></li>
                                 <li><a runat="server" href="~/ViewKeyDates"><%: WebAdminClient.StringsLocal.ViewKeydates %></a></li>
+                                <li><a runat="server" href="~/AddKeyDate"><%: WebAdminClient.StringsLocal.AddKeyDate %></a></li>
                             </ul>
                         </li>
                         <li><a runat="server" href="~/About"><%: WebAdminClient.StringsLocal.About %></a></li>
