@@ -192,14 +192,16 @@ namespace ConvenienceSystemApp.pages
             }
 			//Group favedProducts = new Group("Popular for you","faved");
 			Group favedProducts = new Group("Oft gekauft","oft");
-			foreach (var item in response.dataSet)
+            //List<ProductsPageViewModel.ProductsViewModel> IEproducts = new List<ProductsPageViewModel.ProductsViewModel>();
+            var orderedProducts = response.dataSet.OrderBy((x) => x.amount);
+			foreach (var item in orderedProducts)
 			{
 				if (item.amount > 1)
 				{
 					ProductsPageViewModel.ProductsViewModel pvm = new ProductsPageViewModel.ProductsViewModel ();
 					pvm.price = item.price;
 					pvm.product = item.product;
-					favedProducts.Add (pvm);
+                    favedProducts.Add (pvm);
 				}
 			}
 

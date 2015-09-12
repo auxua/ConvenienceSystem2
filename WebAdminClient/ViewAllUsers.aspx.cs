@@ -36,6 +36,7 @@ namespace WebAdminClient
                     u.comment = x.comment;
                     u.status = x.state;
                     u.username = x.username;
+                    u.debt = x.debt.ToString();
                     u.id = x.ID;
                     return u;
                 });
@@ -49,6 +50,7 @@ namespace WebAdminClient
             public int id { get; set; }
             public string username { get; set; }
             public string status { get; set; }
+            public string debt { get; set; }
             public string comment { get; set; }
         }
     }
