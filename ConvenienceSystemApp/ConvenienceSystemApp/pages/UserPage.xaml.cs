@@ -215,6 +215,8 @@ namespace ConvenienceSystemApp.pages
 			vm.Products = allItems;
             vm.Username = user;
 
+            userListView.SelectedItem = null;
+
             await Navigation.PushAsync(new pages.ProductsPage(vm),true);
             
         }
