@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConvenienceSystemApp.pages.UserPage"
              Title="Nutzerauswahl">
+  <ContentPage.ToolbarItems BackgroundColor="#00549f">
+      <!--- Xamarin Bug! Use the version without Icon for compilation on OS X, the other one for VS Compilations -->
+      <!--<ToolbarItem Name="Config" Order="Primary" Priority="0" Activated="ConfigClicked" Icon="settingsPadded.png" />-->
+      <ToolbarItem Name="Refresh" Order="Primary" Priority="0" Activated="RefreshClicked" />
+    </ContentPage.ToolbarItems>
   <AbsoluteLayout>
     <ListView
       AbsoluteLayout.LayoutBounds="0, 0, 0.5, 1"

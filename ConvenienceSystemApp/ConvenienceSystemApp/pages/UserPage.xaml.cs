@@ -120,10 +120,41 @@ namespace ConvenienceSystemApp.pages
              */
 		}
 
+        async void RefreshClicked(object sender, EventArgs e)
+        {
+            IsBusy = true;
+
+            // Starting the whole system!
+            bool success = await DataManager.GetAllDataAsync();
+            if (!success)
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    DisplayAlert("Error", "Error while getting data: " + DataManager.Error, "OK");
+                });
+                IsBusy = false;
+                return;
+            }
+			Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+			{
+				DisplayAlert("Refresh", "Data Refreshed - Reload Page", "OK");
+			});
 
 
 
-		async void OnUserSelected(object sender, ItemTappedEventArgs e)
+
+            // Remove the Startpage from navigation and go to the UserPage, which starts the actual interaction with the users
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                /*var root = Navigation.NavigationStack[0];
+                Navigation.InsertPageBefore(new NavigationPage(new pages.UserPage()), root);
+                Navigation.PopToRootAsync();*/
+                ((App)App.Current).SetRoot(new pages.UserPage());
+            });
+        }
+
+
+        async void OnUserSelected(object sender, ItemTappedEventArgs e)
         {
             
             IsBusy = true;

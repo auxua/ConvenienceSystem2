@@ -112,16 +112,20 @@ namespace WebAdminClient
                     || (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textComment"] != (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textCommentOld"]
                     || (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textPrice"] != (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textPriceOld"])
                 {
+                    //Response.Write("Test");
                     // Found a dirty item, Create a User for this and store data
                     int id = (int.Parse((string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textID"]));
                     Product product = new Product();
                     product.comment = (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textComment"];
                     try
                     {
+                        
                         string debtString = (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textPrice"];
                         debtString = debtString.Replace(",", ".");
-                        System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
-                        product.price = Double.Parse(debtString, System.Globalization.NumberStyles.Float, EnglishCulture);
+                        product.price = Double.Parse(debtString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
+                        //Response.Write(product.price);
+                        /*System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
+                        product.price = Double.Parse(debtString, System.Globalization.NumberStyles.Float, EnglishCulture);*/
                     }
                     catch
                     {

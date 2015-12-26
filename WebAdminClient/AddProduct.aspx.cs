@@ -31,7 +31,7 @@ namespace WebAdminClient
             {
                 priceString = priceString.Replace(",", ".");
                 System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
-                price = Double.Parse(priceString, System.Globalization.NumberStyles.Float, EnglishCulture);
+                price = Double.Parse(priceString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
             }
             catch
             {

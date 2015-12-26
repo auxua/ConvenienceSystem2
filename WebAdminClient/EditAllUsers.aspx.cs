@@ -122,8 +122,8 @@ namespace WebAdminClient
                     {
                         string debtString = (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textDebt"];
                         debtString = debtString.Replace(",", ".");
-                        System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
-                        user.debt = Double.Parse(debtString, System.Globalization.NumberStyles.Float, EnglishCulture);
+                        //System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
+                        user.debt = Double.Parse(debtString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
                     }
                     catch
                     {
