@@ -69,8 +69,10 @@ namespace ConvenienceSystemApp.pages
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
                     DisplayAlert("Success", "Kauf erfolgreich!", "OK");
-                    Navigation.PopAsync(true);
+                    
                 });
+
+			Navigation.PopAsync();
             
             
 		}

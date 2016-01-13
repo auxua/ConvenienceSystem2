@@ -32,7 +32,7 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         private void Connect()
         {
-            Connection = new MySqlConnection("server=" + Settings.Server + ";database=" + Settings.DBName + ";uid=" + Settings.DBUser + ";password=" + Settings.DBPass);
+            Connection = new MySqlConnection("server=" + Settings.Server + ";database=" + Settings.DBName + ";uid=" + Settings.DBUser + ";password=" + Settings.DBPass+";ConnectionLifeTime=300");
             Connection.Open();
 
             //do sth.
@@ -551,7 +551,26 @@ namespace ConvenienceSystemBackendServer
             }
             reader.Close();
             this.Close();
-            return list;
+
+            // Check versus current list of products (getting correct pricing, only available products, etc.)
+            List<Product> products = await this.GetFullProductsAsync();
+
+            // Compare (not very efficient at the moment)
+            List<ProductCount> listFinal = new List<ProductCount>();
+            foreach (ProductCount p in list)
+            {
+                foreach (Product prod in products)
+                {
+                    if (p.product == prod.product)
+                    {
+                        p.price = prod.price;
+                        listFinal.Add(p);
+                        break;
+                    }
+                }
+            }
+
+            return listFinal;
         }
 
         /// <summary>
