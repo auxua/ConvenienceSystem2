@@ -7,12 +7,18 @@ using Xamarin.Forms;
 
 namespace ConvenienceSystemApp
 {
+	public enum LastBuyState { SUCCESS, FAILED, NONE }
+
 	public class App : Application
 	{
+		public static LastBuyState LastBuy;
+
 		public App ()
 		{
 			// The root page of your application
-            MainPage = new pages.StartPage();
+			LastBuy = LastBuyState.NONE;
+			//LastBuy = LastBuyState.SUCCESS;
+			MainPage = new pages.StartPage();
 		}
 
         public void SetRoot(Page p)
@@ -34,5 +40,7 @@ namespace ConvenienceSystemApp
 		{
 			// Handle when your app resumes
 		}
+
+
 	}
 }

@@ -50,8 +50,16 @@ namespace ConvenienceSystemApp.pages
         }
     }
 
+
+
 	public partial class UserPage : ContentPage
 	{
+		protected override void OnAppearing ()
+		{
+			base.OnAppearing ();
+			this.CheckLastBuyState ();
+		}
+
 		public UserPage ()
 		{
 			InitializeComponent ();
@@ -91,6 +99,55 @@ namespace ConvenienceSystemApp.pages
             TutorialLabel.Text = " (1) Namen auswählen \n (2) Produkt(e) auswählen \n (3) bestätigen \n Fertig!";
 
 			EmptyButton.Clicked += EmptyButton_Clicked;
+
+			CheckLastBuyState ();
+		}
+
+		private void CheckLastBuyState()
+		{
+			if (App.LastBuy == LastBuyState.NONE)
+			{
+				Xamarin.Forms.Device.BeginInvokeOnMainThread (() => LastBuyLabel.IsVisible = false);
+			} else if (App.LastBuy == LastBuyState.SUCCESS)
+			{
+				Xamarin.Forms.Device.BeginInvokeOnMainThread (() =>
+				{
+					LastBuyLabel.IsVisible=true;
+					LastBuyLabel.Opacity=1.0;
+					LastBuyLabel.BackgroundColor = Color.Green;
+					LastBuyLabel.Text = "Kauf erfolgreich";
+					LastBuyLabel.TextColor = Color.White;
+					LastBuyLabel.HorizontalTextAlignment = TextAlignment.Center;
+					LastBuyLabel.VerticalTextAlignment = TextAlignment.Center;
+				});
+				Task.Factory.StartNew (async () =>
+				{
+					await Task.Delay(8000);
+					//Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.IsVisible=false);
+					Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.FadeTo(0.0));
+				});
+			}
+			else 
+			{
+				Xamarin.Forms.Device.BeginInvokeOnMainThread (() =>
+				{
+					LastBuyLabel.IsVisible=true;
+					LastBuyLabel.Opacity=1.0;
+					LastBuyLabel.BackgroundColor = Color.Red;
+					LastBuyLabel.Text = "Kauf NCIHT erfolgreich!";
+					LastBuyLabel.TextColor = Color.White;
+					LastBuyLabel.HorizontalTextAlignment = TextAlignment.Center;
+					LastBuyLabel.VerticalTextAlignment = TextAlignment.Center;
+				});
+				Task.Factory.StartNew (async () =>
+				{
+					await Task.Delay(8000);
+					//Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.IsVisible=false);
+					Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.FadeTo(0.0));
+				});
+			
+			}
+			App.LastBuy = LastBuyState.NONE;
 		}
 
 		async void EmptyButton_Clicked (object sender, EventArgs e)

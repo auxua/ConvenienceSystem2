@@ -3,7 +3,10 @@
   <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="ConvenienceSystemApp/ConvenienceSystemApp.iOS/Info.plist" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml.cs" Line="132" Column="18" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml.cs" Line="60" Column="30" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/ProductsPage.xaml.cs" Line="77" Column="17" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml" Line="54" Column="60" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/App.cs" Line="19" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

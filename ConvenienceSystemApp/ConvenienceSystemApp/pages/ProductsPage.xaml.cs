@@ -56,21 +56,23 @@ namespace ConvenienceSystemApp.pages
             // On error, inform to user
             if (!success)
             {
-                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                /*Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                     {
                         DisplayAlert("Error", "Kauf konnte nciht getätigt werden. Bitte später erneut versuchen. Falls das problem länger besteht, bitte melden!", "OK");
-                    });
+                    });*/
+				App.LastBuy = LastBuyState.FAILED;
                 ((ProductsPageViewModel)this.BindingContext).IsBusy = false;
                 return;
             }
 
             // No error, Inform User and go back
             ((ProductsPageViewModel)this.BindingContext).IsBusy = false;
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            /*Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
                     DisplayAlert("Success", "Kauf erfolgreich!", "OK");
                     
-                });
+                });*/
+			App.LastBuy = LastBuyState.SUCCESS;
 
 			Navigation.PopAsync();
             
