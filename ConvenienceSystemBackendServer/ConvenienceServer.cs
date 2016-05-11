@@ -32,6 +32,7 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         private void Connect()
         {
+
             Connection = new MySqlConnection("server=" + Settings.Server + ";database=" + Settings.DBName + ";uid=" + Settings.DBUser + ";password=" + Settings.DBPass+";ConnectionLifeTime=300");
             Connection.Open();
 
@@ -68,11 +69,19 @@ namespace ConvenienceSystemBackendServer
         /// </summary>
         private MySqlDataReader Query(String stm)
         {
-            this.Connect();
+            try
+            {
+                this.Connect();
 
-            MySqlCommand cmd = new MySqlCommand(stm, Connection);
-            MySqlDataReader reader = cmd.ExecuteReader();
-            return reader;
+                MySqlCommand cmd = new MySqlCommand(stm, Connection);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                return reader;
+            }
+            catch (Exception e)
+            {
+                this.AlertMailThread(e.Message);
+                throw;
+            }
         }
 
         /// <summary>
@@ -867,6 +876,7 @@ namespace ConvenienceSystemBackendServer
                     String answer = reader.GetString(0);
                     //Console.WriteLine(answer);
                 }
+                this.Close();
             }
 
             //Console.WriteLine ("["+datum+"] "+ username + " bought " + plist);
@@ -934,6 +944,13 @@ namespace ConvenienceSystemBackendServer
             thread.Start();
         }
 
+        private void AlertMailThread(string msg)
+        {
+            Logger.Log("ConvenienceServer.AlertMailThread", "Send (thread) mail to Admin");
+            Thread thread = new Thread(async delegate () { await this.AlertMail(msg); });
+            thread.Start();
+        }
+
         public void SendEmptyMail(string message)
         {
             this.EmptyMailThread(message);
@@ -952,6 +969,32 @@ namespace ConvenienceSystemBackendServer
             });
             thread.Start();
         }
+
+        private async Task AlertMail(string msg2)
+        {
+            //TODO: extract Strings for mail and make it generic/english at least...
+            //get mail for user
+            String mail = String.Empty;
+            
+
+
+            String msg = "Hallo Admin, "+ System.Environment.NewLine + System.Environment.NewLine;
+            msg += "Ein Fehler trat auf: " + System.Environment.NewLine + System.Environment.NewLine + System.Environment.NewLine;
+            msg += msg2;
+
+
+            bool success = this.SendMail(Settings.AdminMail, msg, "Error in Convenience System");
+            
+            if (success)
+            {
+                Logger.Log("ConvenienceServer.BuyMail", "Mail was sent");
+            }
+            else
+            {
+                Logger.Log("ConvenienceServer.BuyMail", "Mail was NOT sent");
+            }
+        }
+
 
         /// <summary>
         /// Send a Mail to the user for products they bought

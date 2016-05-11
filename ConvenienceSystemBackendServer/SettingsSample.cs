@@ -23,5 +23,6 @@ namespace ConvenienceSystemBackendServer
         public static readonly String MailPass = "";
 
         public static readonly String Contactmail = "";
+        public static readonly String AdminMail = "";
     }
 }
