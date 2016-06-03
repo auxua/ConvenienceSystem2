@@ -3,10 +3,13 @@
   <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="ConvenienceSystemApp/ConvenienceSystemApp.iOS/Info.plist" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml.cs" Line="60" Column="30" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/ProductsPage.xaml.cs" Line="77" Column="17" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml" Line="54" Column="60" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/App.cs" Line="19" Column="4" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml.cs" Line="112" Column="1" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/ProductsPage.xaml.cs" Line="14" Column="49" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/App.cs" Line="10" Column="60" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/ProductsPageViewModel.cs" Line="32" Column="22" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/StartPage.xaml.cs" Line="31" Column="64" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/ProductsPage.xaml" Line="2" Column="13" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml" Line="61" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

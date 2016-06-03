@@ -121,8 +121,10 @@ namespace WebAdminClient
                     {
                         
                         string debtString = (string)Request.Form["ctl00$MainContent$repProd$ctl" + i.ToString("D2") + "$textPrice"];
-                        debtString = debtString.Replace(",", ".");
-                        product.price = Double.Parse(debtString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
+                        //debtString = debtString.Replace(",", ".");
+                        //product.price = Double.Parse(debtString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
+                        product.price = Global.String2Double(debtString);
+                        
                         //Response.Write(product.price);
                         /*System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
                         product.price = Double.Parse(debtString, System.Globalization.NumberStyles.Float, EnglishCulture);*/

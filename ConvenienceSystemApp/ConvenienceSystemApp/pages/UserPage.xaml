@@ -56,13 +56,9 @@
              FontAttributes="Bold"
              x:Name="LastBuyLabel"
              HorizontalOptions="CenterAndExpand"
-             BackgroundColor="Fuchsia"
+             BackgroundColor="White"
                />
 
-
-    
-
-    
 
   </AbsoluteLayout>
 </ContentPage>

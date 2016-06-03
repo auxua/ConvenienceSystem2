@@ -34,10 +34,13 @@ namespace ConvenienceSystemApp.pages
             get
             {
                 // For using the Debt of the user
+				double aTruncated = Math.Truncate(this.debt * 100) / 100;
+				//CultureInfo ci = new CultureInfo("de-DE");
+				string s = string.Format("{0:0.00}", aTruncated);
                 //return String.Format("{0:C}", this.debt);
                 // Not showing the debt;
-                return " ";
-
+                //return " ";
+				return s+ " €";
             }
         }
 
@@ -52,6 +55,7 @@ namespace ConvenienceSystemApp.pages
 
 
 
+	//public partial class UserPage : ContentPage
 	public partial class UserPage : ContentPage
 	{
 		protected override void OnAppearing ()
@@ -100,7 +104,7 @@ namespace ConvenienceSystemApp.pages
 
 			EmptyButton.Clicked += EmptyButton_Clicked;
 
-			CheckLastBuyState ();
+			//CheckLastBuyState ();
 		}
 
 		private void CheckLastBuyState()
@@ -108,12 +112,21 @@ namespace ConvenienceSystemApp.pages
 			if (App.LastBuy == LastBuyState.NONE)
 			{
 				Xamarin.Forms.Device.BeginInvokeOnMainThread (() => LastBuyLabel.IsVisible = false);
+				App.LastBuy = LastBuyState.NONE;
+				return;
 			} else if (App.LastBuy == LastBuyState.SUCCESS)
+			{
+				// HACK: force refresh, then show message
+				App.LastBuy = LastBuyState.MSG_SUCC;
+				this.RefreshClicked (null, null);
+				return;
+
+			} else if (App.LastBuy == LastBuyState.MSG_SUCC)
 			{
 				Xamarin.Forms.Device.BeginInvokeOnMainThread (() =>
 				{
-					LastBuyLabel.IsVisible=true;
-					LastBuyLabel.Opacity=1.0;
+					LastBuyLabel.IsVisible = true;
+					LastBuyLabel.Opacity = 1.0;
 					LastBuyLabel.BackgroundColor = Color.Green;
 					LastBuyLabel.Text = "Kauf erfolgreich";
 					LastBuyLabel.TextColor = Color.White;
@@ -122,10 +135,12 @@ namespace ConvenienceSystemApp.pages
 				});
 				Task.Factory.StartNew (async () =>
 				{
-					await Task.Delay(8000);
+					await Task.Delay (8000);
 					//Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.IsVisible=false);
-					Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.FadeTo(0.0));
+					Xamarin.Forms.Device.BeginInvokeOnMainThread (() => LastBuyLabel.FadeTo (0.0));
 				});
+				App.LastBuy = LastBuyState.NONE;
+				return;
 			}
 			else 
 			{
@@ -145,9 +160,10 @@ namespace ConvenienceSystemApp.pages
 					//Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.IsVisible=false);
 					Xamarin.Forms.Device.BeginInvokeOnMainThread(() => LastBuyLabel.FadeTo(0.0));
 				});
-			
+				App.LastBuy = LastBuyState.NONE;
+				return;
 			}
-			App.LastBuy = LastBuyState.NONE;
+
 		}
 
 		async void EmptyButton_Clicked (object sender, EventArgs e)
@@ -192,10 +208,14 @@ namespace ConvenienceSystemApp.pages
                 IsBusy = false;
                 return;
             }
-			Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+
+			if (!(sender == null))
 			{
-				DisplayAlert("Refresh", "Data Refreshed - Reload Page", "OK");
-			});
+				Xamarin.Forms.Device.BeginInvokeOnMainThread (() =>
+				{
+					DisplayAlert ("Refresh", "Data Refreshed - Reload Page", "OK");
+				});
+			}
 
 
 
@@ -304,6 +324,7 @@ namespace ConvenienceSystemApp.pages
             vm.Username = user;
 
             userListView.SelectedItem = null;
+
 
             await Navigation.PushAsync(new pages.ProductsPage(vm),true);
             

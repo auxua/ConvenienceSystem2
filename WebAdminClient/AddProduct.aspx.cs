@@ -29,9 +29,10 @@ namespace WebAdminClient
             double price = 0;
             try
             {
-                priceString = priceString.Replace(",", ".");
+                /*priceString = priceString.Replace(",", ".");
                 System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
-                price = Double.Parse(priceString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
+                price = Double.Parse(priceString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);*/
+                price = Global.String2Double(priceString);
             }
             catch
             {

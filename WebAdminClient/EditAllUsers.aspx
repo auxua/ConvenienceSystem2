@@ -23,8 +23,13 @@
                         <input type="hidden" runat="server" id="textDebtOld" value='<%# Eval("debt") %>' />
                     </td>
                     <td>
-                        <input type="text" runat="server" id="textState" value='<%# Eval("status") %>' required />
-                        <input type="hidden" runat="server" id="textStateOld" value='<%# Eval("status") %>' />
+                        <!--<input type="text" runat="server" id="textState" value='<%# Eval("status") %>' required />
+                        <input type="hidden" runat="server" id="textStateOld" value='<%# Eval("status") %>' />-->
+                        <label runat="server">
+                            <input type="checkbox" runat="server" id="checkState" checked='<%# Bind("statusFlag") %>' value='<%# Eval("id") %>' />
+                            <%: WebAdminClient.StringsLocal.Active %>
+                        </label>
+                        <input type="hidden" runat="server" id="checkStateOld" value='<%# Eval("statusFlag") %>' />
                     </td>
                     <td>
                         <input type="text" runat="server" id="textComment" value='<%# Eval("comment") %>' />

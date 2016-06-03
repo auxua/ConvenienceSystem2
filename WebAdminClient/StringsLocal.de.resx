@@ -123,6 +123,9 @@
   <data name="Accounting" xml:space="preserve">
     <value>Buchungen</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
   <data name="AddKeyDate" xml:space="preserve">
     <value>Neuer Stichtag</value>
   </data>

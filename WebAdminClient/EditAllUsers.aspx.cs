@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 
 using ConvenienceSystemDataModel;
 
@@ -50,9 +51,9 @@ namespace WebAdminClient
                         StateMessage += " - ";
                         var answer = await Backend.DeleteUsers(delRequest);
                         if (answer.status)
-                            StateMessage += "Data was deleted";
+                            StateMessage = "Data was deleted";
                         else
-                            StateMessage += "Error while deleting items: " + answer.errorDescription;
+                            StateMessage = "Error while deleting items: " + answer.errorDescription;
                     }
                 }
             }
@@ -80,6 +81,9 @@ namespace WebAdminClient
                     UserProperties u = new UserProperties();
                     u.comment = x.comment;
                     u.status = x.state;
+                    /*u.statusString = "";
+                    if (x.state == "active") u.statusString = "checked";*/
+                    u.statusFlag = (x.state == "active");
                     u.username = x.username;
                     u.debt = x.debt.ToString();
                     u.id = x.ID;
@@ -105,10 +109,67 @@ namespace WebAdminClient
             int amount = int.Parse((string)Request.Form["ctl00$MainContent$entryCount"]);
 
             List<User> list = new List<User>();
+            try
+            {
+                foreach (RepeaterItem item in repUsers.Items)
+                {
+                    string textName = ((HtmlInputText)item.FindControl("textName")).Value;
+                    string textNameOld = ((HtmlInputHidden)item.FindControl("textNameOld")).Value;
 
+                    string textComment = ((HtmlInputText)item.FindControl("textComment")).Value;
+                    string textCommentOld = ((HtmlInputHidden)item.FindControl("textCommentOld")).Value;
+
+                    string textDebt = ((HtmlInputText)item.FindControl("textDebt")).Value;
+                    string textDebtOld = ((HtmlInputHidden)item.FindControl("textDebtOld")).Value;
+
+                    bool checkState = ((HtmlInputCheckBox)item.FindControl("checkState")).Checked;
+                    bool checkStateOld = bool.Parse(((HtmlInputHidden)item.FindControl("checkStateOld")).Value);
+
+                    int id = int.Parse(((HtmlInputHidden)item.FindControl("textID")).Value);
+
+                    if ((textComment != textCommentOld)
+                        || (textDebt != textDebtOld)
+                        || (textName) != textNameOld
+                        || (checkState != checkStateOld))
+                    {
+                        // Found a dirty item, Create a User for this and store data
+                        User user = new User();
+                        user.comment = textComment;
+                        try
+                        {
+                            string debtString = textDebt;
+                            user.debt = Global.String2Double(debtString);
+                        }
+                        catch
+                        {
+                            // not valid double value
+                            StateMessage = "Please provide valid values for debt! (Aborting)";
+                            return new List<User>();
+                        }
+                        user.ID = id;
+                        if (checkState)
+                            user.state = "active";
+                        else
+                            user.state = "inactive";
+                        //user.state = (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textState"];
+                        user.username = textName;
+                        if (user.username == null) user.username = String.Empty;
+
+                        list.Add(user);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            /*
             // Check one by one...
             for (int i=0;i<amount;i++)
             {
+
+
                 if ((string)Request.Form["ctl00$MainContent$repUsers$ctl"+i.ToString("D2")+"$textName"] != (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textNameOld"]
                     || (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textState"] != (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textStateOld"]
                     || (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textComment"] != (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textCommentOld"]
@@ -121,9 +182,8 @@ namespace WebAdminClient
                     try
                     {
                         string debtString = (string)Request.Form["ctl00$MainContent$repUsers$ctl" + i.ToString("D2") + "$textDebt"];
-                        debtString = debtString.Replace(",", ".");
-                        //System.Globalization.CultureInfo EnglishCulture = new System.Globalization.CultureInfo("en-EN");
-                        user.debt = Double.Parse(debtString, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture);
+                        
+                        user.debt = Global.String2Double(debtString);
                     }
                     catch
                     {
@@ -140,7 +200,7 @@ namespace WebAdminClient
                 }
 
                 // Todo: Deletions
-            }
+            }*/
 
             return list;
         }
@@ -181,6 +241,9 @@ namespace WebAdminClient
             public string debt { get; set; }
             public string status { get; set; }
             public string comment { get; set; }
+
+            //public string statusString { get; set; }
+            public bool statusFlag { get; set; }
         }
 
         public string StateMessage { get; set; }

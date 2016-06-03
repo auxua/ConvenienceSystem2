@@ -11,8 +11,12 @@
             <input type="text" id="inputUser" class="form-control" placeholder="Username" runat="server" required autofocus />
         </div>
         <div class="form-group">    
-            <label for="inputState" class="sr-only">State (active, inactive...)</label>
-            <input type="text" id="inputState" class="form-control" placeholder="active" runat="server" required />
+            <!--<label for="inputState" class="sr-only"></label>
+            <input type="text" id="inputState" class="form-control" placeholder="active" runat="server" required />-->
+            <label runat="server">
+                <input type="checkbox" runat="server" id="checkState" />
+                <%: WebAdminClient.StringsLocal.Active %>
+            </label>
         </div>
         <div class="form-group">
             <label for="inputComment" class="sr-only"><%: WebAdminClient.StringsLocal.Comment %></label>

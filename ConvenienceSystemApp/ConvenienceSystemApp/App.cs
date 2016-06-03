@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace ConvenienceSystemApp
 {
-	public enum LastBuyState { SUCCESS, FAILED, NONE }
+	public enum LastBuyState { SUCCESS, FAILED, NONE, MSG_SUCC }
 
 	public class App : Application
 	{

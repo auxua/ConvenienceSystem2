@@ -23,7 +23,14 @@ namespace ConvenienceSystemApp
 
             public string PriceString
             {
-                get { return String.Format("{0:C}", this.price); }
+                get 
+				{ 
+					//return String.Format("{0:C}", this.price); 
+					double aTruncated = Math.Truncate(this.price * 100) / 100;
+					//CultureInfo ci = new CultureInfo("de-DE");
+					string s = string.Format("{0:0.00}", aTruncated);
+					return s + " €";
+				}
             }
 
             public int amount = 0;

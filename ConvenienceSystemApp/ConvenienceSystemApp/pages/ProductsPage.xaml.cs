@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace ConvenienceSystemApp.pages
 {
+	//public partial class ProductsPage : ContentPage
 	public partial class ProductsPage : ContentPage
 	{
 
@@ -73,6 +74,10 @@ namespace ConvenienceSystemApp.pages
                     
                 });*/
 			App.LastBuy = LastBuyState.SUCCESS;
+
+			bool succ = await DataManager.GetAllDataAsync();
+
+
 
 			Navigation.PopAsync();
             
