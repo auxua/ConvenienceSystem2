@@ -203,6 +203,30 @@ namespace ConvenienceSystemServer
                 return response;
             };
 
+            Get["/viewAccountingCountSince.date={date}.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewAccountingCountSince called");
+
+                var response = new ProductsCountResponse();
+
+                
+
+                try
+                {
+                    string c = parameters.date;
+                    response.dataSet = await backend.GetAccountingCountSince((string)parameters.token, c);
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+            };
+
             Get["/viewLastActivity.count={count}.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server", "/viewLastActivity called");

@@ -268,6 +268,33 @@ namespace WebAdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Keydate.
+        /// </summary>
+        public static string LastKeyDate {
+            get {
+                return ResourceManager.GetString("LastKeyDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Month.
+        /// </summary>
+        public static string LastMonth {
+            get {
+                return ResourceManager.GetString("LastMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Week.
+        /// </summary>
+        public static string LastWeek {
+            get {
+                return ResourceManager.GetString("LastWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Longer Session.
         /// </summary>
         public static string LongSession {
@@ -282,6 +309,15 @@ namespace WebAdminClient {
         public static string Price {
             get {
                 return ResourceManager.GetString("Price", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product Accounting.
+        /// </summary>
+        public static string ProductAccounting {
+            get {
+                return ResourceManager.GetString("ProductAccounting", resourceCulture);
             }
         }
         
@@ -304,6 +340,15 @@ namespace WebAdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Products Bought Since.
+        /// </summary>
+        public static string ProductsBoughtSince {
+            get {
+                return ResourceManager.GetString("ProductsBoughtSince", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recent Activities.
         /// </summary>
         public static string RecentActivities {
@@ -318,6 +363,15 @@ namespace WebAdminClient {
         public static string SignIn {
             get {
                 return ResourceManager.GetString("SignIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Since.
+        /// </summary>
+        public static string Since {
+            get {
+                return ResourceManager.GetString("Since", resourceCulture);
             }
         }
         
@@ -399,6 +453,15 @@ namespace WebAdminClient {
         public static string Welcome_Sub {
             get {
                 return ResourceManager.GetString("Welcome_Sub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yesterday.
+        /// </summary>
+        public static string Yesterday {
+            get {
+                return ResourceManager.GetString("Yesterday", resourceCulture);
             }
         }
     }

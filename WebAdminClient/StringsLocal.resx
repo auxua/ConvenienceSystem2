@@ -186,11 +186,23 @@
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="LastKeyDate" xml:space="preserve">
+    <value>Last Keydate</value>
+  </data>
+  <data name="LastMonth" xml:space="preserve">
+    <value>Last Month</value>
+  </data>
+  <data name="LastWeek" xml:space="preserve">
+    <value>Last Week</value>
+  </data>
   <data name="LongSession" xml:space="preserve">
     <value>Longer Session</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Price</value>
+  </data>
+  <data name="ProductAccounting" xml:space="preserve">
+    <value>Product Accounting</value>
   </data>
   <data name="Productname" xml:space="preserve">
     <value>Product name</value>
@@ -198,11 +210,17 @@
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
+  <data name="ProductsBoughtSince" xml:space="preserve">
+    <value>Products Bought Since</value>
+  </data>
   <data name="RecentActivities" xml:space="preserve">
     <value>Recent Activities</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
+  </data>
+  <data name="Since" xml:space="preserve">
+    <value>Since</value>
   </data>
   <data name="SinceLastkeydate" xml:space="preserve">
     <value>Since Last Keydate</value>
@@ -230,5 +248,8 @@
   </data>
   <data name="Welcome_Sub" xml:space="preserve">
     <value>Please select an action from the menu at the top.</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
   </data>
 </root>

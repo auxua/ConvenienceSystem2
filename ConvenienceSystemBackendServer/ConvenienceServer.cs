@@ -122,6 +122,31 @@ namespace ConvenienceSystemBackendServer
             return await GetAllUsersAsync();
         }
 
+        public async Task<List<ProductCount>> GetAccountingCountSince(string deviceID, string date)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            return await GetAccountingCountSince(date);
+        }
+
+        private async Task<List<ProductCount>> GetAccountingCountSince(string date)
+        {
+            MySqlDataReader reader = this.Query("SELECT comment,COUNT(comment) FROM gk_accounting WHERE gk_accounting.date > {d '"+date+"'} GROUP BY comment");
+            List<ProductCount> prod = new List<ProductCount>();
+
+            while (await reader.ReadAsync())
+            {
+                ProductCount pro = new ProductCount();
+                pro.amount = reader.GetInt32("COUNT(comment)");
+                pro.product = reader.GetString("comment");
+
+                prod.Add(pro);
+            }
+
+            reader.Close();
+            this.Close();
+            return prod;
+        }
+
 
         /// <summary>
         /// Gets all the Users and their information (limited by 200)

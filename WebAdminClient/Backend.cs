@@ -185,6 +185,14 @@ namespace WebAdminClient
             return answer;
         }
 
+        public async static Task<ProductsCountResponse> GetAccountingCountSinceAsync(string date)
+        {
+            //if (count == null) count = 10;
+            string callURL = Settings.APIBaseUrl + "/viewAccountingCountSince.date=" + date + ".token=" + Settings.Token;
+            var answer = await RestCallAsync<ProductsCountResponse>("", callURL, false);
+            return answer;
+        }
+
 
         public async static Task<KeyDatesResponse> GetKeyDatesAsync()
         {

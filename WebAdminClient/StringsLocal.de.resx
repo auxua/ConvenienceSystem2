@@ -186,11 +186,23 @@
   <data name="Language" xml:space="preserve">
     <value>Sprache</value>
   </data>
+  <data name="LastKeyDate" xml:space="preserve">
+    <value>Letztem Stichtag</value>
+  </data>
+  <data name="LastMonth" xml:space="preserve">
+    <value>Letztem Monat</value>
+  </data>
+  <data name="LastWeek" xml:space="preserve">
+    <value>Letzter Woche</value>
+  </data>
   <data name="LongSession" xml:space="preserve">
     <value>Längere Sitzung</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Preis</value>
+  </data>
+  <data name="ProductAccounting" xml:space="preserve">
+    <value>Gekaufte Produkte</value>
   </data>
   <data name="Productname" xml:space="preserve">
     <value>Produktname</value>
@@ -198,11 +210,17 @@
   <data name="Products" xml:space="preserve">
     <value>Produkte</value>
   </data>
+  <data name="ProductsBoughtSince" xml:space="preserve">
+    <value>Gekaufte Produkte seit</value>
+  </data>
   <data name="RecentActivities" xml:space="preserve">
     <value>Letzte Aktivitäten</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Einloggen</value>
+  </data>
+  <data name="Since" xml:space="preserve">
+    <value>Seit</value>
   </data>
   <data name="SinceLastkeydate" xml:space="preserve">
     <value>Seit letztem Stichtag</value>
@@ -230,5 +248,8 @@
   </data>
   <data name="Welcome_Sub" xml:space="preserve">
     <value>Bitte über das Menü die Funktionen auswählen.</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Gestern</value>
   </data>
 </root>

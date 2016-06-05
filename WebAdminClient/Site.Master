@@ -76,8 +76,13 @@
                             <ul class="dropdown-menu">
                                 <li><a runat="server" href="~/ViewAccounting"><%: WebAdminClient.StringsLocal.RecentActivities %></a></li>
                                 <li><a runat="server" href="~/ViewAccounting?mode=keydate"><%: WebAdminClient.StringsLocal.SinceLastkeydate %></a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a runat="server" href="~/ViewKeyDates"><%: WebAdminClient.StringsLocal.ViewKeydates %></a></li>
                                 <li><a runat="server" href="~/AddKeyDate"><%: WebAdminClient.StringsLocal.AddKeyDate %></a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a runat="server" href="~/ViewAccountingCountSince"><%: WebAdminClient.StringsLocal.ProductAccounting %></a></li>
+                                <!--<li><a runat="server" href="~/ViewAccountingCountSince?mode=week">Test</a></li>
+                                <li><a runat="server" href="~/ViewAccountingCountSince?mode=keydate">Test</a></li>-->
                             </ul>
                         </li>
                         <li><a runat="server" href="~/About"><%: WebAdminClient.StringsLocal.About %></a></li>
