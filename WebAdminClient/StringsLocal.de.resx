@@ -126,6 +126,9 @@
   <data name="Active" xml:space="preserve">
     <value>Aktiv</value>
   </data>
+  <data name="AddAccounting" xml:space="preserve">
+    <value>Neue Buchung</value>
+  </data>
   <data name="AddKeyDate" xml:space="preserve">
     <value>Neuer Stichtag</value>
   </data>
@@ -149,6 +152,12 @@
   </data>
   <data name="Convenience" xml:space="preserve">
     <value>Getränkekasse</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Selbst definiert</value>
+  </data>
+  <data name="CustomUseInputField" xml:space="preserve">
+    <value>Selbst definiert - Bitte Eingabenfelder nutzen</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datum</value>
@@ -212,6 +221,9 @@
   </data>
   <data name="ProductsBoughtSince" xml:space="preserve">
     <value>Gekaufte Produkte seit</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Produkt/Kommentar</value>
   </data>
   <data name="RecentActivities" xml:space="preserve">
     <value>Letzte Aktivitäten</value>

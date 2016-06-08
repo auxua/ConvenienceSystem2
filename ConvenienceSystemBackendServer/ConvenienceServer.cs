@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Mail;
 using System.Net;
+using System.Globalization;
 
 namespace ConvenienceSystemBackendServer
 {
@@ -952,6 +953,80 @@ namespace ConvenienceSystemBackendServer
                 this.BuyMailThread(username, products);
             }
             
+            return true;
+        }
+
+        /// <summary>
+        /// Allow an admin user to perform direct accounting
+        ///     will not send mails
+        ///     will check for valid username
+        /// </summary>
+        public async Task<Boolean> BuyDirectlyAsync(string deviceID, String username, string comment, double price)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            //Console.WriteLine ("CS, u:" + username + ", p:" + products);
+            DateTime dt = DateTime.Now;
+            //String datum = String.Format ("yyyy'-'MM'-'dd HH':'mm':'ss'", dt);
+            String datum = String.Format("{0:yyyy-MM-dd HH:mm:ss}", dt);
+
+
+            List<User> user = await this.GetAllUsersAsync();
+            // check username (avoid invalid users)
+            if (!user.Exists((x) => x.username == username))
+            {
+                throw new Exception("user not existing");
+            }
+
+            // avoid localization issues for double/string conversion
+            NumberFormatInfo nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            nfi.NumberGroupSeparator = ",";
+
+            string pString = price.ToString(nfi);
+
+            String cmd = "INSERT INTO `gk_accounting` (`ID`, `date`, `user`, `price`, `comment`) VALUES (NULL, '" + datum + "', '" + username + "', '" + pString + "', '" + comment + "');";
+            //Console.WriteLine ("CMD: " + cmd);
+            MySqlDataReader reader = this.Query(cmd);
+            if (await reader.ReadAsync())
+            {
+                String answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+            this.Close();
+
+            
+
+            //Console.WriteLine ("["+datum+"] "+ username + " bought " + plist);
+            Logger.Log("ConvenienceServer.BuyDirectly", username + " accountd for " + comment);
+
+            //Update user's debt
+            Double nDebt = 0;
+            // Search the user and store the actual debt
+            user.Any((x) =>
+            {
+                if (x.username == username)
+                {
+                    nDebt = x.debt;
+                    return true;
+                }
+                return false;
+            });
+
+
+            nDebt = nDebt + price;
+            String newDebt = nDebt.ToString().Replace(',', '.');
+            String cmd2 = "UPDATE `gk_user` SET `debt` = '" + newDebt + "' WHERE `gk_user`.`username` = '" + username + "';";
+            //Console.WriteLine (cmd2);
+            MySqlDataReader reader2 = this.Query(cmd2);
+            if (await reader2.ReadAsync())
+            {
+                String answer = reader2.GetString(0);
+                //Console.WriteLine(answer);
+            }
+            this.Close();
+            
+
             return true;
         }
 

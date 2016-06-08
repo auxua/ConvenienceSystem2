@@ -6,6 +6,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using System.Globalization;
 
 namespace WebAdminClient
 {
@@ -25,23 +26,29 @@ namespace WebAdminClient
         /// </summary>
         public static double String2Double(string s)
         {
+            
+
             double d;
-            if (Double.TryParse(s, out d))
+            s = s.Replace(",", ".");
+            if (Double.TryParse(s, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,  out d))
             {
                 return d;
             }
+            /*
             // did not work, try replacement , -> .
             s = s.Replace(",", ".");
-            if (Double.TryParse(s, out d))
+            
+            
+            if (Double.TryParse(s, NumberStyles.AllowDecimalPoint, out d))
             {
                 return d;
             }
             // did not work, try replacement . -> ,
             s = s.Replace(".", ",");
-            if (Double.TryParse(s, out d))
+            if (Double.TryParse(s, NumberStyles.AllowDecimalPoint, out d))
             {
                 return d;
-            }
+            }*/
             // nothing did work
             throw new Exception("Could not convert string to double");
         }

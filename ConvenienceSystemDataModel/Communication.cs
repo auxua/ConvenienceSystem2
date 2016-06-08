@@ -99,6 +99,13 @@ namespace ConvenienceSystemDataModel
         public List<string> products;
     }
 
+    public class BuyDirectlyRequest : BaseRequest
+    {
+        public string username;
+        public double price;
+        public string comment;
+    }
+
     public class EmptyMailRequest : BaseRequest
     {
         public string message;

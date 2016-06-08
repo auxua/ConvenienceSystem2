@@ -88,6 +88,15 @@ namespace WebAdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Accounting.
+        /// </summary>
+        public static string AddAccounting {
+            get {
+                return ResourceManager.GetString("AddAccounting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Keydate.
         /// </summary>
         public static string AddKeyDate {
@@ -156,6 +165,24 @@ namespace WebAdminClient {
         public static string Convenience {
             get {
                 return ResourceManager.GetString("Convenience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom - Use Input Fields.
+        /// </summary>
+        public static string CustomUseInputField {
+            get {
+                return ResourceManager.GetString("CustomUseInputField", resourceCulture);
             }
         }
         
@@ -345,6 +372,15 @@ namespace WebAdminClient {
         public static string ProductsBoughtSince {
             get {
                 return ResourceManager.GetString("ProductsBoughtSince", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product/Comment.
+        /// </summary>
+        public static string Reason {
+            get {
+                return ResourceManager.GetString("Reason", resourceCulture);
             }
         }
         

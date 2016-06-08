@@ -729,6 +729,38 @@ namespace ConvenienceSystemServer
 
             };
 
+            Post["/buyDirectly.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/buyDirectly called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    BuyDirectlyRequest request = JsonConvert.DeserializeObject<BuyDirectlyRequest>(b);
+                    // do stuff
+                    await backend.BuyDirectlyAsync((string)parameters.token, request.username, request.comment, request.price);
+                    //await backend.BuyAsync((string)parameters.token, request.username, request.products);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
         }
     }
 }

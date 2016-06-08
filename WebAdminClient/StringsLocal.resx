@@ -126,6 +126,9 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="AddAccounting" xml:space="preserve">
+    <value>Add Accounting</value>
+  </data>
   <data name="AddKeyDate" xml:space="preserve">
     <value>Add Keydate</value>
   </data>
@@ -149,6 +152,12 @@
   </data>
   <data name="Convenience" xml:space="preserve">
     <value>Convenience</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="CustomUseInputField" xml:space="preserve">
+    <value>Custom - Use Input Fields</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
@@ -212,6 +221,9 @@
   </data>
   <data name="ProductsBoughtSince" xml:space="preserve">
     <value>Products Bought Since</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Product/Comment</value>
   </data>
   <data name="RecentActivities" xml:space="preserve">
     <value>Recent Activities</value>

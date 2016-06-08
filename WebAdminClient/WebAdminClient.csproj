@@ -117,6 +117,7 @@
     <Content Include="AddProduct.aspx" />
     <Content Include="AddMail.aspx" />
     <Content Include="AddKeyDate.aspx" />
+    <Content Include="DirectAccounting.aspx" />
     <Content Include="ViewAccountingCountSince.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -220,6 +221,13 @@
     </Compile>
     <Compile Include="AddKeyDate.aspx.designer.cs">
       <DependentUpon>AddKeyDate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DirectAccounting.aspx.cs">
+      <DependentUpon>DirectAccounting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DirectAccounting.aspx.designer.cs">
+      <DependentUpon>DirectAccounting.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewAccountingCountSince.aspx.cs">
       <DependentUpon>ViewAccountingCountSince.aspx</DependentUpon>

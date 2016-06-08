@@ -81,6 +81,8 @@
                                 <li><a runat="server" href="~/AddKeyDate"><%: WebAdminClient.StringsLocal.AddKeyDate %></a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a runat="server" href="~/ViewAccountingCountSince"><%: WebAdminClient.StringsLocal.ProductAccounting %></a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a runat="server" href="~/DirectAccounting"><%: WebAdminClient.StringsLocal.AddAccounting %></a></li>
                                 <!--<li><a runat="server" href="~/ViewAccountingCountSince?mode=week">Test</a></li>
                                 <li><a runat="server" href="~/ViewAccountingCountSince?mode=keydate">Test</a></li>-->
                             </ul>
