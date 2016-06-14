@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Globalization;
+using System.Web.UI;
 
 namespace WebAdminClient
 {
@@ -18,6 +19,16 @@ namespace WebAdminClient
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        void Application_Error(object sender,EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            if (ex is HttpException && ex.InnerException is ViewStateException)
+            {
+                Response.Redirect(Request.Url.AbsoluteUri);
+                return;
+           }
         }
 
         /// <summary>
