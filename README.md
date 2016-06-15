@@ -20,6 +20,8 @@ The solution has multiple projects:
 * ConvenienceSystemConsole - Simple Console Applciation for testing the convenience backend
 * ConvenienceSystemApp - The Shared project providing Xamarin.Forms Code/Pages for the mobile Apps
 * ConvenienceSystemApp.Droid/.WinPhone/.iOS - The mobile Apps for the system clients (see screenshots)
+* ConvenienceSystemUWP - The Shared project providing Xamarin.Forms Content for UWP Apps
+* ConvenienceSystemUWP.UWP - The App for universal Windows Platform
 * WebAdminClient - A ASP.NET (WebForms) Web application providing a UI for administrative Tasks
 * Toolbox - A simple Console Application for random String and password hash generation
 
@@ -42,6 +44,8 @@ At the moment the following Devices/Applications are needed for a basic Convenie
 * The .sql-file in this repository provides the basic structure that is used for this system in the database.
 
 * Everybody is welcome to use this solution or even contribute to!
+
+* The UWP App has a separate Shared project, because this solution was started, before UWP was supported. To provide UWP the best way, it has been added later separately.
 
 ## Screenshots (App)
 
