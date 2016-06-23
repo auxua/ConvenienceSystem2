@@ -9,7 +9,9 @@ namespace ConvenienceSystemServer
     {
         static void Main(string[] args)
         {
+            //SSL: For SSL on Windows rewrite http to https
             var uri = new Uri("http://localhost:"+ConvenienceSystemBackendServer.ConvenienceServer.getPort());
+
 
             using (var host = new NancyHost(uri))
             {

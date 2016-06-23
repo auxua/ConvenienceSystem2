@@ -23,6 +23,15 @@ namespace ConvenienceSystemServer
             }
         }
 
+        protected class ErrorResponse
+        {
+            public bool status { get; }
+            public string message { get; set; }
+            public string error { get; set; }
+
+            public ErrorResponse() { status = false; }
+        }
+
         public ConvenienceModule()
         {
             /*
@@ -38,10 +47,27 @@ namespace ConvenienceSystemServer
             Logger.IsActive = true;
             //Logger.IsActive = false;
 
+
             // Enable utf-8 for answers
             After += ctx =>
             {
                 ctx.Response.ContentType = "application/json; charset=utf-8";
+            };
+
+            OnError += (ctx, ex) =>
+            {
+                // maybe create specialized errors based on exception in future
+                var err = new ErrorResponse();
+                if (!(ex is Exception))
+                {
+                    err.error = "unknown";
+                    err.message = "Unknown Error occured";
+                    return JsonConvert.SerializeObject(err);
+                }
+                Exception exx = (Exception)ex;
+                err.error = exx.GetType().ToString();
+                err.message = exx.Message;
+                return JsonConvert.SerializeObject(err);
             };
 
             
