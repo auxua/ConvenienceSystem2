@@ -41,10 +41,25 @@ namespace WebAdminClient
 
             double d;
             s = s.Replace(",", ".");
-            if (Double.TryParse(s, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,  out d))
+
+            var fmt = new NumberFormatInfo();
+            fmt.NegativeSign = "-";
+            fmt.NumberDecimalSeparator = ".";
+
+            try
             {
+                d = Double.Parse(s, fmt);
                 return d;
             }
+            catch
+            {
+                throw new Exception("Could not convert string to double");
+            }
+            
+            /*if (Double.TryParse(s, fmt, CultureInfo.InvariantCulture,  out d))
+            {
+                return d;
+            }*/
             /*
             // did not work, try replacement , -> .
             s = s.Replace(",", ".");
@@ -61,7 +76,7 @@ namespace WebAdminClient
                 return d;
             }*/
             // nothing did work
-            throw new Exception("Could not convert string to double");
+            
         }
     }
 
