@@ -70,6 +70,7 @@
                                 <li><a runat="server" href="~/ViewAllProducts"><%: WebAdminClient.StringsLocal.ViewAllProducts %></a></li>
                                 <li><a runat="server" href="~/EditAllProducts"><%: WebAdminClient.StringsLocal.EditAllProducts %></a></li>
                                 <li><a runat="server" href="~/AddProduct"><%: WebAdminClient.StringsLocal.AddProduct %></a></li>
+                                <li><a runat="server" href="~/ViewProductList"><%: WebAdminClient.StringsLocal.PriceList %></a></li>
                             </ul>
                         </li>
                         <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><%: WebAdminClient.StringsLocal.Accounting  %> <span class="caret"></span></a>

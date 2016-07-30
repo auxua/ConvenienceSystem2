@@ -147,6 +147,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="ViewAccounting.aspx" />
+    <Content Include="ViewProductList.aspx" />
     <Content Include="ViewAllProducts.aspx" />
     <Content Include="AddUser.aspx" />
     <Content Include="EditAllUsers.aspx" />
@@ -268,6 +269,13 @@
     </Compile>
     <Compile Include="ViewAccounting.aspx.designer.cs">
       <DependentUpon>ViewAccounting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewProductList.aspx.cs">
+      <DependentUpon>ViewProductList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewProductList.aspx.designer.cs">
+      <DependentUpon>ViewProductList.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewAllProducts.aspx.cs">
       <DependentUpon>ViewAllProducts.aspx</DependentUpon>

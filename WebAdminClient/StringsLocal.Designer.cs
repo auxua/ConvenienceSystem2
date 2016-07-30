@@ -340,6 +340,15 @@ namespace WebAdminClient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Price List.
+        /// </summary>
+        public static string PriceList {
+            get {
+                return ResourceManager.GetString("PriceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product Accounting.
         /// </summary>
         public static string ProductAccounting {
