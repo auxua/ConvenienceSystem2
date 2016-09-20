@@ -224,7 +224,7 @@ namespace ConvenienceSystemBackendServer
             foreach (User user in users)
             {
                 query += "UPDATE gk_user SET username='" + user.username + "', "
-                    + "state='" + user.state + "', debt='" + user.debt.ToString() + "', comment='" + user.comment + "' "
+                    + "state='" + user.state + "', debt='" + user.debt.ToString().Replace(',','.') + "', comment='" + user.comment + "' "
                     + "WHERE ID=" + user.ID.ToString() + "; ";
                 list.Add(user.ID);
             }
@@ -298,7 +298,7 @@ namespace ConvenienceSystemBackendServer
             foreach (Product product in Products)
             {
                 query += "UPDATE gk_pricing SET product='" + product.product + "', "
-                    + "comment='" + product.comment + "', price='" + product.price.ToString() + "' WHERE ID=" + product.ID.ToString() + "; ";
+                    + "comment='" + product.comment + "', price='" + product.price.ToString().Replace(',', '.') + "' WHERE ID=" + product.ID.ToString() + "; ";
                 list.Add(product.ID);
             }
 
@@ -363,9 +363,9 @@ namespace ConvenienceSystemBackendServer
             await CheckDeviceRights(deviceID, DeviceRights.FULL);
             string query;
             if (String.IsNullOrEmpty(comment))
-                query = "INSERT INTO  gk_pricing (product,price) VALUES ('" + product + "','" + price.ToString() + "')";
+                query = "INSERT INTO  gk_pricing (product,price) VALUES ('" + product + "','" + price.ToString().Replace(',', '.') + "')";
             else
-                query = "INSERT INTO  gk_pricing (product,price,comment) VALUES ('" + product + "','" + price.ToString() + "','" + comment + "')";
+                query = "INSERT INTO  gk_pricing (product,price,comment) VALUES ('" + product + "','" + price.ToString().Replace(',', '.') + "','" + comment + "')";
 
             Logger.Log("ConvenienceServer.AddProduct", "trying to add product: " + product);
 
@@ -983,7 +983,7 @@ namespace ConvenienceSystemBackendServer
             nfi.NumberDecimalSeparator = ".";
             nfi.NumberGroupSeparator = ",";
 
-            string pString = price.ToString(nfi);
+            string pString = price.ToString(nfi).Replace(',', '.');
 
             String cmd = "INSERT INTO `gk_accounting` (`ID`, `date`, `user`, `price`, `comment`) VALUES (NULL, '" + datum + "', '" + username + "', '" + pString + "', '" + comment + "');";
             //Console.WriteLine ("CMD: " + cmd);
