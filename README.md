@@ -24,6 +24,7 @@ The solution has multiple projects:
 * ConvenienceSystemUWP.UWP - The App for universal Windows Platform
 * WebAdminClient - A ASP.NET (WebForms) Web application providing a UI for administrative Tasks
 * Toolbox - A simple Console Application for random String and password hash generation
+* PHPWebAdmin (not Visual Studio) - A simple reimplementation of the WebAdminClient in PHP
 
 ## Installation/Usage Requirements
 At the moment the following Devices/Applications are needed for a basic Convenience System installation
