@@ -72,7 +72,7 @@ ini_set('display_startup_errors', 1);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </a>
-                  <a class="brand" href="index.php">Convnenience</a>
+                  <a class="brand" href="index.php">Convenience</a>
                   <div class="nav-collapse navbar-inverse-collapse collapse" style="height: 0px;">
                     <ul class="nav">
                       <li class="active"><a href="index.php">Home</a></li>
