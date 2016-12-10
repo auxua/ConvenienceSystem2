@@ -151,9 +151,18 @@ namespace ConvenienceSystemBackendServer
 
             MySqlDataReader reader = this.Query("SELECT * FROM gk_accounting WHERE gk_accounting.ID="+id);
             // should be only one element
-            await reader.ReadAsync();
-            string user = reader.GetString("user");
-            double price = reader.GetDouble("price");
+            string user;
+            double price;
+            try
+            {
+                await reader.ReadAsync();
+                user = reader.GetString("user");
+                price = reader.GetDouble("price");
+            }
+            catch
+            {
+                throw new Exception("id could not be found");
+            }
 
             // basic idea: add new accounting containing the revert
             //  - simple using standard methods

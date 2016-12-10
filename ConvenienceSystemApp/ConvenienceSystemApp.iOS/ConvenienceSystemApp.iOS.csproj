@@ -25,10 +25,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>True</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchSdkVersion>8.4</MtouchSdkVersion>
     <MtouchOptimizePNGs>True</MtouchOptimizePNGs>
-    <MtouchI18n>
-    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>

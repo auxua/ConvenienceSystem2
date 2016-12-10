@@ -96,6 +96,7 @@ namespace ConvenienceSystemApp.api
             return answer.status;
         }
 
+        
         public async static Task<Boolean> EmptyMailAsync(string message)
         {
             string callURL = Config.APIBaseUrl + "/emptyMail.token=" + Config.Token;

@@ -88,6 +88,7 @@ namespace ConvenienceSystemUWP.api
             var answer = await RestCallAsync<ProductsCountResponse>("", callURL, false);
             return answer;
         }
+        
 
         public async static Task<Boolean> BuyProductsCountAsync(BuyProductsRequest request)
         {

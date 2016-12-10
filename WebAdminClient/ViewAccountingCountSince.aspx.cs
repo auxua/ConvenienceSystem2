@@ -46,15 +46,32 @@ namespace WebAdminClient
             {
                 var keys = await Backend.GetKeyDatesAsync();
                 var lastKD = keys.dataSet.First(); //TODO: Check SQL-Syntax for Order By clause
-                // Workaround - try Converting to DateTime using two common default formats
+                                                   // Workaround - try Converting to DateTime using two common default formats
+
+                if (!DateTime.TryParseExact(lastKD.keydate, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out dt))
+                {
+                    if (!DateTime.TryParseExact(lastKD.keydate, "MM/dd/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out dt))
+                    {
+                        DateTime.TryParseExact(lastKD.keydate, "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AllowWhiteSpaces, out dt);
+                    }
+                }
+
+                /*
                 try
                 {
                     dt = DateTime.ParseExact(lastKD.keydate, "yyyy-MM-dd HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
                 }
                 catch
                 {
-                    dt = DateTime.ParseExact(lastKD.keydate, "MM/dd/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                }
+                    try
+                    {
+                        dt = DateTime.ParseExact(lastKD.keydate, "MM/dd/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    catch
+                    {
+                        dt = DateTime.ParseExact(lastKD.keydate, "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                }*/
 
                 
                 date = dt.ToString("yyyy-MM-dd");

@@ -14,7 +14,12 @@ namespace ConvenienceSystemConsole
         static void Main(string[] args)
         {
             ConvenienceServer cs = new ConvenienceServer();
-            var ans = cs.GetAllUsersAsync();
+            //var ans = cs.GetAllUsersAsync("foo").Result;
+
+            //var ans = cs.BuyDirectlyAsync("ZZTest-User", "Wasser", 0.10);
+
+            var ans2 = cs.GetAccountingForUserAsync("ZZTest-User").Result;
+
 
             Console.ReadLine();
 

@@ -8,7 +8,7 @@ namespace Toolbox
         [STAThread]
         static void Main(string[] args)
         {
-            while (true)
+            /*while (true)
             {
                 Console.WriteLine(menu);
                 var a = Console.ReadKey();
@@ -48,7 +48,24 @@ namespace Toolbox
                 }
 
                 Console.WriteLine();
-            }
+            }*/
+
+            // There are some peole reporting, new versions of JSON.net can yield to different behaviors depending on OS (CamelCase-Contracts) - so test it
+
+            var t1 = new TestClass();
+            t1.bar = "bar";
+            t1.Foo = "Foo";
+            string s = Newtonsoft.Json.JsonConvert.SerializeObject(t1);
+            Console.Write(s);
+
+            Console.ReadLine();
+
+        }
+
+        class TestClass
+        {
+            public string Foo { get; set; }
+            public string bar { get; set; }
         }
 
         readonly static string menu = "Please select one option from below: " + Environment.NewLine + Environment.NewLine 
