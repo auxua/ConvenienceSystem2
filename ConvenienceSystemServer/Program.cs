@@ -9,8 +9,14 @@ namespace ConvenienceSystemServer
     {
         static void Main(string[] args)
         {
+            /***
+             * Note:
+             *  When using multiple network interfaces, you should not use localhost but a fully qualified ip (v4)
+             * 
+             ***/
             //SSL: For SSL on Windows rewrite http to https
             var uri = new Uri("http://localhost:"+ConvenienceSystemBackendServer.ConvenienceServer.getPort());
+            //var uri = new Uri("http://192.168.1.39:" + ConvenienceSystemBackendServer.ConvenienceServer.getPort());
 
 
             using (var host = new NancyHost(uri))

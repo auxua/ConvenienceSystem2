@@ -86,6 +86,29 @@ namespace ConvenienceSystemBackendServer
         }
 
         /// <summary>
+        /// Gets all valid IPs from database implementing a tiny firewall
+        /// </summary>
+        public async Task<List<string>> GetValidIPs()
+        {
+            MySqlDataReader reader = this.Query("SELECT * FROM gk_web_ip");
+            List<String> ips = new List<String>();
+            //List<User> Users = new List<User>();
+
+            while (await reader.ReadAsync())
+            {
+                try
+                {
+                    ips.Add(reader.GetString("ip"));
+                }
+                catch { }
+            }
+
+            reader.Close();
+            this.Close();
+            return ips;
+        }
+
+        /// <summary>
         /// returns a List representing the (200) active users,  and their data
         /// </summary>
         public async Task<List<User>> GetActiveUsersAsync(string deviceID)

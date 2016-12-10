@@ -8,6 +8,7 @@ using ConvenienceSystemBackendServer;
 using ConvenienceSystemDataModel;
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace ConvenienceSystemServer
 {
@@ -32,6 +33,48 @@ namespace ConvenienceSystemServer
             public ErrorResponse() { status = false; }
         }
 
+        /// <summary>
+        /// Checks the IP matching the pattern (e.g. 123.123.123.123 matches 123.123.123.123. and 123.123.* but not 124.123.123.123)
+        /// </summary>
+        /// <param name="pattern">The pattern stored in the systems for an address</param>
+        /// <param name="ip">the ip address to check for</param>
+        /// <returns></returns>
+        public static bool matchIP(string pattern, string ip)
+        {
+            // same string? valid!
+            if (pattern.Equals(ip)) return true;
+            // using wildcards? (e.g. subnets)
+            if (!pattern.Contains("*")) return false;
+            if (pattern.Length >= ip.Length) return false; // length of the addresses cannot match
+            // Traverse addresses element-wise
+            for (int i=0; i<pattern.Length;i++)
+            {
+                // wildcard following? finished!
+                if (pattern[i] == '*') return true;
+                // not matching? finished!
+                if (pattern[i] != ip[i]) return false;
+            }
+            // Should never come here, but if, return false for security reasons
+            return false;
+
+        }
+
+        /// <summary>
+        /// Checks the ip address against the list of patterns.
+        /// </summary>
+        /// <param name="patterns">A list of patterns for valid addresses</param>
+        /// <param name="ip">the address to check</param>
+        /// <returns></returns>
+        public static bool matchIPs(List<string> patterns, string ip)
+        {
+            foreach (var item in patterns)
+            {
+                if (matchIP(item, ip)) return true;
+            }
+            // not matching any ip
+            return false;
+        }
+
         public ConvenienceModule()
         {
             /*
@@ -47,6 +90,40 @@ namespace ConvenienceSystemServer
             Logger.IsActive = true;
             //Logger.IsActive = false;
 
+            Before += ctx =>
+            {
+                Logger.Log("Request from: " + ctx.Request.UserHostAddress);
+
+                List<string> validAddresses = backend.GetValidIPs().Result;
+
+                // Debugging
+                /*List<string> validAddresses = new List<string>();
+                validAddresses.Add("127.0.0.1");
+                validAddresses.Add("localhost");
+                validAddresses.Add("77.182.174.215");*/
+
+                if (matchIPs(validAddresses, ctx.Request.UserHostAddress))
+                {
+                    // valid
+                    return null;
+                }
+
+                /*ErrorResponse err = new ErrorResponse();
+                err.error = "Unauthorized Source";
+                err.message = "This client/device/source is not authorized to use this service";
+                err.status = false;*/
+
+                //Response resp = new Nancy.Response();
+
+
+                //return JsonConvert.SerializeObject(err);
+                //return Response.AsText(JsonConvert.SerializeObject(err), "application/json; charset=utf-8");
+
+                Logger.Log("Rejected Connection from " + ctx.Request.UserHostAddress);
+
+                throw new Exception("This client/device/source is not authorized to use this service");
+
+            };
 
             // Enable utf-8 for answers
             After += ctx =>
