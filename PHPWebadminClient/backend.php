@@ -277,4 +277,17 @@ function delete_mails($list)
 	return $response;	
 }
 
+class RevertRequest
+{
+	public $id;
+}
+
+function delete_mails($id)
+{
+	$request = new RevertRequest;
+	$request->id = $id;
+	$response = rest_post(API_BASE_URL."revert.token=".DEVICE_CODE,json_encode($request));
+	return $response;	
+}
+
 ?>

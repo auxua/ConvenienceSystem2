@@ -217,6 +217,13 @@ namespace WebAdminClient
             return answer.status;
         }
 
+        public async static Task<Boolean> RevertAccountingAsync(RevertRequest request)
+        {
+            string callURL = Settings.APIBaseUrl + "/revert.token=" + Settings.Token;
+            var answer = await RestCallAsync<BaseResponse>(JsonConvert.SerializeObject(request), callURL, true);
+            return answer.status;
+        }
+
         public async static Task<Boolean> BuyDirectlyAsync(BuyDirectlyRequest request)
         {
             string callURL = Settings.APIBaseUrl + "/buyDirectly.token=" + Settings.Token;

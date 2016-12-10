@@ -453,6 +453,44 @@ namespace ConvenienceSystemServer
                 return response;
             };
 
+            Post["/revert.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (Post)", "/revert called");
+
+                var response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    RevertRequest request = JsonConvert.DeserializeObject<RevertRequest>(b);
+
+                    int id = 0;
+                    if (int.TryParse(request.id, out id))
+                    {
+                        // id is of type integer, so try performing the action
+                        bool succ = await backend.RevertAccounting((string)parameters.token, id);
+                        response.status = succ;
+                    }
+                    else
+                    {
+                        throw new Exception("id needs to be an integer value.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+            };
+
             Post["/emptyMail.token={token}"] = parameters =>
             {
                 Logger.Log("Server (Post)", "/emptyMail called");

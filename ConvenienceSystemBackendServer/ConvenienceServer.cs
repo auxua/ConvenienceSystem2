@@ -139,6 +139,34 @@ namespace ConvenienceSystemBackendServer
             return Users;
         }
 
+        /// <summary>
+        /// Revert an accounting element. This includes the change of the debt of the user
+        /// </summary>
+        /// <param name="deviceID"></param>
+        /// <param name="id">accounting id which needs to be reverted</param>
+        /// <returns></returns>
+        public async Task<bool> RevertAccounting(string deviceID, int id)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            MySqlDataReader reader = this.Query("SELECT * FROM gk_accounting WHERE gk_accounting.ID="+id);
+            // should be only one element
+            await reader.ReadAsync();
+            string user = reader.GetString("user");
+            double price = reader.GetDouble("price");
+
+            // basic idea: add new accounting containing the revert
+            //  - simple using standard methods
+            //  - documented by system
+            //  - not visible to user on end-devices (no such product defined)
+
+            bool succ = await this.BuyDirectlyAsync(user, "Reverting accounting (#" + id + ")", price * -1);
+
+            reader.Close();
+            this.Close();
+            return succ;
+        }
+
 
         public async Task<List<User>> GetAllUsersAsync(string deviceID)
         {
@@ -170,6 +198,8 @@ namespace ConvenienceSystemBackendServer
             this.Close();
             return prod;
         }
+
+
 
 
         /// <summary>
@@ -604,6 +634,7 @@ namespace ConvenienceSystemBackendServer
                 pc.amount = reader.GetInt32("COUNT(date)");
                 pc.product = reader.GetString("comment");
                 pc.price = reader.GetDouble("price");
+                
 
                 list.Add(pc);
             }
@@ -979,14 +1010,21 @@ namespace ConvenienceSystemBackendServer
             return true;
         }
 
+        public async Task<Boolean> BuyDirectlyAsync(string deviceID, String username, string comment, double price)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            return await BuyDirectlyAsync(username, comment, price);
+        }
+
         /// <summary>
         /// Allow an admin user to perform direct accounting
         ///     will not send mails
         ///     will check for valid username
         /// </summary>
-        public async Task<Boolean> BuyDirectlyAsync(string deviceID, String username, string comment, double price)
+        //private async Task<Boolean> BuyDirectlyAsync(String username, string comment, double price)
+        public async Task<Boolean> BuyDirectlyAsync(String username, string comment, double price)
         {
-            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            
 
             //Console.WriteLine ("CS, u:" + username + ", p:" + products);
             DateTime dt = DateTime.Now;

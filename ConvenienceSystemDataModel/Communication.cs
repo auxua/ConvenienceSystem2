@@ -87,6 +87,11 @@ namespace ConvenienceSystemDataModel
         }
     }
 
+    public class RevertRequest : BaseRequest
+    {
+        public string id;
+    }
+
     public class InsertKeyDateRequest : BaseRequest
     {
         public string comment;
