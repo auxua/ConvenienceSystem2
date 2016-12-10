@@ -151,6 +151,12 @@ function view_products_count_for_user($user)
 	return $response;
 }
 
+function view_accounting_for_user($user)
+{
+	$response = rest_get(API_BASE_URL."viewAccountingForUser.user=".$user.".token=".DEVICE_CODE);
+	return $response;
+}
+
 function view_keydates()
 {
 	$response = rest_get(API_BASE_URL."viewKeyDates.token=".DEVICE_CODE);
@@ -282,12 +288,14 @@ class RevertRequest
 	public $id;
 }
 
-function delete_mails($id)
+function revert_accounting($id)
 {
 	$request = new RevertRequest;
 	$request->id = $id;
 	$response = rest_post(API_BASE_URL."revert.token=".DEVICE_CODE,json_encode($request));
 	return $response;	
 }
+
+
 
 ?>
