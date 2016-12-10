@@ -422,6 +422,27 @@ namespace ConvenienceSystemServer
                 return response;
             };
 
+            Get["/viewAccountingForUser.user={user}.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewAccountingForUser called");
+
+                var response = new AccountingElementsResponse();
+
+                try
+                {
+                    response.dataSet = await backend.GetAccountingForUserAsync((string)parameters.token, (string)parameters.user);
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+            };
+
 
             #endregion
 

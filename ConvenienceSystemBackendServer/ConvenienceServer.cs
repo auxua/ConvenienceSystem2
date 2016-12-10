@@ -199,6 +199,48 @@ namespace ConvenienceSystemBackendServer
             return prod;
         }
 
+        public async Task<List<AccountingElement>> GetAccountingForUserAsync(string deviceID, string user)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            return await GetAccountingForUserAsync(user);
+        }
+
+#if DEBUG
+        public async Task<List<AccountingElement>> GetAccountingForUserAsync(string user)
+#else
+        private async Task<List<AccountingElement>> GetAccountingForUserSince(string user)
+#endif
+        {
+            var users = await this.GetAllUsersAsync();
+            if (!users.Any((x) => x.username.Equals(user))) throw new Exception("Invalid username");
+
+            MySqlDataReader reader = this.Query("SELECT * FROM gk_accounting WHERE gk_accounting.user='"+user+"'");
+            List<AccountingElement> acc = new List<AccountingElement>();
+
+            while (await reader.ReadAsync())
+            {
+                AccountingElement ae = new AccountingElement();
+                try
+                {
+                    ae.comment = reader.GetString("comment");
+                } catch { }
+                try
+                {
+                    ae.device = reader.GetString("device");
+                } catch { }
+                ae.date = reader.GetString("date");
+                ae.ID = reader.GetInt32("ID");
+                ae.price = reader.GetDouble("price");
+                ae.user = reader.GetString("user");
+
+                acc.Add(ae);
+            }
+
+            reader.Close();
+            this.Close();
+            return acc;
+        }
+
 
 
 
@@ -1091,9 +1133,9 @@ namespace ConvenienceSystemBackendServer
             return true;
         }
 
-        #endregion
+#endregion
 
-        #region Mail handling
+#region Mail handling
 
         /// <summary>
         /// Just a wrapper for executing the sending mail method as thread
@@ -1260,7 +1302,7 @@ namespace ConvenienceSystemBackendServer
             return true;
         }
 
-        #endregion
+#endregion
 
         internal String GenerateRandomString()
         {

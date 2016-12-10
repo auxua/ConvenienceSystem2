@@ -209,6 +209,13 @@ namespace WebAdminClient
             return answer;
         }
 
+        public async static Task<AccountingElementsResponse> GetAccountingForUserAsync(string username)
+        {
+            string callURL = Settings.APIBaseUrl + "/viewAccountingForUser.user=" + username + ".token=" + Settings.Token;
+            var answer = await RestCallAsync<AccountingElementsResponse>("", callURL, false);
+            return answer;
+        }
+
         public async static Task<Boolean> BuyProductsCountAsync(BuyProductsRequest request)
         {
             string callURL = Settings.APIBaseUrl + "/buyProducts.token=" + Settings.Token;
