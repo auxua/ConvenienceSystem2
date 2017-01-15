@@ -24,7 +24,7 @@ function vm_view_users()
     <h2> All User </h2>
     
 	<table class="table table-striped table-bordered">
-        <tbody><tr><th>#</th><th>Username</th><th>Debt</th><th>State</th><th>Comment</th></tr>
+		<tbody><tr><th>#</th><th>Username</th><th>Debt</th><th>State</th><th>Comment</th><th>Actions</th></tr>
                 
 	<?php
                 
@@ -40,6 +40,7 @@ function vm_view_users()
             <td><span><?php echo $user->debt; ?></span></td>
             <td><span><?php echo $user->state ?></span></td>
             <td><span><?php echo $user->comment; ?></span></td>
+			<td><span><a href="index.php?site=viewaccountinguser&user=<?php echo $user->iD; ?>" class="btn btn-info" role="button">Accounting</a>&nbsp;</span></td>
         </tr>      
         <?php  
 	}
@@ -213,7 +214,107 @@ function vm_view_keydates()
     <?php
 }
 
-function vm_view_recent($count = 10)
+class AddFirewallRequest
+{
+	public $ip;
+	public $comment;
+}
+
+function vm_view_firewall()
+{
+	// cehck for deletions
+	if (isset($_GET['delete']))
+	{
+		$id = $_GET['delete'];
+		$ids = array();
+		$ids[] = $id;
+		delete_firewall($ids);
+	}
+	
+	if (isset($_POST['ip']))
+	{
+		// Adding a new rule
+		$ip = $_POST['ip'];
+		$comment = $_POST['comment'];
+		$add = new AddFirewallRequest;
+		$add->comment = $comment;
+		$add->ip = $ip;
+		add_firewall($add);
+	}
+	
+	$result = view_firewall();
+	$dataset = $result->dataSet;
+	
+	$ip = view_ip();
+
+	?>
+    
+    <h2> Integrated µFirewall </h2>
+    
+	<table class="table table-striped table-bordered">
+		<tbody><tr><th>ID</th><th>IP (range)</th><th>comment</th><th>Actions</th></tr>
+                
+	<?php
+                
+                
+
+
+	foreach ($dataset as $user)
+	{
+		?>
+		<tr>
+            <td><span><?php echo $user->iD; ?></span></td>
+            <td><span><?php echo $user->ip; ?></span></td>
+            <td><span><?php echo $user->comment; ?></span></td>
+            <td><span><a href="index.php?site=viewfirewall&delete=<?php echo $user->iD; ?>" class="btn btn-danger" role="button" onclick="return confirm('Are you sure?')">Delete</a>&nbsp;</span></td>
+        </tr>      
+        <?php  
+	}
+	
+	?>
+    </tbody></table>
+    
+	<h5> Current connection via: <?php echo $ip; ?></h5>
+   
+   	<form class="form-horizontal" action="index.php?site=viewfirewall" method="post">
+	<fieldset>
+
+	<!-- Form Name -->
+	<legend>Add Firewall Rule</legend>
+
+		<!-- Text input-->
+		<div class="control-group">
+		<label class="control-label" for="ip">IP Range</label>
+		<div class="controls">
+		<input id="ip" name="ip" type="text" placeholder="127.0.0.1" class="input-xlarge" required="">
+		<p class="help-block">You may single ips or subnets (e.g. 127.0.*)</p>
+		</div>
+		</div>
+
+		<!-- Text input-->
+		<div class="control-group">
+		<label class="control-label" for="comment">Comment</label>
+		<div class="controls">
+		<input id="comment" name="comment" type="text" placeholder="home ip" class="input-xlarge">
+
+		</div>
+		</div>
+
+		<!-- Button -->
+		<div class="control-group">
+		<label class="control-label" for="submit"></label>
+		<div class="controls">
+		<button id="submit" name="submit" class="btn btn-success">submit</button>
+		</div>
+		</div>
+
+	</fieldset>
+	</form>
+
+    <?php
+}
+
+function vm_view_recent($count = 10, $message = "")
 {
 	$result = view_recent($count);
 	$dataset = $result->dataSet;
@@ -222,8 +323,19 @@ function vm_view_recent($count = 10)
     
     <h2> Recent Activities </h2>
     
+    <?php 
+	
+	if (!empty($message))
+	{
+		?>
+			<h5 style="color: #8B0000"> <?php echo $message; ?></h5>
+		<?php
+	}
+	
+	?>
+    
 	<table class="table table-striped table-bordered">
-        <tbody><tr><th>#</th><th>Date</th><th>User</th><th>Price</th><th>Comment</th></tr>
+		<tbody><tr><th>#</th><th>Date</th><th>User</th><th>Price</th><th>Comment</th><th>Actions</th></tr>
                 
 	<?php
                 
@@ -239,6 +351,84 @@ function vm_view_recent($count = 10)
             <td><span><?php echo $user->user; ?></span></td>
             <td><span><?php echo $user->price; ?></span></td>
             <td><span><?php echo $user->comment; ?></span></td>
+            <td><span><a href="index.php?site=revertaccounting&acc=<?php echo $user->iD; ?>" class="btn btn-danger" role="button" onclick="return confirm('Are you sure?')">Revert</a>&nbsp;</span></td>
+            
+        </tr>      
+        <?php  
+	}
+	
+	?>
+    </tbody></table>
+    
+    <!-- Show custom number of recent items -->
+    <form class="form-horizontal" action="index.php?site=recent" method="post">
+	<fieldset>
+
+	<!-- Form Name -->
+	<legend>Show Custom Amount</legend>
+
+	<!-- Text input-->
+	<div class="control-group">
+	  <label class="control-label" for="amount">Amount of Items &nbsp; </label>
+	  <!--<div class="controls">-->
+		<input id="amount" name="amount" type="text" placeholder="10" class="input-small" required="">
+
+	  <!--</div>-->
+	<!--</div>
+	<div class="control-group">-->
+	  <!--<label class="control-label" for="submit"></label>-->
+	  <!--<div class="controls">-->
+		<button id="submit" name="submit" class="btn btn-success">show</button>
+	  <!--</div>-->
+	</div>
+
+	</fieldset>
+	</form>
+    
+    <?php
+}
+
+function vm_view_accounting_user($id, $message="")
+{
+	$result = view_accounting_user($id);
+	$dataset = $result->dataSet;
+	
+	
+
+	?>
+    
+    <h2> Accounting for <?php echo $dataset[0]->user; ?></h2>
+    
+    <?php 
+	
+	if (!empty($message))
+	{
+		?>
+			<h5 style="color: #8B0000"> <?php echo $message; ?></h5>
+		<?php
+	}
+	
+	?>
+    
+	<table class="table table-striped table-bordered">
+		<tbody><tr><th>#</th><th>Date</th><th>User</th><th>Price</th><th>Comment</th><th>Actions</th></tr>
+                
+	<?php
+                
+                
+
+
+	foreach ($dataset as $user)
+	{
+		?>
+		<tr>
+            <td><span><?php echo $user->iD; ?></span></td>
+            <td><span><?php echo $user->{'date'}; ?></span></td>
+            <td><span><?php echo $user->user; ?></span></td>
+            <td><span><?php echo $user->price; ?></span></td>
+            <td><span><?php echo $user->comment; ?></span></td>
+            <!-- insert revert here -->
+            <td><span><a href="index.php?site=revertaccounting&acc=<?php echo $user->iD; ?>&user=<?php echo $_GET['user']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Are you sure?')">Revert</a>&nbsp;</span></td>
             
         </tr>      
         <?php  
@@ -247,6 +437,26 @@ function vm_view_recent($count = 10)
 	?>
     </tbody></table>
     <?php
+}
+
+function vm_revert_accounting()
+{
+	$useRecent = !isset($_GET['user']);
+	
+	// perform revert operation
+	$succ = revert($_GET['acc']);
+	
+	$message = "";
+	
+	if ($succ)
+		$message = "Reverted Element";
+	else
+		$message = "Could not revert!";
+	
+	if (!$useRecent)
+		vm_view_accounting_user($_GET['user'],$message);
+	else
+		vm_view_recent(10,$message);
 }
 
 function vm_view_since($data)
@@ -612,19 +822,21 @@ function vm_check_add_keydate_form()
 // Creates the Form for Adding a User
 function vm_since_date_form($status="")
 {
-	?> <h2> Add Keydate </h2> 
+	?> <h2> Items since Keydate </h2> 
     
     	<div class="container" style="min-width:100px; max-width:300px; ">
         <form method="post" action="index.php?site=sincedate&mode=custom">
         <fieldset>
         
         <!-- Form Name -->
-        <legend>Add a New Keydate</legend>
+        <legend>Show Items since Keydate</legend>
         
         
         <!-- Text input-->
         <div class="control-group">
-          <a href="index.php?site=sincedate&mode=yesterday" class="btn btn-info" role="button">Yesterday</a>&nbsp;
+          <!--<a href="index.php?site=sincedate&mode=yesterday" class="btn btn-info" role="button">Yesterday</a>&nbsp;-->
+           <!--<a href="#" data-id="yesterday" class="btn danger btn-info confirm-delete" role="button">Yesterday</a>&nbsp;-->
+           <a href="index.php?site=sincedate&mode=yesterday" class="btn btn-info" role="button">Yesterday</a>&nbsp;
             <a href="index.php?site=sincedate&mode=week" class="btn btn-info" role="button">Last Week</a>&nbsp;
             <a href="index.php?site=sincedate&mode=month" class="btn btn-info" role="button">Last Month</a>&nbsp;
             <a href="index.php?site=sincekeydate" class="btn btn-info" role="button">Last Keydate</a>&nbsp;<br /><br />
@@ -637,7 +849,7 @@ function vm_since_date_form($status="")
         <div class="control-group">
           <label class="control-label" for="singlebutton"></label>
           <div class="controls">
-            <button id="singlebutton" name="singlebutton" class="btn btn-primary">Confirm</button>
+            <button id="singlebutton" name="singlebutton" class="btn btn-success">Show</button>
           </div>
         </div>
         
@@ -741,7 +953,7 @@ function vm_buy_form($status = "")
         <fieldset>
         
         <!-- Form Name -->
-        <legend>Add new Accounting elements</legend>
+        <legend>Add new Accounting Element</legend>
         
         
         
@@ -749,7 +961,7 @@ function vm_buy_form($status = "")
         <!-- Text input-->
         <div class="control-group">
           <label for="UserSelect" class="sr-only">User:</label>
-            <select name="UserSelect" id="UserSelect" class="form-control">
+            <select name="UserSelect" id="UserSelect" class="form-control" style="width: 100%">
 				<?php
 				
 				foreach($userdata as $user)
@@ -764,7 +976,7 @@ function vm_buy_form($status = "")
             </select> <br />
             
             <label for="ReasonSelectServer" class="sr-only">Product:</label>
-            <select name="ReasonSelectServer" id="ReasonSelectServer" class="form-control">
+            <select name="ReasonSelectServer" id="ReasonSelectServer" class="form-control" style="width: 100%">
             
             <?php
 				
@@ -777,9 +989,11 @@ function vm_buy_form($status = "")
 				
 			?>	
             </select> <br />
-            
-			<input name="inputCustomReason" type="text" id="inputCustomReason" class="form-control" placeholder="Product/Comment" /><br />
-            <input name="inputCustomPrice" type="text" id="inputCustomPrice" class="form-control" placeholder="0.20" /><br />
+            <hr />
+			<p><p>Or use custom values <br /> (ignoring the product selection above)</p></p>
+            <hr />
+			<input name="inputCustomReason" type="text" id="inputCustomReason" class="form-control" placeholder="Product/Comment" style="width: 100%" /><br />
+            <input name="inputCustomPrice" type="text" id="inputCustomPrice" class="form-control" placeholder="0.20" style="width: 100%" /><br />
         </div>
 
         

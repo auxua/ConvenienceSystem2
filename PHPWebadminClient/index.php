@@ -31,7 +31,7 @@ ini_set('display_startup_errors', 1);
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Convenience System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -46,6 +46,24 @@ ini_set('display_startup_errors', 1);
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script>
+		$('#modal-from-dom').on('show', function() {
+    var id = $(this).data('id'),
+        removeBtn = $(this).find('.danger');
+
+    removeBtn.attr('href', removeBtn.attr('href').replace(/(&|\?)ref=\d*/, '$1ref=' + id));
+    
+    $('#debug-url').html('Delete URL: <strong>' + removeBtn.attr('href') + '</strong>');
+});
+
+$('.confirm-delete').on('click', function(e) {
+    e.preventDefault();
+
+    var id = $(this).data('id');
+    $('#modal-from-dom').data('id', id).modal('show');
+});
+	</script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -62,7 +80,22 @@ ini_set('display_startup_errors', 1);
 
   <body cz-shortcut-listen="true">
   
-  
+  <!-- Confirmation hack -->
+  <div id="modal-from-dom" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+         <h3>Confirm</h3>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure?</p>
+        <p id="debug-url"></p>
+    </div>
+    <div class="modal-footer">
+        <a href="index.php?site=sincedate&mode=" class="btn danger">Yes</a>
+        <!-- <a href="delete.php?some=param&ref=" class="btn danger">Yes 2</a> -->
+        <a href="#" data-dismiss="modal" class="btn secondary">No</a>
+    </div>
+</div>
   
   <div class="navbar navbar-inverse navbar-fixed-top">
               <div class="navbar-inner">
@@ -108,7 +141,12 @@ ini_set('display_startup_errors', 1);
                             <li><a href="index.php?site=buydirectly">Add Accounting</a></li>
                         </ul>	
                      </li>
-                     <li><a href="index.php?site=about">About</a></li>
+                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Settings <span class="caret"></span></a>
+                     	<ul class="dropdown-menu">
+                            <li><a href="index.php?site=viewfirewall">µFirewall</a></li>
+                            <li><a href="index.php?site=about">About</a></li>
+                        </ul>	
+					 </li>
                      <li><a href="logout.php" style="color: red">Logout</a></li>
                      
                     </ul>
@@ -152,11 +190,22 @@ ini_set('display_startup_errors', 1);
 						break;
 						
 					case "recent":
-						vm_view_recent();
+						if (!isset($_POST['amount']))
+							vm_view_recent();
+						else
+							vm_view_recent($_POST['amount']);
+						break;
+						
+					case "viewaccountinguser":
+						vm_view_accounting_user($_GET['user']);
 						break;
 						
 					case "pricelist":
 						vm_view_pricelist();
+						break;
+						
+					case "revertaccounting":
+						vm_revert_accounting();
 						break;
 
 					case "adduser":
@@ -231,7 +280,7 @@ ini_set('display_startup_errors', 1);
 							{
 								$sdate = date("Y-m-d",$time);
 								$data = view_accounting_count_since($sdate);
-								var_dump($data);	
+								//var_dump($data);	
 							}
 							vm_view_since($data);
 						}
@@ -295,6 +344,10 @@ ini_set('display_startup_errors', 1);
 						}
 						
 						vm_edit_mails_form($msg);
+						break;
+						
+					case "viewfirewall":
+						vm_view_firewall();
 						break;
 						
 										

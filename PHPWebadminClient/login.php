@@ -17,7 +17,7 @@ if(isset($_GET['login'])) {
 	}
 	else
 	{
-		$errorMessage = "Failed - Please use valid credentials";	
+		$errorMessage = "Failed - Please check credentials and backend";	
 	}
 	
 	

@@ -60,6 +60,11 @@ namespace ConvenienceSystemDataModel
         public List<Mail> dataSet;
     }
 
+    public class FirewallResponse : BaseResponse
+    {
+        public List<FireWallElement> dataSet;
+    }
+
     public class DevicesResponse : BaseResponse
     {
         public List<Device> dataSet;
@@ -85,6 +90,12 @@ namespace ConvenienceSystemDataModel
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
+    }
+
+    public class AddFirewallRequest : BaseRequest
+    {
+        public string ip;
+        public string comment;
     }
 
     public class RevertRequest : BaseRequest

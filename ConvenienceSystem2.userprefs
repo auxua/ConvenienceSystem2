@@ -1,17 +1,19 @@
-﻿<Properties StartupItem="ConvenienceSystemApp/ConvenienceSystemApp.iOS/ConvenienceSystemApp.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+﻿<Properties StartupConfiguration="{690C9853-51AE-48E0-8443-ABE681D505E5}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp/ConvenienceSystemApp/Config.cs">
+    <Files>
+      <File FileName="ConvenienceSystemConsole/Program.cs" Line="1" Column="1" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/Config.cs" Line="10" Column="86" />
+      <File FileName="../../../../Library/Frameworks/Xamarin.iOS.framework/Versions/9.4.2.27/lib/mono/2.1/Xamarin.iOS.Common.targets" Line="17" Column="20" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp.iOS/Info.plist" />
+      <File FileName="ConvenienceSystemServer/ConvenienceModule.cs" Line="1" Column="1" />
+      <File FileName="ConvenienceSystemBackendServer/Settings.cs" Line="18" Column="69" />
+      <File FileName="ConvenienceSystemBackendServer/ConvenienceServer.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench>
-    <Files>
-      <File FileName="ConvenienceSystemBackendServer/Settings.cs" Line="1" Column="1" />
-      <File FileName="ConvenienceSystemConsole/Program.cs" Line="1" Column="1" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/Config.cs" Line="1" Column="1" />
-      <File FileName="../../../../Library/Frameworks/Xamarin.iOS.framework/Versions/9.4.2.27/lib/mono/2.1/Xamarin.iOS.Common.targets" Line="17" Column="20" />
-      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp.iOS/Info.plist" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.ConvenienceSystemApp.iOS PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ConvenienceSystemApp.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
 </Properties>

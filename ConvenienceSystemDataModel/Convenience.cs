@@ -58,5 +58,12 @@ namespace ConvenienceSystemDataModel
         public int amount;
         public double price;
     }
+
+    public class FireWallElement
+    {
+        public int ID;
+        public string ip;
+        public string comment;
+    }
     
 }

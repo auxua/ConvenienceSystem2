@@ -85,6 +85,36 @@ namespace ConvenienceSystemBackendServer
             }
         }
 
+        public async Task<List<FireWallElement>> GetFirewallElements(string token)
+        {
+            await CheckDeviceRights(token, DeviceRights.FULL);
+            return await GetFirewallElements();
+        }
+
+        private async Task<List<FireWallElement>> GetFirewallElements()
+        {
+            MySqlDataReader reader = this.Query("SELECT * FROM gk_web_ip");
+            List<FireWallElement> ips = new List<FireWallElement>();
+            //List<User> Users = new List<User>();
+
+            while (await reader.ReadAsync())
+            {
+                try
+                {
+                    FireWallElement f = new FireWallElement();
+                    f.ID = reader.GetInt32("ID");
+                    f.ip = reader.GetString("ip");
+                    f.comment = reader.GetString("comment");
+                    ips.Add(f);
+                }
+                catch { }
+            }
+
+            reader.Close();
+            this.Close();
+            return ips;
+        }
+
         /// <summary>
         /// Gets all valid IPs from database implementing a tiny firewall
         /// </summary>
@@ -208,22 +238,34 @@ namespace ConvenienceSystemBackendServer
             return prod;
         }
 
-        public async Task<List<AccountingElement>> GetAccountingForUserAsync(string deviceID, string user)
+        public async Task<List<AccountingElement>> GetAccountingForUserAsync(string deviceID, int user)
         {
             await CheckDeviceRights(deviceID, DeviceRights.FULL);
             return await GetAccountingForUserAsync(user);
         }
 
 #if DEBUG
-        public async Task<List<AccountingElement>> GetAccountingForUserAsync(string user)
+        //public async Task<List<AccountingElement>> GetAccountingForUserAsync(string user)
+        public async Task<List<AccountingElement>> GetAccountingForUserAsync(int user)
 #else
-        private async Task<List<AccountingElement>> GetAccountingForUserSince(string user)
+        //private async Task<List<AccountingElement>> GetAccountingForUserSince(string user)
+        private async Task<List<AccountingElement>> GetAccountingForUserSince(int user)
 #endif
         {
             var users = await this.GetAllUsersAsync();
-            if (!users.Any((x) => x.username.Equals(user))) throw new Exception("Invalid username");
+            string username = String.Empty;
+            //if (!users.Any((x) => x.username.Equals(user))) throw new Exception("Invalid username");
 
-            MySqlDataReader reader = this.Query("SELECT * FROM gk_accounting WHERE gk_accounting.user='"+user+"'");
+            // Search every item for the ID
+            users.ForEach((x) =>
+            {
+                if (x.ID == user) username = x.username;
+            });
+            // if no match was found, username is empty - error
+            if (string.IsNullOrEmpty(username))
+                throw new Exception("Invalid User ID");
+
+            MySqlDataReader reader = this.Query("SELECT * FROM gk_accounting WHERE gk_accounting.user='"+username+ "' ORDER BY gk_accounting.date DESC");
             List<AccountingElement> acc = new List<AccountingElement>();
 
             while (await reader.ReadAsync())
@@ -453,6 +495,38 @@ namespace ConvenienceSystemBackendServer
             }
 
             Logger.Log("ConvenienceServer.DeleteProducts", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+            return list;
+        }
+
+        public async Task<List<int>> DeleteFirewallAsync(string deviceID, List<int> Products)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+
+            string query = "";
+            List<int> list = new List<int>();
+
+            // Create a query sequence
+            foreach (int product in Products)
+            {
+                query += "DELETE FROM gk_web_ip WHERE ID=" + product.ToString() + "; ";
+                list.Add(product);
+            }
+
+
+            Logger.Log("ConvenienceServer.DeleteFirewall", "trying to delete Firewall Items ");
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.DeleteFirewall", "DB returned " + answer);
 
             reader.Close();
             this.Close();
@@ -927,6 +1001,29 @@ namespace ConvenienceSystemBackendServer
             }
 
             Logger.Log("ConvenienceServer.AddMail", "DB returned " + answer);
+
+            reader.Close();
+            this.Close();
+        }
+
+        public async Task AddFirewallAsync(string deviceID, string ip, string comment)
+        {
+            await CheckDeviceRights(deviceID, DeviceRights.FULL);
+            string query;
+            query = "INSERT INTO  gk_web_ip (ip,comment) VALUES ('" + ip + "','" + comment + "')";
+
+
+            Logger.Log("ConvenienceServer.AddFirewall", "trying to add firewall: " + ip);
+
+            MySqlDataReader reader = this.Query(query);
+            string answer = "";
+            if (await reader.ReadAsync())
+            {
+                answer = reader.GetString(0);
+                //Console.WriteLine(answer);
+            }
+
+            Logger.Log("ConvenienceServer.AddFirewall", "DB returned " + answer);
 
             reader.Close();
             this.Close();

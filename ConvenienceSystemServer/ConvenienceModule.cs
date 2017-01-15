@@ -75,6 +75,8 @@ namespace ConvenienceSystemServer
             return false;
         }
 
+        private static string currentIP = String.Empty;
+
         public ConvenienceModule()
         {
             /*
@@ -92,6 +94,7 @@ namespace ConvenienceSystemServer
 
             Before += ctx =>
             {
+                currentIP = ctx.Request.UserHostAddress;
                 Logger.Log("Request from: " + ctx.Request.UserHostAddress);
 
                 List<string> validAddresses = backend.GetValidIPs().Result;
@@ -129,6 +132,7 @@ namespace ConvenienceSystemServer
             After += ctx =>
             {
                 ctx.Response.ContentType = "application/json; charset=utf-8";
+                currentIP = String.Empty;
             };
 
             OnError += (ctx, ex) =>
@@ -170,6 +174,13 @@ namespace ConvenienceSystemServer
                     Logger.Log("Server", "Exception caught: " + ex.Message);
                     return "False: "+ex.Message;
                 }
+            };
+
+            Get["/ip"] = parameters =>
+            {
+                Logger.Log("Server", "/ip called");
+                // Just return the recognized IP of this request
+                return currentIP;
             };
 
             Get["/restart.token={token}"] = parameters =>
@@ -422,16 +433,46 @@ namespace ConvenienceSystemServer
                 return response;
             };
 
+            Get["/viewFirewall.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server", "/viewFirewall called");
+
+                var response = new FirewallResponse();
+
+                try
+                {
+                    response.dataSet = await backend.GetFirewallElements((string)parameters.token);
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.errorDescription = ex.Message;
+                    response.status = false;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+            };
+
             Get["/viewAccountingForUser.user={user}.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server", "/viewAccountingForUser called");
 
                 var response = new AccountingElementsResponse();
+                
 
                 try
                 {
-                    response.dataSet = await backend.GetAccountingForUserAsync((string)parameters.token, (string)parameters.user);
+                    string c = parameters.user;
+                    int count;
+                    if (int.TryParse(c, out count))
+                        response.dataSet = await backend.GetAccountingForUserAsync((string)parameters.token, count);
+                    else
+                        throw new Exception("provided an invalid ID");
                     response.status = true;
+
+                    //response.dataSet = await backend.GetAccountingForUserAsync((string)parameters.token, (string)parameters.user);
+                    //response.status = true;
                 }
                 catch (Exception ex)
                 {
@@ -733,6 +774,37 @@ namespace ConvenienceSystemServer
 
             };
 
+            Post["/deleteFirewall.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/deleteFirewall called");
+
+                UpdateResponse response = new UpdateResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    DeleteRequest request = JsonConvert.DeserializeObject<DeleteRequest>(b);
+                    // do stuff
+                    await backend.DeleteFirewallAsync((string)parameters.token, request.dataSet);
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
             Post["/addMail.token={token}", runAsync: true] = async (parameters, cancelToken) =>
             {
                 Logger.Log("Server (POST)", "/addMail called");
@@ -750,6 +822,38 @@ namespace ConvenienceSystemServer
                     CreateMailRequest request = JsonConvert.DeserializeObject<CreateMailRequest>(b);
                     // do stuff
                     await backend.AddMailAsync((string)parameters.token, request.username, request.adress);
+
+
+                    response.status = true;
+                }
+                catch (Exception ex)
+                {
+                    response.status = false;
+                    response.errorDescription = ex.Message;
+                    Logger.Log("Server", "Error occured: " + ex.Message);
+                }
+
+                return response;
+
+            };
+
+            Post["/addFirewall.token={token}", runAsync: true] = async (parameters, cancelToken) =>
+            {
+                Logger.Log("Server (POST)", "/addFirewallMail called");
+
+                BaseResponse response = new BaseResponse();
+
+                try
+                {
+
+                    byte[] array = new byte[Request.Body.Length];
+                    var a = Request.Body.Read(array, 0, array.Length);
+                    //return parameters;
+                    var b = Encoding.UTF8.GetString(array);
+
+                    AddFirewallRequest request = JsonConvert.DeserializeObject<AddFirewallRequest>(b);
+                    // do stuff
+                    await backend.AddFirewallAsync((string)parameters.token, request.ip, request.comment);
 
 
                     response.status = true;

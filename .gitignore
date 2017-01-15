@@ -183,6 +183,9 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+# Dreamweaver notes
+dwsync.xml
+
 # Settings of the project
 Settings.cs
 Config.cs

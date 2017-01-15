@@ -8,6 +8,9 @@ require("config.php");
 *
 *****************************************************************************/
 
+// The BackendException is used to indicate errors occuring in the 
+class BackendException extends Exception { }
+
 function rest_get($url)
 {
 	//$service_url = 'http://auxua.de:4014/viewAllUsers.token=foo';
@@ -18,16 +21,38 @@ function rest_get($url)
 	if ($curl_response === false) {
 		$info = curl_getinfo($curl);
 		curl_close($curl);
-		die('error occured during curl exec. Additioanl info: ' . var_export($info));
+		if (DEBUG)
+			throw new BackendException('error occured during curl exec. Additioanl info on top of site.' . var_export($info));
+		else
+			throw new BackendException("Error occured while communication with the backend (offline?)");
 	}
 	curl_close($curl);
 	$decoded = json_decode($curl_response);
 	if (isset($decoded->status) && ($decoded->status == false)) {
-		die('error in response: ' . $decoded->errorDesciption);
+		throw new BackendException('error in response: ' . $decoded->errorDesciption);
 	}
 	//var_dump($decoded);
 
 	return $decoded;
+}
+
+function rest_get_raw($url)
+{
+	//$service_url = 'http://auxua.de:4014/viewAllUsers.token=foo';
+	$service_url = $url;
+	$curl = curl_init($service_url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	$curl_response = curl_exec($curl);
+	if ($curl_response === false) {
+		$info = curl_getinfo($curl);
+		curl_close($curl);
+		if (DEBUG)
+			throw new BackendException('error occured during curl exec. Additioanl info on top of site.' . var_export($info));
+		else
+			throw new BackendException("Error occured while communication with the backend (offline?)");
+	}
+	curl_close($curl);
+	return $curl_response;
 }
 
 function rest_post($url, $data)
@@ -43,7 +68,10 @@ function rest_post($url, $data)
 	if ($curl_response === false) {
 		$info = curl_getinfo($curl);
 		curl_close($curl);
-		die('error occured during curl exec. Additioanl info: ' . var_export($info));
+		if (DEBUG)
+			throw new BackendException('error occured during curl exec. Additioanl info on top of site. ' . var_export($info));
+		else
+			throw new BackendException("Error occured while communication with the backend (offline?)");
 	}
 	curl_close($curl);
 	$decoded = json_decode($curl_response);
@@ -70,6 +98,8 @@ function encode_password($pass)
 
 function response_status($response)
 {
+	if (is_null($response)) return false;
+	if (!isset($response)) return false;
 	return $response->status;
 }
 
@@ -88,7 +118,14 @@ function verify_webuser($username, $pass)
 				"username" => $username,
 				"password" => $hash);
 	// send to backend
-	$response = rest_post(API_BASE_URL."verifyWebUser.token=".DEVICE_CODE,json_encode($data));
+	try
+	{
+		$response = rest_post(API_BASE_URL."verifyWebUser.token=".DEVICE_CODE,json_encode($data));
+	}
+	catch(Exception $e)
+	{
+		return false;
+	}
 	/*if (!response_status($response))
 		echo "failed";
 	else
@@ -133,6 +170,12 @@ function view_last_activity($date)
 	return $response;
 }
 
+function view_accounting_user($id)
+{
+	$response = rest_get(API_BASE_URL."viewAccountingForUser.user=".$id.".token=".DEVICE_CODE);
+	return $response;
+}
+
 function view_debt_since_keydate($date)
 {
 	$response = rest_get(API_BASE_URL."viewAllDebtSinceKeyDate.count=".$date.".token=".DEVICE_CODE);
@@ -148,12 +191,6 @@ function view_accounting_since($date)
 function view_products_count_for_user($user)
 {
 	$response = rest_get(API_BASE_URL."viewProductsCountForUser.user=".$user.".token=".DEVICE_CODE);
-	return $response;
-}
-
-function view_accounting_for_user($user)
-{
-	$response = rest_get(API_BASE_URL."viewAccountingForUser.user=".$user.".token=".DEVICE_CODE);
 	return $response;
 }
 
@@ -196,6 +233,13 @@ function add_product($req)
 function add_keydate($req)
 {
 	$response = rest_post(API_BASE_URL."insertKeyDate.token=".DEVICE_CODE,json_encode($req));
+	return $response;
+}
+
+
+function add_firewall($req)
+{
+	$response = rest_post(API_BASE_URL."addFirewall.token=".DEVICE_CODE,json_encode($req));
 	return $response;
 }
 
@@ -257,6 +301,19 @@ function delete_products($list)
 	return $response;	
 }
 
+class  DeleteRequest
+{
+	public $dataSet;	
+}
+
+function delete_firewall($list)
+{
+	$request = new DeleteRequest;
+	$request->dataSet = $list;
+	$response = rest_post(API_BASE_URL."deleteFirewall.token=".DEVICE_CODE,json_encode($request));
+	return $response;	
+}
+
 class UpdateMailRequest
 {
 	public $dataSet;
@@ -288,14 +345,24 @@ class RevertRequest
 	public $id;
 }
 
-function revert_accounting($id)
+function revert($id)
 {
 	$request = new RevertRequest;
 	$request->id = $id;
 	$response = rest_post(API_BASE_URL."revert.token=".DEVICE_CODE,json_encode($request));
-	return $response;	
+	return response_status($response);
 }
 
+function view_firewall()
+{
+	$response = rest_get(API_BASE_URL."viewFirewall.token=".DEVICE_CODE);
+	return $response;
+}
 
+function view_ip()
+{
+	$response = rest_get_raw(API_BASE_URL."ip");
+	return $response;
+}
 
 ?>

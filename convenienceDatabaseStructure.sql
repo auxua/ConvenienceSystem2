@@ -16,10 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Datenbank: `arno_convenience_test`
---
-
 -- --------------------------------------------------------
 
 --
@@ -202,3 +198,6 @@ ALTER TABLE `gk_web_ip`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+# Add default value for IP filter
+INSERT INTO `gk_web_ip` (`ID`, `ip`, `comment`) VALUES (NULL, '*', 'default - allow all ips (remove for actually activate filter)');
