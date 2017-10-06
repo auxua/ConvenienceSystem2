@@ -34,8 +34,9 @@ namespace ConvenienceSystemApp.pages
             get
             {
                 // For using the Debt of the user
-				double aTruncated = Math.Truncate(this.debt * 100) / 100;
-				//CultureInfo ci = new CultureInfo("de-DE");
+                //double aTruncated = Math.Truncate(this.debt * 100) / 100;
+                double aTruncated = this.debt;
+                //CultureInfo ci = new CultureInfo("de-DE");
 				string s = string.Format("{0:0.00}", aTruncated);
                 //return String.Format("{0:C}", this.debt);
                 // Not showing the debt;
