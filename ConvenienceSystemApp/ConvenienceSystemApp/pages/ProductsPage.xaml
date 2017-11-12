@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConvenienceSystemApp.pages.ProductsPage"
@@ -32,7 +32,6 @@
 	<Label   AbsoluteLayout.LayoutBounds="0.95, 0.3, 0.45, 0.3"
              AbsoluteLayout.LayoutFlags="All"
              x:Name="ProductListLabel"
-             HorizontalOptions="CenterAndExpand"
              Text="{Binding SelectedProductsString}"
                />
 
@@ -49,7 +48,6 @@
              AbsoluteLayout.LayoutFlags="All"
              BackgroundColor="#9ACD32"
              x:Name="BuyButton"
-             HorizontalOptions="CenterAndExpand"
              Text="Kaufen"
              TextColor="White"
                />

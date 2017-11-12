@@ -25,6 +25,25 @@ ini_set('display_startup_errors', 1);
 
 //verify_webuser("admin","IchMagKekse");
 
+// Check export
+$isExport = endsWith($site,"export");
+
+// In case of export, perform directly
+if ($isExport)
+{
+	// call export
+	switch ($site)
+	{
+		case "productexport":
+			vm_export_prodcuts();
+			break;
+			
+		case "userexport":
+			vm_export_users();
+			break;
+	}
+	exit();
+}
 
 ?>
 
@@ -114,6 +133,7 @@ $('.confirm-delete').on('click', function(e) {
                             <li><a href="index.php?site=viewuser">View All</a></li>
                             <li><a href="index.php?site=edituser">Edit All</a></li>
                             <li><a href="index.php?site=adduser">Add User</a></li>
+							<li><a href="index.php?site=userexport" target="_blank">Export Users</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="index.php?site=viewmail">View Mails</a></li>
                             <li><a href="index.php?site=editmails">Edit Mails</a></li>
@@ -126,6 +146,7 @@ $('.confirm-delete').on('click', function(e) {
                             <li><a href="index.php?site=editproducts">Edit All</a></li>
                             <li><a href="index.php?site=addproduct">Add Product</a></li>
                             <li><a href="index.php?site=pricelist">Pricelist</a></li>
+							<li><a href="index.php?site=productexport" target="_blank">Export Products</a></li>
                         </ul>
                    	 </li>
                      <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Accounting <span class="caret"></span></a>
