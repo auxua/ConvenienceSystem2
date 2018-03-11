@@ -33,9 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data.Entity">
-      <HintPath>..\..\Visual Studio 2012\mysql-connector-net-6.9.4-noinstall\v4.0\MySql.Data.Entity.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,17 +40,23 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\Visual Studio 2012\mysql-connector-net-6.9.4-noinstall\v4.0\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6">
-      <HintPath>..\..\Visual Studio 2012\mysql-connector-net-6.9.4-noinstall\v4.0\MySql.Data.Entity.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Web">
-      <HintPath>..\..\Visual Studio 2012\mysql-connector-net-6.9.4-noinstall\v4.0\MySql.Web.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6">
+      <HintPath>MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySQL.Data.EntityFrameworkCore.Design">
+      <HintPath>MySQL.Data.EntityFrameworkCore.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MySQL.Data.EntityFrameworkCore">
+      <HintPath>MySQL.Data.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web">
+      <HintPath>MySql.Web.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="MySql.Data.dll" />
+    <None Include="MySql.Data.Entity.EF6.dll" />
+    <None Include="MySQL.Data.EntityFrameworkCore.Design.dll" />
+    <None Include="MySQL.Data.EntityFrameworkCore.dll" />
+    <None Include="MySql.Web.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

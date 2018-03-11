@@ -49,7 +49,15 @@ namespace ConvenienceSystemApp.pages
         {
             get
             {
-                return username;
+                return !this.IsTemporaryInactive ? username : username + " *INAKTIV* ";
+            }
+        }
+
+        public bool IsTemporaryInactive
+        {
+            get
+            {
+                return this.state.Equals("grey");
             }
         }
     }
@@ -72,13 +80,24 @@ namespace ConvenienceSystemApp.pages
             // Get the List of usernames (In Future, use Data Binding instead!)
             //List<String> names = new List<string>(DataManager.GetActiveUsers().Select<User, string>(user => user.username));
 
-            List<UserViewModel> users = new List<UserViewModel>(DataManager.GetActiveUsers().Select<User,UserViewModel>((x) =>
+            /*List<UserViewModel> users = new List<UserViewModel>(DataManager.GetActiveUsers().Select<User,UserViewModel>((x) =>
 				{
 					UserViewModel vm = new UserViewModel();
 					vm.debt = x.debt;
 					vm.username = x.username;
 					return vm;
-				}));
+				}));*/
+
+            List<UserViewModel> users = new List<UserViewModel>(DataManager.GetAllUsers()
+                                                                .Where((x) => !x.state.Equals("inactive"))
+                                                                .Select<User, UserViewModel>((x) =>
+            {
+                UserViewModel vm = new UserViewModel();
+                vm.debt = x.debt;
+                vm.username = x.username;
+                vm.state = x.state;
+                return vm;
+            }));
 
             // ConvertAll has better performance, but not supported on WinPhone
             /*List<UserViewModel> users = DataManager.GetActiveUsers().ConvertAll ((x) =>
@@ -235,7 +254,20 @@ namespace ConvenienceSystemApp.pages
         async void OnUserSelected(object sender, ItemTappedEventArgs e)
         {
             
+            var listItem = e.Item as UserViewModel;
+            string user = listItem.userString;
+
             IsBusy = true;
+
+            if (listItem.IsTemporaryInactive)
+            {
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    DisplayAlert("Inaktiv", "Diese Person ist vorrübergehend gesperrt. Bei Fragen bitte an die Getränkekasse wenden. ", "OK");
+                });
+                return;
+            }
+
             // Check Data Model
             if (DataManager.State != DataManager.DMState.ACTIVE)
             {
@@ -255,8 +287,7 @@ namespace ConvenienceSystemApp.pages
 
             // So, We can get the Data we want
             //TODO
-            var listItem = e.Item as UserViewModel;
-            string user = listItem.userString;
+
 
             // Go to the next Page
             //Xamarin.Forms.Device.BeginInvokeOnMainThread(async () => await Navigation.PushModalAsync(new pages.ProductsPage()));

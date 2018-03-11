@@ -11,6 +11,53 @@ class BaseResponse
 }
 
 /**************************************
+*	Exports
+**************************************/
+
+function vm_export_users($delimiter=";")
+{
+	$result = view_all_users();
+	$dataset = $result->dataSet;
+
+	$csvexport = "\xEF\xBB\xBF"."Username".$delimiter."Debt".$delimiter."State".$delimiter."Comment"."\n";
+	
+
+	foreach ($dataset as $user)
+	{
+		$csvexport .= $user->username . $delimiter;
+		$csvexport .= money_format('%.2n', $user->debt) . $delimiter;
+		$csvexport .= $user->state . $delimiter;
+		$csvexport .= $user->comment . $delimiter . "\n";
+	}
+	header('Content-Encoding: UTF-8');
+	header("Content-disposition: attachment; filename=users.csv");
+	header("Content-type: text/csv; charset=UTF-8");
+	echo($csvexport);
+}
+
+function vm_export_prodcuts($delimiter=";")
+{
+	$result = view_all_products();
+	$dataset = $result->dataSet;
+
+	$csvexport = "\xEF\xBB\xBF"."Product".$delimiter."Price".$delimiter."Comment"."\n";
+	
+
+	foreach ($dataset as $user)
+	{
+		$csvexport .= $user->product . $delimiter;
+		$csvexport .= money_format('%.2n', $user->price) . $delimiter;
+		$csvexport .= $user->comment . $delimiter . "\n";
+	}
+	header('Content-Encoding: UTF-8');
+	header("Content-disposition: attachment; filename=products.csv");
+	header("Content-type: text/csv; charset=UTF-8");
+	echo($csvexport);
+	
+}
+
+
+/**************************************
 *	View based ViewModels
 **************************************/
 

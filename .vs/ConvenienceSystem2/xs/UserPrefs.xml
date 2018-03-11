@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{690C9853-51AE-48E0-8443-ABE681D505E5}|Default">
+  <MonoDevelop.Ide.ItemProperties.ConvenienceSystemApp.Droid AndroidDesignerPreferredTheme="Theme.DeviceDefault.NoActionBar.Fullscreen" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConvenienceSystemApp/ConvenienceSystemApp.iOS/Main.cs">
+    <Files>
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml" Line="63" Column="15" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp/pages/UserPage.xaml.cs" Line="52" Column="90" />
+      <File FileName="ConvenienceSystemApp/ConvenienceSystemApp.iOS/Main.cs" Line="17" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ConvenienceSystem2" expanded="True">
+            <Node name="ConvenienceSystemApp" expanded="True">
+              <Node name="pages" expanded="True">
+                <Node name="UserPage.xaml" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="ConvenienceSystemApp.iOS" expanded="True">
+              <Node name="Main.cs" selected="True" />
+            </Node>
+            <Node name="ConvenienceSystemConsole" expanded="True" />
+            <Node name="ConvenienceSystemDataModel" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.ConvenienceSystemApp.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.544E7739-F508-4B1C-87A7-8801489702C5" />
+</Properties>
